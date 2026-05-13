@@ -3,36 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Q-Drop | Deep Tech Drops</title>
+    <title>Q-Drop | Deep Tech Auctions</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>body { background: #050505; } .glow { box-shadow: 0 0 40px rgba(139, 92, 246, 0.2); } .strike { text-decoration: line-through; color: #4B5563; }</style>
+    <style>
+        body { background: #030305; }
+        .glow { box-shadow: 0 0 50px rgba(139, 92, 246, 0.15); }
+        .cyber-border { border: 1px solid rgba(139, 92, 246, 0.3); }
+        .strike { text-decoration: line-through; color: #4B5563; }
+    </style>
 </head>
-<body class="text-gray-200 font-mono">
+<body class="text-gray-300 font-mono">
 
-    <header class="border-b border-gray-800 py-6">
+    <!-- HEADER -->
+    <header class="border-b border-gray-800/50 py-6 backdrop-blur-sm">
         <nav class="max-w-7xl mx-auto px-6 flex justify-between items-center">
-            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500 tracking-widest">Q-Drop</h1>
+            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500 tracking-widest">Q-DROP</h1>
+            <div class="flex gap-6 text-gray-500 text-sm">
+                <a href="#how" class="hover:text-white transition">PROCESS</a>
+                <a href="#specs" class="hover:text-white transition">SPECS</a>
+            </div>
         </nav>
     </header>
 
+    <!-- HERO SECTION -->
     <section class="max-w-7xl mx-auto px-6 py-24 text-center">
-        <div class="inline-block bg-red-900/20 border border-red-800 text-red-400 px-4 py-1 text-xs font-bold rounded-full mb-8 animate-pulse">DAILY DROP - QUANTUM TECH</div>
-        <h2 class="text-5xl md:text-6xl font-black mb-6 leading-tight">CHRONOS-7<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">TEMPORAL TOPOLOGY ENGINE</span></h2>
-        <p class="text-gray-400 text-lg max-w-3xl mx-auto mb-12">Distributed framework capable of simulating spacetime curvature and quantum decoherence. Built with Rust, gRPC, JAX (XLA) and Vulkan. Enterprise-grade architecture.</p>
+        <div class="inline-block bg-red-900/20 border border-red-800/50 text-red-400 px-4 py-1 text-xs font-bold rounded-full mb-8 animate-pulse">DAILY DROP - EXCLUSIVE LICENCE</div>
+        <h2 class="text-5xl md:text-7xl font-black mb-6 leading-tight text-white">CHRONOS-7<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">TEMPORAL ENGINE</span></h2>
+        <p class="text-gray-400 text-lg max-w-3xl mx-auto mb-16">Distributed reality simulator. Spacetime curvature, quantum decoherence & time-crystal lattices. Rust, JAX, Vulkan, Kubernetes.</p>
         
-        <div class="max-w-4xl mx-auto bg-black border border-gray-800 rounded-2xl overflow-hidden glow p-8">
+        <!-- MAIN CARD -->
+        <div class="max-w-5xl mx-auto bg-black/50 cyber-border rounded-2xl overflow-hidden glow p-8 md:p-12 backdrop-blur-md">
             
-            <div class="bg-gradient-to-r from-purple-900/30 to-cyan-900/30 p-8 rounded-xl border border-purple-900/50 flex flex-col md:flex-row justify-between items-center gap-8">
-                <div class="text-left">
-                    <p class="text-gray-500 text-sm mb-2">FULL SOURCE CODE & DEPLOYMENT INFRA</p>
-                    <p class="strike text-3xl font-bold mb-2">Estimated R&D Value: 150 000 €</p>
-                    <p class="text-6xl font-black text-white">499 <span class="text-lg text-gray-400">€</span></p>
+            <!-- TECH STACK BAR -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 text-left">
+                <div class="bg-gray-900/50 p-4 rounded-lg border border-gray-800/50">
+                    <p class="text-gray-600 text-[10px] mb-1">KERNEL LAYER</p>
+                    <p class="text-white font-bold text-sm">Rust / gRPC</p>
                 </div>
-                <div class="flex flex-col gap-4 w-full md:w-auto">
+                <div class="bg-gray-900/50 p-4 rounded-lg border border-gray-800/50">
+                    <p class="text-gray-600 text-[10px] mb-1">SOLVER LAYER</p>
+                    <p class="text-white font-bold text-sm">JAX / XLA</p>
+                </div>
+                <div class="bg-gray-900/50 p-4 rounded-lg border border-gray-800/50">
+                    <p class="text-gray-600 text-[10px] mb-1">RENDER LAYER</p>
+                    <p class="text-white font-bold text-sm">Vulkan / WGSL</p>
+                </div>
+                <div class="bg-gray-900/50 p-4 rounded-lg border border-gray-800/50">
+                    <p class="text-gray-600 text-[10px] mb-1">INFRA</p>
+                    <p class="text-white font-bold text-sm">K8s / Terraform</p>
+                </div>
+            </div>
+
+            <!-- PRICING & CTA -->
+            <div class="bg-gradient-to-r from-purple-900/20 to-cyan-900/20 p-8 rounded-xl border border-purple-900/30 flex flex-col md:flex-row justify-between items-center gap-10">
+                <div class="text-left">
+                    <p class="text-gray-500 text-sm mb-2">FULL SOURCE CODE + DEPLOYMENT INFRA</p>
+                    <p class="strike text-2xl font-bold mb-1">R&D Value: 150 000 €</p>
+                    <p class="text-6xl font-black text-white">499 <span class="text-lg text-gray-500">€</span></p>
+                </div>
+                <div class="flex flex-col gap-4 w-full md:w-1/2">
                     <!-- BOUTON STRIPE -->
-                    <a href="https://buy.stripe.com/8x200c74Eelj31j1gC9fW00" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg font-bold flex items-center justify-center gap-3 transition text-lg">
-                        <i class="fab fa-stripe text-2xl"></i> ACQUIRE FOR 499€ (Stripe)
+                    <a href="https://buy.stripe.com/8x200c74Eelj31j1gC9fW00" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-5 rounded-lg font-bold flex items-center justify-center gap-3 transition text-xl shadow-lg shadow-purple-600/20">
+                        <i class="fab fa-stripe text-2xl"></i> ACQUIRE LICENCE (Card)
                     </a>
                     <!-- BOUTON PAYPAL -->
                     <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
@@ -41,14 +74,41 @@
                         <input type="hidden" name="item_name" value="CHRONOS-7 Engine - Full Source">
                         <input type="hidden" name="amount" value="499">
                         <input type="hidden" name="currency_code" value="EUR">
-                        <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black px-8 py-4 rounded-lg font-bold flex items-center justify-center gap-3 transition text-lg">
-                            <i class="fab fa-paypal text-2xl"></i> ACQUIRE FOR 499€ (PayPal)
+                        <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-400 text-black px-8 py-5 rounded-lg font-bold flex items-center justify-center gap-3 transition text-xl">
+                            <i class="fab fa-paypal text-2xl"></i> ACQUIRE LICENCE (PayPal)
                         </button>
                     </form>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- HOW IT WORKS SECTION (Crucial pour les acheteurs à 499€) -->
+    <section id="how" class="max-w-5xl mx-auto px-6 py-20 border-t border-gray-800/50">
+        <h3 class="text-3xl font-black text-center text-white mb-16">HOW IT WORKS AFTER PAYMENT</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center">
+                <div class="w-16 h-16 mx-auto bg-purple-900/30 border border-purple-700/50 rounded-full flex items-center justify-center text-purple-400 text-2xl mb-6">1</div>
+                <h4 class="text-white font-bold mb-2">Secure Payment</h4>
+                <p class="text-gray-500 text-sm">Pay 499€ via Stripe or PayPal. You receive a payment confirmation instantly.</p>
+            </div>
+            <div class="text-center">
+                <div class="w-16 h-16 mx-auto bg-purple-900/30 border border-purple-700/50 rounded-full flex items-center justify-center text-purple-400 text-2xl mb-6">2</div>
+                <h4 class="text-white font-bold mb-2">GitHub Access Grant</h4>
+                <p class="text-gray-500 text-sm">Within 12 hours, your email is invited to the private CHRONOS-7 repository as a collaborator.</p>
+            </div>
+            <div class="text-center">
+                <div class="w-16 h-16 mx-auto bg-purple-900/30 border border-purple-700/50 rounded-full flex items-center justify-center text-purple-400 text-2xl mb-6">3</div>
+                <h4 class="text-white font-bold mb-2">Clone & Deploy</h4>
+                <p class="text-gray-500 text-sm">Accept the invite, clone the repo, and deploy the Kubernetes cluster. You own the tech.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-gray-800/50 py-8 text-center text-gray-600 text-xs">
+        <p>© 2024 Q-Drop Labs. All rights reserved. CHRONOS-7 is a registered trademark.</p>
+    </footer>
 
 </body>
 </html>
