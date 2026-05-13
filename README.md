@@ -7,21 +7,24 @@
 [![Physics: REAL](https://img.shields.io/badge/PHYSICS-VERIFIED-brightgreen?style=for-the-badge)]()
 
 ### ⚠️ RESTRICTED ACCESS ⚠️
-**This repository is a gateway. The actual source code is hosted in a private military-grade vault.**
 
 </div>
 
 ---
 
-### 📸 Real Proof of Concept: Gravitational Lensing
+### 🎁 Free Tool: Temporal Dilation Calculator
+Before buying the vault, test our physics engine. This script calculates real time dilation based on Special Relativity.
+**Try it online in your browser:** [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/aminechabane/Q-Drop-Marketplace/blob/main/bait_tools/temporal_dilation_calculator.py)
 
-This is not a mockup. This is the **actual output** of the CHRONOS-7 Schwarzschild Metric Solver included in the Vault. The code simulates the bending of light around a massive object in real-time.
+---
+
+### 📸 Real Proof of Concept: Gravitational Lensing
+This is the actual output of the CHRONOS-7 Schwarzschild Metric Solver included in the Vault.
 
 ![CHRONOS-7 Spacetime Curvature Simulation](spacetime_simulation_result.png)
 
 ### 🧬 What is the Q-Drop Ultra Vault?
-
-The Q-Drop Vault contains the complete, unobfuscated architecture for **100 Hard Science & Quantum projects**. It includes working physics solvers, Rust kernels, JAX hardware accelerators, and Kubernetes deployment blueprints.
+The complete architecture for 100 Hard Science & Quantum projects. Working solvers, Rust kernels, JAX hardware accelerators, K8s blueprints.
 
 ### 💰 Access The Vault
 
@@ -29,7 +32,7 @@ The Q-Drop Vault contains the complete, unobfuscated architecture for **100 Hard
 
 ## 👇 UNLOCK THE VAULT FOR 499 € 👇
 
-### 💳 Card Payment (Secured by Stripe)
+### 💳 Card Payment
 ### [🔒 CLICK HERE TO PAY BY CARD](https://buy.stripe.com/8x200c74Eelj31j1gC9fW00)
 
 ### 🅿️ PayPal
@@ -39,15 +42,4 @@ The Q-Drop Vault contains the complete, unobfuscated architecture for **100 Hard
 
 ---
 
-### 🔑 Delivery Protocol
-
-1. **Secure Transaction:** Pay 499€ via Card or PayPal.
-2. **Access Grant:** Within 12 hours, your GitHub account receives an exclusive invite to the `Q-Drop-Ultra-Vault` and `CHRONOS-7-Source` private repositories.
-3. **Clone & Deploy:** You own the tech.
-
-<div align="center">
-
-*Q-Drop Advanced Research Division*
-*Building the Future, Classified.*
-
-</div>
+<div align="center">*Q-Drop Advanced Research Division*</div>
