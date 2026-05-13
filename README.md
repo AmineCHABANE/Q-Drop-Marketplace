@@ -12,9 +12,13 @@
 
 ---
 
-### 🎁 Free Tool: Temporal Dilation Calculator
-Before buying the vault, test our physics engine. This script calculates real time dilation based on Special Relativity.
-**Try it online in your browser:** [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/aminechabane/Q-Drop-Marketplace/blob/main/bait_tools/temporal_dilation_calculator.py)
+### 🎁 Get the Declassified Whitepaper (FREE)
+Want to see the real math behind our Causality Lock? We just declassified our internal research on **Temporal Anomalies in Quantum Lattices**.
+
+👉 **How to get it:** 
+1. Star this repository ⭐
+2. Send an email to **Aminechabane7@gmail.com** with the subject: `REQUEST: DECLASSIFIED WHITEPAPER`
+3. You will receive the document within 24 hours.
 
 ---
 
