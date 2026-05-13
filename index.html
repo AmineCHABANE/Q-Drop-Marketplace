@@ -3,99 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Q-Drop | Projets Tech exclusifs</title>
+    <title>Q-Drop | Deep Tech Auctions</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>body { background: #050505; } .glow { box-shadow: 0 0 30px rgba(139, 92, 246, 0.3); }</style>
 </head>
-<body class="bg-gray-950 text-white font-sans">
+<body class="text-gray-200 font-mono">
 
-    <!-- HEADER -->
-    <header class="border-b border-gray-800">
-        <nav class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-indigo-500 tracking-wider">Q-Drop<span class="text-white">.io</span></h1>
-            <div class="flex gap-6 text-gray-400 text-sm">
-                <a href="#projects" class="hover:text-white transition">Projets</a>
-                <a href="#faq" class="hover:text-white transition">FAQ</a>
+    <header class="border-b border-gray-800 py-6">
+        <nav class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500 tracking-widest">Q-Drop</h1>
+            <div class="flex gap-6 text-gray-500 text-sm">
+                <a href="#" class="hover:text-white transition">PROTOCOLS</a>
+                <a href="#" class="hover:text-white transition">WHITEPAPERS</a>
             </div>
         </nav>
     </header>
 
-    <!-- HERO SECTION -->
-    <section class="max-w-6xl mx-auto px-6 py-20 text-center">
-        <h2 class="text-5xl font-extrabold mb-6 leading-tight">Achète le code source des outils <br><span class="text-indigo-500">IA & Quantiques</span> de demain.</h2>
-        <p class="text-gray-400 text-xl max-w-2xl mx-auto mb-10">Un nouveau projet SaaS exclusif mis en vente chaque jour. Pas d'abonnement, pas de SaaS à gérer. Tu achètes le code, tu gardes 100% des revenus.</p>
-        <a href="#projects" class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-lg font-bold text-lg transition">Voir l'enchère du jour <i class="fas fa-arrow-down ml-2"></i></a>
-    </section>
-
-    <!-- PROJECT AUCTION -->
-    <section id="projects" class="max-w-6xl mx-auto px-6 py-12">
-        <div class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden shadow-2xl shadow-indigo-500/10 flex flex-col md:flex-row">
-            
-            <!-- Left: Project Image -->
-            <div class="md:w-1/2 bg-gray-800 p-8 flex items-center justify-center border-b md:border-b-0 md:border-r border-gray-700">
-                <div class="text-center">
-                    <i class="fas fa-robot text-indigo-500 text-8xl mb-4"></i>
-                    <h3 class="text-2xl font-bold text-white">Neuro-Clone AI</h3>
+    <section class="max-w-7xl mx-auto px-6 py-24 text-center">
+        <div class="inline-block bg-red-900/20 border border-red-800 text-red-400 px-4 py-1 text-xs font-bold rounded-full mb-8 animate-pulse">CLASSIFIED LEVEL 5 - QUANTUM TEMPORAL TECH</div>
+        <h2 class="text-6xl font-black mb-6 leading-tight">CHRONOS-7<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">TEMPORAL TOPOLOGY ENGINE</span></h2>
+        <p class="text-gray-400 text-xl max-w-3xl mx-auto mb-12">First military-grade framework capable of simulating spacetime curvature, time-crystal lattices, and quantum decoherence in real-time. Rust + JAX + WebGPU Architecture.</p>
+        
+        <div class="max-w-4xl mx-auto bg-black border border-gray-800 rounded-2xl overflow-hidden glow p-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 text-left">
+                <div class="bg-gray-900/50 p-4 rounded-lg border border-gray-800">
+                    <p class="text-gray-500 text-xs mb-1">COMPUTE LAYER</p>
+                    <p class="text-white font-bold">Rust / Tokio / gRPC</p>
+                </div>
+                <div class="bg-gray-900/50 p-4 rounded-lg border border-gray-800">
+                    <p class="text-gray-500 text-xs mb-1">SOLVER LAYER</p>
+                    <p class="text-white font-bold">Python / JAX / XLA</p>
+                </div>
+                <div class="bg-gray-900/50 p-4 rounded-lg border border-gray-800">
+                    <p class="text-gray-500 text-xs mb-1">RENDER LAYER</p>
+                    <p class="text-white font-bold">C++ / Vulkan / WGSL</p>
                 </div>
             </div>
 
-            <!-- Right: Project Details & Payment -->
-            <div class="md:w-1/2 p-8 flex flex-col justify-between">
+            <div class="bg-gradient-to-r from-purple-900/30 to-cyan-900/30 p-6 rounded-xl border border-purple-900/50 flex flex-col md:flex-row justify-between items-center gap-8">
                 <div>
-                    <div class="flex justify-between items-center mb-6">
-                        <span class="bg-red-600 text-white px-3 py-1 text-xs font-bold rounded animate-pulse">ENCHÈRE EN COURS</span>
-                        <span class="font-mono text-red-400 text-sm">Fin dans 23h 59m</span>
-                    </div>
-                    <p class="text-gray-300 mb-6">Outil de clonage de site web par IA. Donne une URL, et l'IA recrée le site en Next.js/React prêt à déployer. Idéal pour les agences et les créateurs de SaaS.</p>
-                    
-                    <div class="flex gap-3 mb-6">
-                        <span class="bg-gray-800 text-indigo-400 px-3 py-1 text-xs rounded">Python</span>
-                        <span class="bg-gray-800 text-indigo-400 px-3 py-1 text-xs rounded">OpenAI API</span>
-                        <span class="bg-gray-800 text-indigo-400 px-3 py-1 text-xs rounded">Next.js</span>
-                    </div>
-
-                    <div class="bg-gray-950 p-4 rounded-lg border border-gray-700 mb-6">
-                        <p class="text-sm text-gray-400 mb-1">Prix "Achat Immédiat"</p>
-                        <p class="text-4xl font-bold text-white">499 <span class="text-lg text-gray-400">€</span></p>
-                    </div>
+                    <p class="text-gray-400 text-sm mb-1">LICENCE EXCLUSIVE AUCTION</p>
+                    <p class="text-5xl font-black text-white">9 999 <span class="text-lg text-gray-400">€</span></p>
                 </div>
-
-                <!-- PAYMENT BUTTONS -->
-                <div class="space-y-4">
+                <div class="flex flex-col gap-4 w-full md:w-auto">
                     <!-- BOUTON STRIPE -->
-                    <!-- REMPLACE LE LIEN href PAR TON LIEN DE PAIEMENT STRIPE -->
-                    <a href="https://buy.stripe.com/8x200c74Eelj31j1gC9fW00" class="w-full bg-purple-600 hover:bg-purple-700 py-4 rounded-lg font-bold flex items-center justify-center gap-3 transition text-lg">
-                        <i class="fab fa-stripe text-2xl"></i> Acheter avec Stripe
+                    <a href="https://buy.stripe.com/8x200c74Eelj31j1gC9fW00" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-lg font-bold flex items-center justify-center gap-3 transition text-lg">
+                        <i class="fab fa-stripe text-2xl"></i> ACQUIRE LICENCE (Stripe)
                     </a>
-
                     <!-- BOUTON PAYPAL -->
-                    <!-- REMPLACE LES VALEURS business ET item_name PAR TES INFOS PAYPAL -->
                     <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                         <input type="hidden" name="cmd" value="_xclick">
                         <input type="hidden" name="business" value="Aminechabane7@gmail.com">
-                        <input type="hidden" name="item_name" value="Licence Source Code - Neuro-Clone AI">
-                        <input type="hidden" name="amount" value="499">
+                        <input type="hidden" name="item_name" value="CHRONOS-7 Engine - Full Source">
+                        <input type="hidden" name="amount" value="9999">
                         <input type="hidden" name="currency_code" value="EUR">
-                        <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black py-4 rounded-lg font-bold flex items-center justify-center gap-3 transition text-lg">
-                            <i class="fab fa-paypal text-2xl"></i> Acheter avec PayPal
+                        <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-600 text-black px-8 py-4 rounded-lg font-bold flex items-center justify-center gap-3 transition text-lg">
+                            <i class="fab fa-paypal text-2xl"></i> ACQUIRE LICENCE (PayPal)
                         </button>
                     </form>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ -->
-    <section id="faq" class="max-w-4xl mx-auto px-6 py-20">
-        <h3 class="text-3xl font-bold text-center mb-10">Questions Fréquentes</h3>
-        <div class="space-y-6">
-            <div class="bg-gray-900 p-6 rounded-lg border border-gray-800">
-                <h4 class="font-bold text-indigo-400 mb-2">Comment je reçois le code ?</h4>
-                <p class="text-gray-400">Dès que le paiement est validé, tu reçois un email t'invitant à rejoindre le dépôt GitHub privé. Tu auras accès au code source complet à vie.</p>
-            </div>
-            <div class="bg-gray-900 p-6 rounded-lg border border-gray-800">
-                <h4 class="font-bold text-indigo-400 mb-2">Est-ce que je peux revendre l'outil ?</h4>
-                <p class="text-gray-400">La licence standard t'autorise à l'utiliser pour tes projets ou tes clients, mais pas à le revendre en tant que SaaS sous ta marque. Pour l'exclusivité, contacte-nous par email.</p>
             </div>
         </div>
     </section>
