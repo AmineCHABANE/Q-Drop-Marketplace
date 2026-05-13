@@ -3,93 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Q-Drop | Deep Tech Auctions</title>
+    <title>Q-Drop | The Ultra Vault</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { background: #020205; }
-        .glow { box-shadow: 0 0 80px rgba(139, 92, 246, 0.15); }
-        .cyber-border { border: 1px solid rgba(139, 92, 246, 0.3); }
+        body { background: #010104; }
+        .glow { box-shadow: 0 0 100px rgba(220, 38, 38, 0.2); }
+        .cyber-border { border: 1px solid rgba(220, 38, 38, 0.4); }
         .strike { text-decoration: line-through; color: #4B5563; }
-        .trust-badge { filter: grayscale(100%) opacity(0.6); }
+        @keyframes pulse-slow { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .pulse-slow { animation: pulse-slow 2s infinite; }
     </style>
 </head>
 <body class="text-gray-300 font-mono">
 
-    <header class="border-b border-gray-800/50 py-6 backdrop-blur-sm">
+    <header class="border-b border-red-900/30 py-6">
         <nav class="max-w-7xl mx-auto px-6 flex justify-between items-center">
-            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500 tracking-widest">Q-DROP</h1>
+            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500 tracking-widest">Q-DROP VAULT</h1>
         </nav>
     </header>
 
     <section class="max-w-7xl mx-auto px-6 py-24 text-center">
-        <div class="inline-block bg-red-900/20 border border-red-800/50 text-red-400 px-4 py-1 text-xs font-bold rounded-full mb-8 animate-pulse">DAILY DROP - EXCLUSIVE LICENCE</div>
-        <h2 class="text-5xl md:text-7xl font-black mb-6 leading-tight text-white">CHRONOS-7<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">TEMPORAL ENGINE</span></h2>
-        <p class="text-gray-400 text-lg max-w-3xl mx-auto mb-16">Distributed reality simulator. Spacetime curvature, quantum decoherence & time-crystal lattices.</p>
+        <div class="inline-block bg-red-900/20 border border-red-800/50 text-red-400 px-4 py-1 text-xs font-bold rounded-full mb-8 pulse-slow">VAULT UNLOCKED - LIMITED TIME</div>
+        <h2 class="text-5xl md:text-8xl font-black mb-6 leading-tight text-white">THE ULTRA <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">100-PROJECT VAULT</span></h2>
+        <p class="text-gray-400 text-xl max-w-3xl mx-auto mb-16">Full source code access to 100 classified Hard Sci-Fi projects. Temporal Engines, Bio-Quantum AI, Warp Drives, Dark Energy Harvesters. Rust, JAX, Vulkan, K8s.</p>
         
-        <div class="max-w-5xl mx-auto bg-black/50 cyber-border rounded-2xl overflow-hidden glow p-8 md:p-12 backdrop-blur-md">
+        <!-- FEATURED PROJECTS LIST -->
+        <div class="max-w-5xl mx-auto bg-black/50 cyber-border rounded-2xl overflow-hidden glow p-8 md:p-12 backdrop-blur-md mb-12">
             
-            <div class="bg-gradient-to-r from-purple-900/20 to-cyan-900/20 p-8 rounded-xl border border-purple-900/30 flex flex-col md:flex-row justify-between items-center gap-10">
+            <h3 class="text-2xl font-bold text-white mb-8 border-b border-gray-800/50 pb-4">Vault Contents (Excerpt):</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-left text-sm mb-12">
+                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50 text-red-400"><i class="fas fa-atom mr-2"></i>Chronos-7 Engine</div>
+                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50 text-orange-400"><i class="fas fa-brain mr-2"></i>Omega-9 Neural</div>
+                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50 text-purple-400"><i class="fas fa-worm mr-2"></i>Wormhole Router</div>
+                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50 text-blue-400"><i class="fas fa-dna mr-2"></i>CRISPR AI Weaver</div>
+                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50 text-green-400"><i class="fas fa-shield mr-2"></i>Plasma Shield Grid</div>
+                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50 text-yellow-400"><i class="fas fa-bolt mr-2"></i>Zero-Point Energy</div>
+                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50 text-pink-400"><i class="fas fa-robot mr-2"></i>Warbot Mecha OS</div>
+                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50 text-cyan-400"><i class="fas fa-satellite mr-2"></i>Dyson Swarm Engine</div>
+            </div>
+            <p class="text-gray-600 text-xs text-center mb-12">... and 92 more classified Hard Science projects inside the repository.</p>
+
+            <!-- PRICING -->
+            <div class="bg-gradient-to-r from-red-900/20 to-orange-900/20 p-8 rounded-xl border border-red-900/30 flex flex-col md:flex-row justify-between items-center gap-10">
                 <div class="text-left">
-                    <p class="text-gray-500 text-sm mb-2">FULL SOURCE CODE + DEPLOYMENT INFRA</p>
-                    <p class="strike text-2xl font-bold mb-1">R&D Value: 150 000 €</p>
+                    <p class="text-gray-500 text-sm mb-2">FULL COMMERCIAL LICENCE FOR 100 PROJECTS</p>
+                    <p class="strike text-2xl font-bold mb-1">Total R&D Value: 50 000 000 €</p>
                     <p class="text-6xl font-black text-white">499 <span class="text-lg text-gray-500">€</span></p>
                 </div>
                 <div class="flex flex-col gap-4 w-full md:w-1/2">
                     
-                    <!-- BOUTON CARTE BANCAIRE (Stripe Secure) -->
-                    <a href="https://buy.stripe.com/8x200c74Eelj31j1gC9fW00" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-5 rounded-lg font-bold flex items-center justify-center gap-3 transition text-xl shadow-lg shadow-purple-600/20">
-                        <i class="fas fa-lock text-sm"></i> PAYER PAR CARTE BANCAIRE
+                    <!-- BOUTON CARTE BANCAIRE -->
+                    <a href="https://buy.stripe.com/8x200c74Eelj31j1gC9fW00" class="bg-red-600 hover:bg-red-700 text-white px-8 py-5 rounded-lg font-bold flex items-center justify-center gap-3 transition text-xl shadow-lg shadow-red-600/20">
+                        <i class="fas fa-lock text-sm"></i> UNLOCK VAULT BY CARD
                     </a>
                     <div class="flex justify-center gap-4 -mt-2 mb-2">
-                        <i class="fab fa-cc-visa text-2xl text-gray-500 trust-badge"></i>
-                        <i class="fab fa-cc-mastercard text-2xl text-gray-500 trust-badge"></i>
-                        <i class="fab fa-cc-amex text-2xl text-gray-500 trust-badge"></i>
-                        <span class="text-[10px] text-gray-600 flex items-center">Secured by Stripe</span>
+                        <i class="fab fa-cc-visa text-2xl text-gray-500"></i>
+                        <i class="fab fa-cc-mastercard text-2xl text-gray-500"></i>
+                        <i class="fab fa-cc-amex text-2xl text-gray-500"></i>
                     </div>
 
                     <!-- BOUTON PAYPAL -->
                     <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                         <input type="hidden" name="cmd" value="_xclick">
                         <input type="hidden" name="business" value="Aminechabane7@gmail.com">
-                        <input type="hidden" name="item_name" value="CHRONOS-7 Engine - Full Source">
+                        <input type="hidden" name="item_name" value="Q-Drop Ultra Vault - 100 Projects">
                         <input type="hidden" name="amount" value="499">
                         <input type="hidden" name="currency_code" value="EUR">
                         <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-400 text-black px-8 py-5 rounded-lg font-bold flex items-center justify-center gap-3 transition text-xl">
-                            <i class="fab fa-paypal text-2xl"></i> PAYER AVEC PAYPAL
+                            <i class="fab fa-paypal text-2xl"></i> UNLOCK VAULT VIA PAYPAL
                         </button>
                     </form>
                 </div>
             </div>
             
-            <!-- GARANTIE DE CONFIANCE -->
+            <!-- GARANTIE -->
             <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-center text-xs text-gray-500">
-                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50"><i class="fas fa-shield-halved text-green-500 mr-2"></i> Paiement 100% Sécurisé & Chiffré</div>
-                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50"><i class="fas fa-key text-purple-500 mr-2"></i> Accès GitHub à vie au code source</div>
-                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50"><i class="fas fa-flask text-cyan-500 mr-2"></i> Inclut les mises à jour R&D futures</div>
+                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50"><i class="fas fa-shield-halved text-green-500 mr-2"></i> Secure Transaction</div>
+                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50"><i class="fas fa-key text-red-500 mr-2"></i> Lifetime GitHub Access</div>
+                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50"><i class="fas fa-infinity text-orange-500 mr-2"></i> Unlimited R&D Updates</div>
             </div>
-        </div>
-    </section>
 
-    <!-- SECTION PROCESSUS D'ACHAT -->
-    <section id="how" class="max-w-5xl mx-auto px-6 py-20 border-t border-gray-800/50">
-        <h3 class="text-3xl font-black text-center text-white mb-16">COMMENT RECEVOIR LE CODE ?</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="text-center">
-                <div class="w-16 h-16 mx-auto bg-purple-900/30 border border-purple-700/50 rounded-full flex items-center justify-center text-purple-400 text-2xl mb-6">1</div>
-                <h4 class="text-white font-bold mb-2">Paiement Sécurisé</h4>
-                <p class="text-gray-500 text-sm">Réglez par Carte Bancaire ou PayPal. Transaction protégée par cryptographie bancaire.</p>
-            </div>
-            <div class="text-center">
-                <div class="w-16 h-16 mx-auto bg-purple-900/30 border border-purple-700/50 rounded-full flex items-center justify-center text-purple-400 text-2xl mb-6">2</div>
-                <h4 class="text-white font-bold mb-2">Accès GitHub Débloqué</h4>
-                <p class="text-gray-500 text-sm">Sous 12h max, votre email reçoit une invitation exclusive pour accéder au dépôt privé CHRONOS-7.</p>
-            </div>
-            <div class="text-center">
-                <div class="w-16 h-16 mx-auto bg-purple-900/30 border border-purple-700/50 rounded-full flex items-center justify-center text-purple-400 text-2xl mb-6">3</div>
-                <h4 class="text-white font-bold mb-2">Clonez & Déployez</h4>
-                <p class="text-gray-500 text-sm">Acceptez l'invitation, clonez le repo, et lancez le cluster Kubernetes. La physique est à vous.</p>
-            </div>
         </div>
     </section>
 
