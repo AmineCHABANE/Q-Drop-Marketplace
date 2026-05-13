@@ -3,69 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Q-Drop | Deep Tech Blueprints</title>
+    <title>Q-Drop | The End of Static Files</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { background: #020205; }
-        .glow { box-shadow: 0 0 80px rgba(139, 92, 246, 0.15); }
+        body { background: #010104; }
+        .glow { box-shadow: 0 0 100px rgba(139, 92, 246, 0.2); }
         .cyber-border { border: 1px solid rgba(139, 92, 246, 0.3); }
+        @keyframes pulse-adapt { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.02); } }
+        .pulse-adapt { animation: pulse-adapt 3s infinite; }
     </style>
 </head>
 <body class="text-gray-300 font-mono">
 
-    <header class="border-b border-gray-800/50 py-6">
+    <header class="border-b border-purple-900/30 py-6">
         <nav class="max-w-7xl mx-auto px-6 flex justify-between items-center">
             <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500 tracking-widest">Q-DROP</h1>
         </nav>
     </header>
 
     <section class="max-w-7xl mx-auto px-6 py-24 text-center">
-        <h2 class="text-5xl md:text-7xl font-black mb-6 leading-tight text-white">CHRONOS-7 <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">SPACETIME ENGINE</span></h2>
-        <p class="text-gray-400 text-lg max-w-3xl mx-auto mb-16">Real Physics Solvers + Distributed Architecture Blueprints. Calculate black holes, time dilation, and deploy the infrastructure.</p>
+        <div class="inline-block bg-purple-900/20 border border-purple-800/50 text-purple-400 px-4 py-1 text-xs font-bold rounded-full mb-8 pulse-adapt">INTRODUCING SCHRÖDINGER'S DATA</div>
+        <h2 class="text-5xl md:text-7xl font-black mb-6 leading-tight text-white">THE END OF<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">STATIC FILES</span></h2>
+        <p class="text-gray-400 text-xl max-w-3xl mx-auto mb-16">Why download a 480p OR a 4K file? With Quantum-Adaptive Formats, one file exists in all resolutions simultaneously. Your hardware's Qubit count collapses the wave function.</p>
         
-        <div class="max-w-5xl mx-auto bg-black/50 cyber-border rounded-2xl overflow-hidden glow p-8 md:p-12 backdrop-blur-md">
-            
-            <!-- CE QUI MARCHE VRAIMENT -->
-            <div class="text-left mb-12">
-                <h3 class="text-2xl font-bold text-green-400 mb-4"><i class="fas fa-check-circle mr-2"></i>WORKING SOFTWARE INCLUDED</h3>
-                <div class="bg-gray-900/50 p-6 rounded-lg border border-green-900/50 text-sm space-y-3">
-                    <p><i class="fas fa-bolt text-yellow-400 mr-2"></i><strong class="text-white">Schwarzschild Metric Solver:</strong> Real Python code calculating time dilation around a mass.</p>
-                    <p><i class="fas fa-eye text-blue-400 mr-2"></i><strong class="text-white">Gravitational Lensing Generator:</strong> Renders real visual simulations of light bending around black holes.</p>
-                    <p><i class="fas fa-server text-purple-400 mr-2"></i><strong class="text-white">FastAPI Interface:</strong> Ready-to-query API for the physics engine.</p>
-                </div>
+        <!-- VISUAL DEMO -->
+        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 text-sm">
+            <div class="bg-gray-900/50 p-6 rounded-lg border border-gray-800/50 text-left">
+                <div class="text-yellow-400 font-bold mb-2"><i class="fas fa-clock mr-2"></i>Low QPU (2-4 Qubits)</div>
+                <p class="text-gray-500">Tensor Network truncated to Chi=4.</p>
+                <div class="mt-3 bg-gray-800 h-2 rounded"><div class="bg-yellow-400 h-2 rounded w-1/4"></div></div>
+                <p class="text-white mt-2 font-bold">Output: 480p / Fast AI</p>
             </div>
+            <div class="bg-gray-900/50 p-6 rounded-lg border border-purple-800/50 text-left pulse-adapt">
+                <div class="text-purple-400 font-bold mb-2"><i class="fas fa-bolt mr-2"></i>Medium QPU (6 Qubits)</div>
+                <p class="text-gray-500">Tensor Network truncated to Chi=8.</p>
+                <div class="mt-3 bg-gray-800 h-2 rounded"><div class="bg-purple-500 h-2 rounded w-2/4"></div></div>
+                <p class="text-white mt-2 font-bold">Output: 1080p / Standard AI</p>
+            </div>
+            <div class="bg-gray-900/50 p-6 rounded-lg border border-cyan-800/50 text-left">
+                <div class="text-cyan-400 font-bold mb-2"><i class="fas fa-atom mr-2"></i>High QPU (8+ Qubits)</div>
+                <p class="text-gray-500">Full Tensor contraction. Chi=256.</p>
+                <div class="mt-3 bg-gray-800 h-2 rounded"><div class="bg-cyan-400 h-2 rounded w-4/4"></div></div>
+                <p class="text-white mt-2 font-bold">Output: 8K Lossless / Genius AI</p>
+            </div>
+        </div>
 
-            <!-- LES BLUEPRINTS -->
-            <div class="text-left mb-12">
-                <h3 class="text-2xl font-bold text-cyan-400 mb-4"><i class="fas fa-drafting-compass mr-2"></i>ARCHITECTURE BLUEPRINTS (Starter Kits)</h3>
-                <div class="bg-gray-900/50 p-6 rounded-lg border border-cyan-900/50 text-sm text-gray-400">
-                    <p>To scale this to supercomputing levels, the repository includes complete architectural boilerplates: Rust gRPC Kernels, Vulkan Raytracers configs, Kubernetes deployments, and 100 other Sci-Fi Tech Starter Kits. The math works. The scaling is ready to be built.</p>
-                </div>
+        <!-- MAIN CARD -->
+        <div class="max-w-5xl mx-auto bg-black/50 cyber-border rounded-2xl overflow-hidden glow p-8 md:p-12 backdrop-blur-md mb-12">
+            
+            <h3 class="text-2xl font-bold text-white mb-8 border-b border-gray-800/50 pb-4">Vault Contents (100 Projects):</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-left text-sm mb-12">
+                <div class="bg-gray-900/30 p-3 rounded border border-purple-800/50 text-purple-400"><i class="fas fa-video mr-2"></i>.qav Adaptive Video</div>
+                <div class="bg-gray-900/30 p-3 rounded border border-cyan-800/50 text-cyan-400"><i class="fas fa-brain mr-2"></i>.qam Adaptive AI</div>
+                <div class="bg-gray-900/30 p-3 rounded border border-green-800/50 text-green-400"><i class="fas fa-file-alt mr-2"></i>.qdoc Semantic Docs</div>
+                <div class="bg-gray-900/30 p-3 rounded border border-orange-800/50 text-orange-400"><i class="fas fa-headphones mr-2"></i>.qaud Latent Audio</div>
             </div>
+            <p class="text-gray-600 text-xs text-center mb-12">... and 96 more classified Deep Tech architectures inside.</p>
 
             <!-- PRICING -->
             <div class="bg-gradient-to-r from-purple-900/20 to-cyan-900/20 p-8 rounded-xl border border-purple-900/30 flex flex-col md:flex-row justify-between items-center gap-10">
                 <div class="text-left">
-                    <p class="text-gray-500 text-sm mb-2">FULL SOURCE + BLUEPRINTS</p>
+                    <p class="text-gray-500 text-sm mb-2">FULL COMMERCIAL LICENCE FOR 100 PROJECTS</p>
                     <p class="text-6xl font-black text-white">499 <span class="text-lg text-gray-500">€</span></p>
                 </div>
                 <div class="flex flex-col gap-4 w-full md:w-1/2">
                     <a href="https://buy.stripe.com/8x200c74Eelj31j1gC9fW00" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-5 rounded-lg font-bold flex items-center justify-center gap-3 transition text-xl shadow-lg shadow-purple-600/20">
-                        <i class="fas fa-lock text-sm"></i> PAYER PAR CARTE
+                        <i class="fas fa-lock text-sm"></i> UNLOCK VAULT BY CARD
                     </a>
                     <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                         <input type="hidden" name="cmd" value="_xclick">
                         <input type="hidden" name="business" value="Aminechabane7@gmail.com">
-                        <input type="hidden" name="item_name" value="CHRONOS-7 Source + Blueprints">
+                        <input type="hidden" name="item_name" value="Q-Drop Ultra Vault - 100 Projects">
                         <input type="hidden" name="amount" value="499">
                         <input type="hidden" name="currency_code" value="EUR">
                         <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-400 text-black px-8 py-5 rounded-lg font-bold flex items-center justify-center gap-3 transition text-xl">
-                            <i class="fab fa-paypal text-2xl"></i> PAYER AVEC PAYPAL
+                            <i class="fab fa-paypal text-2xl"></i> UNLOCK VAULT VIA PAYPAL
                         </button>
                     </form>
                 </div>
             </div>
+            
+            <!-- GARANTIE -->
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-center text-xs text-gray-500">
+                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50"><i class="fas fa-shield-halved text-green-500 mr-2"></i> Secure Transaction</div>
+                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50"><i class="fas fa-key text-purple-500 mr-2"></i> Lifetime GitHub Access</div>
+                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50"><i class="fas fa-infinity text-cyan-500 mr-2"></i> Q-Adaptive Codecs Included</div>
+            </div>
+
         </div>
     </section>
 
