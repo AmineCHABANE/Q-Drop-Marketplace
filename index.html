@@ -3,78 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Q-Drop | Stop Paying for Algorithms</title>
+    <title>Q-Drop | Schrödinger's Data</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body { background: #010104; }
-        .glow { box-shadow: 0 0 100px rgba(16, 185, 129, 0.15); }
-        .cyber-border { border: 1px solid rgba(16, 185, 129, 0.3); }
+        .glow { box-shadow: 0 0 100px rgba(139, 92, 246, 0.2); }
+        .cyber-border { border: 1px solid rgba(139, 92, 246, 0.3); }
         @keyframes pulse-adapt { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.02); } }
         .pulse-adapt { animation: pulse-adapt 3s infinite; }
+        .matrix-table tr:hover { background: rgba(139, 92, 246, 0.1); }
+        .format-tag { font-family: monospace; color: #a78bfa; }
     </style>
 </head>
 <body class="text-gray-300 font-mono">
 
-    <header class="border-b border-emerald-900/30 py-6">
+    <header class="border-b border-purple-900/30 py-6">
         <nav class="max-w-7xl mx-auto px-6 flex justify-between items-center">
-            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-cyan-500 tracking-widest">Q-DROP</h1>
+            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500 tracking-widest">Q-DROP</h1>
         </nav>
     </header>
 
     <section class="max-w-7xl mx-auto px-6 py-24 text-center">
-        <div class="inline-block bg-emerald-900/20 border border-emerald-800/50 text-emerald-400 px-4 py-1 text-xs font-bold rounded-full mb-8 pulse-adapt">STOP PAYING MILLIONS FOR SAAS ALGORITHMS</div>
-        <h2 class="text-5xl md:text-7xl font-black mb-6 leading-tight text-white">OWN THE SOURCE CODE<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-cyan-500">OF THE 100B$ INFRA</span></h2>
-        <p class="text-gray-400 text-xl max-w-3xl mx-auto mb-16">Datadog, Pinecone, vLLM, Figma... They don't sell magic. They sell algorithms. We built them. And we are selling the complete, unobfuscated source code for a one-time fee.</p>
+        <div class="inline-block bg-purple-900/20 border border-purple-800/50 text-purple-400 px-4 py-1 text-xs font-bold rounded-full mb-8 pulse-adapt">INTRODUCING SCHRÖDINGER'S DATA</div>
+        <h2 class="text-5xl md:text-7xl font-black mb-6 leading-tight text-white">THE END OF<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">STATIC FILES</span></h2>
+        <p class="text-gray-400 text-xl max-w-3xl mx-auto mb-16">A single file that exists in all resolutions, all sizes, and all security levels simultaneously. Your hardware's qubit count collapses the wave function.</p>
         
-        <!-- PROBLEM / SOLUTION GRID -->
-        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mb-16 text-left">
-            <div class="bg-gray-900/50 p-6 rounded-lg border border-emerald-800/50">
-                <div class="text-red-400 font-bold mb-2"><i class="fas fa-chart-line mr-2"></i>Problem: Observability Costs</div>
-                <p class="text-gray-500 text-sm mb-3">Datadog bills you millions for telemetry ingestion.</p>
-                <div class="text-emerald-400 font-bold text-sm"><i class="fas fa-check-circle mr-2"></i>Solution: QTel (Delta-of-Delta Encoding)</div>
-                <p class="text-white text-xs mt-1">12x compression. Ingest 10x more for the same cost.</p>
+        <!-- THE FORMAT MATRIX TABLE -->
+        <div class="max-w-6xl mx-auto mb-20 overflow-hidden rounded-xl border border-purple-900/30">
+            <div class="bg-purple-900/20 p-4 border-b border-purple-900/30">
+                <h3 class="text-xl font-bold text-white">The Q-Adaptive Format Matrix</h3>
             </div>
-            <div class="bg-gray-900/50 p-6 rounded-lg border border-emerald-800/50">
-                <div class="text-red-400 font-bold mb-2"><i class="fas fa-database mr-2"></i>Problem: Vector DB Scale</div>
-                <p class="text-gray-500 text-sm mb-3">Pinecone charges per query. Billion scale is bankrupting.</p>
-                <div class="text-emerald-400 font-bold text-sm"><i class="fas fa-check-circle mr-2"></i>Solution: QVec (HNSW) + QQuant (PQ)</div>
-                <p class="text-white text-xs mt-1">O(log N) search + 16:1 compression. Self-hosted.</p>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left matrix-table">
+                    <thead class="bg-gray-900/80 text-gray-400 uppercase text-xs">
+                        <tr>
+                            <th class="px-6 py-3">Domain</th>
+                            <th class="px-6 py-3">Format</th>
+                            <th class="px-6 py-3">Low QPU (2-4 Qubits)</th>
+                            <th class="px-6 py-3">High QPU (8+ Qubits)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-300">
+                        <tr class="border-b border-gray-800/50">
+                            <td class="px-6 py-4 font-bold">Video</td>
+                            <td class="px-6 py-4 format-tag">.qav</td>
+                            <td class="px-6 py-4 text-yellow-400">480p 2Mbps</td>
+                            <td class="px-6 py-4 text-cyan-400">8K Lossless</td>
+                        </tr>
+                        <tr class="border-b border-gray-800/50">
+                            <td class="px-6 py-4 font-bold">Audio</td>
+                            <td class="px-6 py-4 format-tag">.qaud</td>
+                            <td class="px-6 py-4 text-yellow-400">64kbps Phone</td>
+                            <td class="px-6 py-4 text-cyan-400">24bit/96kHz Studio</td>
+                        </tr>
+                        <tr class="border-b border-gray-800/50">
+                            <td class="px-6 py-4 font-bold">3D/VR</td>
+                            <td class="px-6 py-4 format-tag">.qvol</td>
+                            <td class="px-6 py-4 text-yellow-400">Low-Poly Cloud</td>
+                            <td class="px-6 py-4 text-cyan-400">Billions of Gaussians</td>
+                        </tr>
+                        <tr class="border-b border-gray-800/50">
+                            <td class="px-6 py-4 font-bold">AI Model</td>
+                            <td class="px-6 py-4 format-tag">.qam</td>
+                            <td class="px-6 py-4 text-yellow-400">1B Params (Fast)</td>
+                            <td class="px-6 py-4 text-cyan-400">100B Params (Genius)</td>
+                        </tr>
+                        <tr class="border-b border-gray-800/50">
+                            <td class="px-6 py-4 font-bold">Medical</td>
+                            <td class="px-6 py-4 format-tag">.qmed</td>
+                            <td class="px-6 py-4 text-yellow-400">2D MRI Slice</td>
+                            <td class="px-6 py-4 text-cyan-400">Full 4D Volumetric</td>
+                        </tr>
+                        <tr class="border-b border-gray-800/50">
+                            <td class="px-6 py-4 font-bold">Genomics</td>
+                            <td class="px-6 py-4 format-tag">.qdna</td>
+                            <td class="px-6 py-4 text-yellow-400">Base Pair Sequence</td>
+                            <td class="px-6 py-4 text-cyan-400">Full 3D Protein Fold</td>
+                        </tr>
+                        <tr class="border-b border-gray-800/50">
+                            <td class="px-6 py-4 font-bold">Security</td>
+                            <td class="px-6 py-4 format-tag">.qsec</td>
+                            <td class="px-6 py-4 text-yellow-400">AES-128 Standard</td>
+                            <td class="px-6 py-4 text-cyan-400">Lattice PQC (NIST L5)</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 font-bold">Finance</td>
+                            <td class="px-6 py-4 format-tag">.qfin</td>
+                            <td class="px-6 py-4 text-yellow-400">OHLC Candles</td>
+                            <td class="px-6 py-4 text-cyan-400">Microsecond Tick Data</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="bg-gray-900/50 p-6 rounded-lg border border-cyan-800/50">
-                <div class="text-red-400 font-bold mb-2"><i class="fas fa-microchip mr-2"></i>Problem: GPU Shortage for LLMs</div>
-                <p class="text-gray-500 text-sm mb-3">Serving LLMs is slow and expensive on standard GPUs.</p>
-                <div class="text-cyan-400 font-bold text-sm"><i class="fas fa-check-circle mr-2"></i>Solution: QServe (Continuous Batching + PagedAttention)</div>
-                <p class="text-white text-xs mt-1">4x throughput on the exact same hardware.</p>
-            </div>
-            <div class="bg-gray-900/50 p-6 rounded-lg border border-purple-800/50">
-                <div class="text-red-400 font-bold mb-2"><i class="fas fa-lock mr-2"></i>Problem: Supply Chain Attacks</div>
-                <p class="text-gray-500 text-sm mb-3">XZ Utils, SolarWinds. You can't trust your dependencies.</p>
-                <div class="text-purple-400 font-bold text-sm"><i class="fas fa-check-circle mr-2"></i>Solution: QSec (Merkle Behavior SBOM)</div>
-                <p class="text-white text-xs mt-1">Zero-day detection via runtime Merkle tree verification.</p>
+            <div class="bg-gray-900/50 p-4 text-center text-gray-500 text-xs">
+                + 12 more adaptive formats in the Vault (.qimg, .qdoc, .qmap, .qsim, .qpkg, .qflow, .qdb, .qlog, .qpub, .qwea, .qsrc, .qtel)
             </div>
         </div>
 
-        <!-- MAIN CARD -->
-        <div class="max-w-5xl mx-auto bg-black/50 cyber-border rounded-2xl overflow-hidden glow p-8 md:p-12 backdrop-blur-md mb-12">
+        <!-- PRICING -->
+        <div class="max-w-5xl mx-auto bg-black/50 cyber-border rounded-2xl overflow-hidden glow p-8 md:p-12 backdrop-blur-md">
             
-            <h3 class="text-2xl font-bold text-white mb-8 border-b border-gray-800/50 pb-4">Vault Contents (100 Projects):</h3>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-left text-sm mb-12">
-                <div class="bg-gray-900/30 p-3 rounded border border-emerald-800/50 text-emerald-400"><i class="fas fa-network-wired mr-2"></i>Kernel Bypass / io_uring</div>
-                <div class="bg-gray-900/30 p-3 rounded border border-cyan-800/50 text-cyan-400"><i class="fas fa-brain mr-2"></i>LLM Serving / Paged KV</div>
-                <div class="bg-gray-900/30 p-3 rounded border border-purple-800/50 text-purple-400"><i class="fas fa-video mr-2"></i>Q-Adaptive Video/Audio</div>
-                <div class="bg-gray-900/30 p-3 rounded border border-orange-800/50 text-orange-400"><i class="fas fa-dna mr-2"></i>DNA Storage / Post-Quantum</div>
-            </div>
-            <p class="text-gray-600 text-xs text-center mb-12">... and 96 more classified Deep Tech architectures.</p>
-
-            <!-- PRICING -->
-            <div class="bg-gradient-to-r from-emerald-900/20 to-cyan-900/20 p-8 rounded-xl border border-emerald-900/30 flex flex-col md:flex-row justify-between items-center gap-10">
+            <div class="bg-gradient-to-r from-purple-900/20 to-cyan-900/20 p-8 rounded-xl border border-purple-900/30 flex flex-col md:flex-row justify-between items-center gap-10">
                 <div class="text-left">
-                    <p class="text-gray-500 text-sm mb-2">FULL COMMERCIAL LICENCE + SOURCE CODE</p>
+                    <p class="text-gray-500 text-sm mb-2">FULL COMMERCIAL LICENCE + ALGORITHMS + ADAPTIVE FORMATS</p>
                     <p class="text-6xl font-black text-white">499 <span class="text-lg text-gray-500">€</span></p>
                 </div>
                 <div class="flex flex-col gap-4 w-full md:w-1/2">
-                    <a href="https://buy.stripe.com/8x200c74Eelj31j1gC9fW00" class="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-5 rounded-lg font-bold flex items-center justify-center gap-3 transition text-xl shadow-lg shadow-emerald-600/20">
+                    <a href="https://buy.stripe.com/8x200c74Eelj31j1gC9fW00" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-5 rounded-lg font-bold flex items-center justify-center gap-3 transition text-xl shadow-lg shadow-purple-600/20">
                         <i class="fas fa-lock text-sm"></i> UNLOCK VAULT BY CARD
                     </a>
                     <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
@@ -93,8 +129,8 @@
             <!-- GARANTIE -->
             <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-center text-xs text-gray-500">
                 <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50"><i class="fas fa-shield-halved text-green-500 mr-2"></i> Secure Transaction</div>
-                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50"><i class="fas fa-key text-emerald-500 mr-2"></i> Lifetime GitHub Access</div>
-                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50"><i class="fas fa-building text-cyan-500 mr-2"></i> B2B Production Ready</div>
+                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50"><i class="fas fa-key text-purple-500 mr-2"></i> Lifetime GitHub Access</div>
+                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50"><i class="fas fa-infinity text-cyan-500 mr-2"></i> Schrödinger's Data Included</div>
             </div>
 
         </div>
