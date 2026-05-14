@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Q-Drop | Schrödinger's Data</title>
+    <title>Q-Drop | The Atlas of the Next Decade</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -12,7 +12,6 @@
         .cyber-border { border: 1px solid rgba(139, 92, 246, 0.3); }
         @keyframes pulse-adapt { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.02); } }
         .pulse-adapt { animation: pulse-adapt 3s infinite; }
-        .matrix-table tr:hover { background: rgba(139, 92, 246, 0.1); }
         .format-tag { font-family: monospace; color: #a78bfa; }
     </style>
 </head>
@@ -25,79 +24,62 @@
     </header>
 
     <section class="max-w-7xl mx-auto px-6 py-24 text-center">
-        <div class="inline-block bg-purple-900/20 border border-purple-800/50 text-purple-400 px-4 py-1 text-xs font-bold rounded-full mb-8 pulse-adapt">INTRODUCING SCHRÖDINGER'S DATA</div>
-        <h2 class="text-5xl md:text-7xl font-black mb-6 leading-tight text-white">THE END OF<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">STATIC FILES</span></h2>
-        <p class="text-gray-400 text-xl max-w-3xl mx-auto mb-16">A single file that exists in all resolutions, all sizes, and all security levels simultaneously. Your hardware's qubit count collapses the wave function.</p>
+        <div class="inline-block bg-purple-900/20 border border-purple-800/50 text-purple-400 px-4 py-1 text-xs font-bold rounded-full mb-8 pulse-adapt">THE ATLAS OF THE NEXT DECADE</div>
+        <h2 class="text-5xl md:text-7xl font-black mb-6 leading-tight text-white">44 PROJECTS.<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">INFINITE STATES.</span></h2>
+        <p class="text-gray-400 text-xl max-w-3xl mx-auto mb-16">Schrödinger's Data. FAANG Algorithms. Post-Quantum Security. The complete source code to build the infrastructure of the next decade.</p>
         
-        <!-- THE FORMAT MATRIX TABLE -->
-        <div class="max-w-6xl mx-auto mb-20 overflow-hidden rounded-xl border border-purple-900/30">
-            <div class="bg-purple-900/20 p-4 border-b border-purple-900/30">
-                <h3 class="text-xl font-bold text-white">The Q-Adaptive Format Matrix</h3>
+        <!-- PILLARS GRID -->
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 mb-20 text-left">
+            <!-- Pillar 1 -->
+            <div class="bg-gray-900/50 p-6 rounded-xl border border-purple-800/30">
+                <h3 class="text-xl font-bold text-purple-400 mb-4 border-b border-gray-800/50 pb-2">🌌 I. Schrödinger's Data</h3>
+                <p class="text-gray-500 text-sm mb-4">Adaptive Formats that scale with Qubit count.</p>
+                <ul class="text-sm space-y-2">
+                    <li class="text-gray-300"><span class="format-tag">.qav</span> Adaptive Video</li>
+                    <li class="text-gray-300"><span class="format-tag">.qaud</span> Latent Audio</li>
+                    <li class="text-gray-300"><span class="format-tag">.qimg</span> Tucker Decomposition</li>
+                    <li class="text-gray-300"><span class="format-tag">.qmed</span> Tensor Train MRI</li>
+                    <li class="text-gray-300"><span class="format-tag">.qfin</span> Wavelet Market Feed</li>
+                    <li class="text-gray-300"><span class="format-tag">.qam</span> Adaptive LLMs</li>
+                </ul>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm text-left matrix-table">
-                    <thead class="bg-gray-900/80 text-gray-400 uppercase text-xs">
-                        <tr>
-                            <th class="px-6 py-3">Domain</th>
-                            <th class="px-6 py-3">Format</th>
-                            <th class="px-6 py-3">Low QPU (2-4 Qubits)</th>
-                            <th class="px-6 py-3">High QPU (8+ Qubits)</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-gray-300">
-                        <tr class="border-b border-gray-800/50">
-                            <td class="px-6 py-4 font-bold">Video</td>
-                            <td class="px-6 py-4 format-tag">.qav</td>
-                            <td class="px-6 py-4 text-yellow-400">480p 2Mbps</td>
-                            <td class="px-6 py-4 text-cyan-400">8K Lossless</td>
-                        </tr>
-                        <tr class="border-b border-gray-800/50">
-                            <td class="px-6 py-4 font-bold">Audio</td>
-                            <td class="px-6 py-4 format-tag">.qaud</td>
-                            <td class="px-6 py-4 text-yellow-400">64kbps Phone</td>
-                            <td class="px-6 py-4 text-cyan-400">24bit/96kHz Studio</td>
-                        </tr>
-                        <tr class="border-b border-gray-800/50">
-                            <td class="px-6 py-4 font-bold">3D/VR</td>
-                            <td class="px-6 py-4 format-tag">.qvol</td>
-                            <td class="px-6 py-4 text-yellow-400">Low-Poly Cloud</td>
-                            <td class="px-6 py-4 text-cyan-400">Billions of Gaussians</td>
-                        </tr>
-                        <tr class="border-b border-gray-800/50">
-                            <td class="px-6 py-4 font-bold">AI Model</td>
-                            <td class="px-6 py-4 format-tag">.qam</td>
-                            <td class="px-6 py-4 text-yellow-400">1B Params (Fast)</td>
-                            <td class="px-6 py-4 text-cyan-400">100B Params (Genius)</td>
-                        </tr>
-                        <tr class="border-b border-gray-800/50">
-                            <td class="px-6 py-4 font-bold">Medical</td>
-                            <td class="px-6 py-4 format-tag">.qmed</td>
-                            <td class="px-6 py-4 text-yellow-400">2D MRI Slice</td>
-                            <td class="px-6 py-4 text-cyan-400">Full 4D Volumetric</td>
-                        </tr>
-                        <tr class="border-b border-gray-800/50">
-                            <td class="px-6 py-4 font-bold">Genomics</td>
-                            <td class="px-6 py-4 format-tag">.qdna</td>
-                            <td class="px-6 py-4 text-yellow-400">Base Pair Sequence</td>
-                            <td class="px-6 py-4 text-cyan-400">Full 3D Protein Fold</td>
-                        </tr>
-                        <tr class="border-b border-gray-800/50">
-                            <td class="px-6 py-4 font-bold">Security</td>
-                            <td class="px-6 py-4 format-tag">.qsec</td>
-                            <td class="px-6 py-4 text-yellow-400">AES-128 Standard</td>
-                            <td class="px-6 py-4 text-cyan-400">Lattice PQC (NIST L5)</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 font-bold">Finance</td>
-                            <td class="px-6 py-4 format-tag">.qfin</td>
-                            <td class="px-6 py-4 text-yellow-400">OHLC Candles</td>
-                            <td class="px-6 py-4 text-cyan-400">Microsecond Tick Data</td>
-                        </tr>
-                    </tbody>
-                </table>
+            
+            <!-- Pillar 2 -->
+            <div class="bg-gray-900/50 p-6 rounded-xl border border-cyan-800/30">
+                <h3 class="text-xl font-bold text-cyan-400 mb-4 border-b border-gray-800/50 pb-2">🏭 II. Industrial Core</h3>
+                <p class="text-gray-500 text-sm mb-4">FAANG algorithms you pay millions for.</p>
+                <ul class="text-sm space-y-2">
+                    <li class="text-gray-300"><i class="fas fa-search text-cyan-400 mr-2"></i>HNSW Vector Search</li>
+                    <li class="text-gray-300"><i class="fas fa-compress text-cyan-400 mr-2"></i>Product Quantization</li>
+                    <li class="text-gray-300"><i class="fas fa-server text-cyan-400 mr-2"></i>Continuous Batching</li>
+                    <li class="text-gray-300"><i class="fas fa-brain text-cyan-400 mr-2"></i>Point-in-Time Feature Store</li>
+                    <li class="text-gray-300"><i class="fas fa-network-wired text-cyan-400 mr-2"></i>io_uring Zero-Copy</li>
+                    <li class="text-gray-300"><i class="fas fa-database text-cyan-400 mr-2"></i>LSM-Tree Storage</li>
+                </ul>
             </div>
-            <div class="bg-gray-900/50 p-4 text-center text-gray-500 text-xs">
-                + 12 more adaptive formats in the Vault (.qimg, .qdoc, .qmap, .qsim, .qpkg, .qflow, .qdb, .qlog, .qpub, .qwea, .qsrc, .qtel)
+            
+            <!-- Pillar 3 -->
+            <div class="bg-gray-900/50 p-6 rounded-xl border border-emerald-800/30">
+                <h3 class="text-xl font-bold text-emerald-400 mb-4 border-b border-gray-800/50 pb-2">🔬 III. R&D Signature</h3>
+                <p class="text-gray-500 text-sm mb-4">Theoretical physics into executable code.</p>
+                <ul class="text-sm space-y-2">
+                    <li class="text-gray-300"><i class="fas fa-dna text-emerald-400 mr-2"></i>Molecular DNA Storage</li>
+                    <li class="text-gray-300"><i class="fas fa-atom text-emerald-400 mr-2"></i>Holographic MERA</li>
+                    <li class="text-gray-300"><i class="fas fa-shield-alt text-emerald-400 mr-2"></i>Post-Quantum LWE</li>
+                    <li class="text-gray-300"><i class="fas fa-project-diagram text-emerald-400 mr-2"></i>Topological Data (Betti)</li>
+                    <li class="text-gray-300"><i class="fas fa-recycle text-emerald-400 mr-2"></i>Reversible Computing</li>
+                    <li class="text-gray-300"><i class="fas fa-cubes text-emerald-400 mr-2"></i>Erasure Coding (Reed-Solomon)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- PROOF -->
+        <div class="max-w-5xl mx-auto mb-16 text-center">
+            <h3 class="text-2xl font-bold text-white mb-4">Real Math. Real Proof.</h3>
+            <p class="text-gray-400 text-lg">This isn't theoretical pseudocode. Every project contains executable Rust/Python solvers demonstrating the core mathematical loop (SVD, K-Means, Kademlia XOR, Kalman Filters, HOSVD).</p>
+            <div class="mt-6">
+                <img src="spacetime_simulation_result.png" alt="CHRONOS-7 Proof" class="rounded-lg mx-auto border border-gray-800/50 max-w-sm">
+                <p class="text-gray-600 text-xs mt-2">Actual output of the CHRONOS-7 Gravitational Lensing Solver included in the Vault.</p>
             </div>
         </div>
 
@@ -106,7 +88,7 @@
             
             <div class="bg-gradient-to-r from-purple-900/20 to-cyan-900/20 p-8 rounded-xl border border-purple-900/30 flex flex-col md:flex-row justify-between items-center gap-10">
                 <div class="text-left">
-                    <p class="text-gray-500 text-sm mb-2">FULL COMMERCIAL LICENCE + ALGORITHMS + ADAPTIVE FORMATS</p>
+                    <p class="text-gray-500 text-sm mb-2">FULL COMMERCIAL LICENCE + SOURCE CODE</p>
                     <p class="text-6xl font-black text-white">499 <span class="text-lg text-gray-500">€</span></p>
                 </div>
                 <div class="flex flex-col gap-4 w-full md:w-1/2">
@@ -116,7 +98,7 @@
                     <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                         <input type="hidden" name="cmd" value="_xclick">
                         <input type="hidden" name="business" value="Aminechabane7@gmail.com">
-                        <input type="hidden" name="item_name" value="Q-Drop Ultra Vault - 100 Projects">
+                        <input type="hidden" name="item_name" value="Q-Drop Ultra Vault - 44 Projects">
                         <input type="hidden" name="amount" value="499">
                         <input type="hidden" name="currency_code" value="EUR">
                         <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-400 text-black px-8 py-5 rounded-lg font-bold flex items-center justify-center gap-3 transition text-xl">
@@ -130,7 +112,7 @@
             <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-center text-xs text-gray-500">
                 <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50"><i class="fas fa-shield-halved text-green-500 mr-2"></i> Secure Transaction</div>
                 <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50"><i class="fas fa-key text-purple-500 mr-2"></i> Lifetime GitHub Access</div>
-                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50"><i class="fas fa-infinity text-cyan-500 mr-2"></i> Schrödinger's Data Included</div>
+                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50"><i class="fas fa-infinity text-cyan-500 mr-2"></i> 44 Deep Tech Projects</div>
             </div>
 
         </div>
