@@ -80,3 +80,14 @@ Aminechabane7@gmail.com
 
 https://github.com/aminechabane/Q-Drop-Marketplace
 
+
+## New Project Added
+
+### 063 — Q-MEM Arena Memory Allocator
+
+- 74 size classes (8B → 32KB)
+- Thread-local cache (tcache) — O(1) fast path
+- Slab carving from 2MB huge pages
+- Fragmentation analysis
+- Rust zero-unsafe kernel
+
