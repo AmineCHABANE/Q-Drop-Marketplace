@@ -91,3 +91,14 @@ https://github.com/aminechabane/Q-Drop-Marketplace
 - Fragmentation analysis
 - Rust zero-unsafe kernel
 
+
+## New Project Added
+
+### 064 — Q-COL Columnar Data Engine
+
+- SIMD vectorized filter (AVX2 simulation)
+- Dictionary encoding — 10-100x on categorical columns
+- Run-Length Encoding for sparse data
+- Vectorized hash aggregation (GROUP BY)
+- Rust zero-copy aligned column buffers
+
