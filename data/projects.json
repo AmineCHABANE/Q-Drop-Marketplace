@@ -1,0 +1,86 @@
+[
+  {
+    "id": 51,
+    "name": "Q-AUD",
+    "desc": "Adaptive spectral audio codec",
+    "replaces": "Opus / AAC"
+  },
+  {
+    "id": 53,
+    "name": "Q-COL",
+    "desc": "SIMD columnar engine",
+    "replaces": "Parquet / Arrow"
+  },
+  {
+    "id": 54,
+    "name": "Q-SCHED",
+    "desc": "Probabilistic OS scheduler",
+    "replaces": "CFS naive scheduler"
+  },
+  {
+    "id": 55,
+    "name": "Q-STREAM",
+    "desc": "Distributed stream engine",
+    "replaces": "Flink"
+  },
+  {
+    "id": 56,
+    "name": "Q-QUIC",
+    "desc": "Userspace QUIC stack",
+    "replaces": "nginx QUIC"
+  },
+  {
+    "id": 57,
+    "name": "Q-EFBPF",
+    "desc": "Kernel event compression engine",
+    "replaces": "Datadog agents"
+  },
+  {
+    "id": 58,
+    "name": "Q-MERA",
+    "desc": "Holographic memory tensor system",
+    "replaces": "Redis cache layer"
+  },
+  {
+    "id": 59,
+    "name": "Q-LSM2",
+    "desc": "Learned LSM storage engine",
+    "replaces": "RocksDB"
+  },
+  {
+    "id": 60,
+    "name": "Q-HNSW2",
+    "desc": "Curvature-aware vector search",
+    "replaces": "FAISS / Pinecone"
+  },
+  {
+    "id": 63,
+    "name": "Q-MEM",
+    "desc": "Arena allocator memory engine",
+    "replaces": "malloc / jemalloc"
+  },
+  {
+    "id": 64,
+    "name": "Q-COL2",
+    "desc": "Vectorized columnar analytics engine",
+    "replaces": "Pandas / Arrow"
+  },
+  {
+    "id": 65,
+    "name": "Q-SCHED-CFS",
+    "desc": "Linux scheduler clone",
+    "replaces": "OS schedulers"
+  },
+  {
+    "id": 66,
+    "name": "Q-STREAM2",
+    "desc": "Windowed stream processing",
+    "replaces": "Flink / Kafka Streams"
+  },
+  {
+    "id": 67,
+    "name": "Q-FUSE",
+    "desc": "GPU kernel fusion engine",
+    "replaces": "cuDNN / TensorRT"
+  }
+]
