@@ -84,3 +84,13 @@ Theoretical physics and next-generation math translated into executable code.
 ---
 
 <div align="center">*Q-Drop Advanced Research Division*<br>*Building Schrödinger's Data.*</div>
+
+## New Project Added
+
+### 051 — Q-AUD Quantum Adaptive Audio Codec
+
+- MDCT spectral compression
+- Psychoacoustic masking
+- Tensor bitrate collapse
+- Hardware adaptive reconstruction
+
