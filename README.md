@@ -105,3 +105,14 @@ Theoretical physics and next-generation math translated into executable code.
 - Branchless analytics execution
 - OLAP acceleration primitives
 
+
+## Added Project 054
+
+### Q-SCHED Probabilistic Scheduler
+
+- Thermal-aware CPU balancing
+- Cache-locality optimization
+- Stochastic scheduling
+- Entropy-aware fairness
+- NUMA-inspired execution topology
+
