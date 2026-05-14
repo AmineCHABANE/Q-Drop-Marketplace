@@ -15,431 +15,120 @@
         .format-tag { font-family: monospace; color: #a78bfa; }
     </style>
 </head>
+
 <body class="text-gray-300 font-mono">
 
-    <header class="border-b border-purple-900/30 py-6">
-        <nav class="max-w-7xl mx-auto px-6 flex justify-between items-center">
-            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500 tracking-widest">Q-DROP</h1>
-        </nav>
-    </header>
+<header class="border-b border-purple-900/30 py-6">
+    <nav class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+        <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500 tracking-widest">
+            Q-DROP
+        </h1>
 
-    <section class="max-w-7xl mx-auto px-6 py-24 text-center">
-        <div class="inline-block bg-purple-900/20 border border-purple-800/50 text-purple-400 px-4 py-1 text-xs font-bold rounded-full mb-8 pulse-adapt">THE ATLAS OF THE NEXT DECADE</div>
-        <h2 class="text-5xl md:text-7xl font-black mb-6 leading-tight text-white">44 PROJECTS.<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">INFINITE STATES.</span></h2>
-        <p class="text-gray-400 text-xl max-w-3xl mx-auto mb-16">Schrödinger's Data. FAANG Algorithms. Post-Quantum Security. The complete source code to build the infrastructure of the next decade.</p>
-        
-        <!-- PILLARS GRID -->
-        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 mb-20 text-left">
-            <!-- Pillar 1 -->
-            <div class="bg-gray-900/50 p-6 rounded-xl border border-purple-800/30">
-                <h3 class="text-xl font-bold text-purple-400 mb-4 border-b border-gray-800/50 pb-2">🌌 I. Schrödinger's Data</h3>
-                <p class="text-gray-500 text-sm mb-4">Adaptive Formats that scale with Qubit count.</p>
-                <ul class="text-sm space-y-2">
-                    <li class="text-gray-300"><span class="format-tag">.qav</span> Adaptive Video</li>
-                    <li class="text-gray-300"><span class="format-tag">.qaud</span> Latent Audio</li>
-                    <li class="text-gray-300"><span class="format-tag">.qimg</span> Tucker Decomposition</li>
-                    <li class="text-gray-300"><span class="format-tag">.qmed</span> Tensor Train MRI</li>
-                    <li class="text-gray-300"><span class="format-tag">.qfin</span> Wavelet Market Feed</li>
-                    <li class="text-gray-300"><span class="format-tag">.qam</span> Adaptive LLMs</li>
-                </ul>
-            </div>
-            
-            <!-- Pillar 2 -->
-            <div class="bg-gray-900/50 p-6 rounded-xl border border-cyan-800/30">
-                <h3 class="text-xl font-bold text-cyan-400 mb-4 border-b border-gray-800/50 pb-2">🏭 II. Industrial Core</h3>
-                <p class="text-gray-500 text-sm mb-4">FAANG algorithms you pay millions for.</p>
-                <ul class="text-sm space-y-2">
-                    <li class="text-gray-300"><i class="fas fa-search text-cyan-400 mr-2"></i>HNSW Vector Search</li>
-                    <li class="text-gray-300"><i class="fas fa-compress text-cyan-400 mr-2"></i>Product Quantization</li>
-                    <li class="text-gray-300"><i class="fas fa-server text-cyan-400 mr-2"></i>Continuous Batching</li>
-                    <li class="text-gray-300"><i class="fas fa-brain text-cyan-400 mr-2"></i>Point-in-Time Feature Store</li>
-                    <li class="text-gray-300"><i class="fas fa-network-wired text-cyan-400 mr-2"></i>io_uring Zero-Copy</li>
-                    <li class="text-gray-300"><i class="fas fa-database text-cyan-400 mr-2"></i>LSM-Tree Storage</li>
-                </ul>
-            </div>
-            
-            <!-- Pillar 3 -->
-            <div class="bg-gray-900/50 p-6 rounded-xl border border-emerald-800/30">
-                <h3 class="text-xl font-bold text-emerald-400 mb-4 border-b border-gray-800/50 pb-2">🔬 III. R&D Signature</h3>
-                <p class="text-gray-500 text-sm mb-4">Theoretical physics into executable code.</p>
-                <ul class="text-sm space-y-2">
-                    <li class="text-gray-300"><i class="fas fa-dna text-emerald-400 mr-2"></i>Molecular DNA Storage</li>
-                    <li class="text-gray-300"><i class="fas fa-atom text-emerald-400 mr-2"></i>Holographic MERA</li>
-                    <li class="text-gray-300"><i class="fas fa-shield-alt text-emerald-400 mr-2"></i>Post-Quantum LWE</li>
-                    <li class="text-gray-300"><i class="fas fa-project-diagram text-emerald-400 mr-2"></i>Topological Data (Betti)</li>
-                    <li class="text-gray-300"><i class="fas fa-recycle text-emerald-400 mr-2"></i>Reversible Computing</li>
-                    <li class="text-gray-300"><i class="fas fa-cubes text-emerald-400 mr-2"></i>Erasure Coding (Reed-Solomon)</li>
-                </ul>
-            </div>
-        </div>
+        <a href="https://github.com/aminechabane/Q-Drop-Ultra-Vault"
+           class="text-cyan-400 text-sm hover:text-white">
+            GitHub Vault
+        </a>
+    </nav>
+</header>
 
-        <!-- PROOF -->
-        <div class="max-w-5xl mx-auto mb-16 text-center">
-            <h3 class="text-2xl font-bold text-white mb-4">Real Math. Real Proof.</h3>
-            <p class="text-gray-400 text-lg">This isn't theoretical pseudocode. Every project contains executable Rust/Python solvers demonstrating the core mathematical loop (SVD, K-Means, Kademlia XOR, Kalman Filters, HOSVD).</p>
-            <div class="mt-6">
-                <img src="spacetime_simulation_result.png" alt="CHRONOS-7 Proof" class="rounded-lg mx-auto border border-gray-800/50 max-w-sm">
-                <p class="text-gray-600 text-xs mt-2">Actual output of the CHRONOS-7 Gravitational Lensing Solver included in the Vault.</p>
-            </div>
-        </div>
+<section class="max-w-7xl mx-auto px-6 py-24 text-center">
 
-        <!-- PRICING -->
-        <div class="max-w-5xl mx-auto bg-black/50 cyber-border rounded-2xl overflow-hidden glow p-8 md:p-12 backdrop-blur-md">
-            
-            <div class="bg-gradient-to-r from-purple-900/20 to-cyan-900/20 p-8 rounded-xl border border-purple-900/30 flex flex-col md:flex-row justify-between items-center gap-10">
-                <div class="text-left">
-                    <p class="text-gray-500 text-sm mb-2">FULL COMMERCIAL LICENCE + SOURCE CODE</p>
-                    <p class="text-6xl font-black text-white">499 <span class="text-lg text-gray-500">€</span></p>
-                </div>
-                <div class="flex flex-col gap-4 w-full md:w-1/2">
-                    <a href="https://buy.stripe.com/9B6eV60Gg90Z0TbcZk9fW01
-                        <i class="fas fa-lock text-sm"></i> UNLOCK VAULT BY CARD
-                    </a>
-                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                        <input type="hidden" name="cmd" value="_xclick">
-                        <input type="hidden" name="business" value="Aminechabane7@gmail.com">
-                        <input type="hidden" name="item_name" value="Q-Drop Ultra Vault - 44 Projects">
-                        <input type="hidden" name="amount" value="499">
-                        <input type="hidden" name="currency_code" value="EUR">
-                        <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-400 text-black px-8 py-5 rounded-lg font-bold flex items-center justify-center gap-3 transition text-xl">
-                            <i class="fab fa-paypal text-2xl"></i> UNLOCK VAULT VIA PAYPAL
-                        </button>
-                    </form>
-                </div>
-            </div>
-            
-            <!-- GARANTIE -->
-            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-center text-xs text-gray-500">
-                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50"><i class="fas fa-shield-halved text-green-500 mr-2"></i> Secure Transaction</div>
-                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50"><i class="fas fa-key text-purple-500 mr-2"></i> Lifetime GitHub Access</div>
-                <div class="bg-gray-900/30 p-3 rounded border border-gray-800/50"><i class="fas fa-infinity text-cyan-500 mr-2"></i> 44 Deep Tech Projects</div>
-            </div>
-
-        </div>
-    </section>
-
-</body>
-</html>
-
-<div class="border border-cyan-500 bg-black/40 p-4 rounded-xl mt-4">
-  <h3 class="text-cyan-400 text-xl font-bold">
-    051 — Q-AUD Quantum Adaptive Audio Codec
-  </h3>
-
-  <p class="text-gray-300 mt-2">
-    Hardware-adaptive spectral audio container using MDCT,
-    psychoacoustic masking and tensor bitrate collapse.
-  </p>
-
-  <div class="mt-3 text-sm text-cyan-300">
-    Replaces: Opus / AAC / Streaming ladders
-  </div>
-</div>
-
-
-<div class="border border-emerald-500 bg-black/40 rounded-2xl p-5 mt-4">
-
-  <div class="text-2xl font-bold text-emerald-400">
-    053 — Q-COL Quantum Columnar Engine
-  </div>
-
-  <p class="mt-3 text-gray-300">
-    Adaptive entropy-aware columnar execution engine
-    with SIMD vector scans and tensorized storage pages.
-  </p>
-
-  <div class="grid grid-cols-2 gap-2 mt-4 text-sm">
-
-    <div class="text-cyan-300">
-      Delta Encoding
+    <div class="inline-block bg-purple-900/20 border border-purple-800/50 text-purple-400 px-4 py-1 text-xs font-bold rounded-full mb-8 pulse-adapt">
+        THE ATLAS OF THE NEXT DECADE
     </div>
 
-    <div class="text-cyan-300">
-      Dictionary Compression
+    <h2 class="text-5xl md:text-7xl font-black mb-6 leading-tight text-white">
+        67 PROJECTS.<br>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">
+            INFINITE STATES.
+        </span>
+    </h2>
+
+    <p class="text-gray-400 text-xl max-w-3xl mx-auto mb-10">
+        Schrödinger's Data. FAANG Algorithms. Post-Quantum Systems.
+    </p>
+
+    <!-- PRICE BLOCK -->
+    <div class="mb-16">
+        <div class="text-4xl font-bold text-green-400">9,99€</div>
+        <a href="https://buy.stripe.com/9B6eV60Gg90Z0TbcZk9fW01"
+           class="inline-block mt-4 bg-green-500 text-black px-6 py-3 rounded-xl font-bold">
+            Unlock Access
+        </a>
     </div>
-
-    <div class="text-cyan-300">
-      Branchless SIMD Scans
-    </div>
-
-    <div class="text-cyan-300">
-      Entropy-Adaptive Storage
-    </div>
-
-  </div>
-
-  <div class="mt-4 text-emerald-300">
-    Replaces: Parquet / Arrow / Snowflake Storage
-  </div>
-
-</div>
-
-
-<div class="border border-orange-500 bg-black/40 rounded-2xl p-5 mt-4">
-
-  <div class="text-2xl font-bold text-orange-400">
-    054 — Q-SCHED Probabilistic Scheduler
-  </div>
-
-  <p class="mt-3 text-gray-300">
-    Entropy-aware thermal scheduler inspired by Linux CFS,
-    NUMA topology and stochastic optimization physics.
-  </p>
-
-  <div class="grid grid-cols-2 gap-2 mt-4 text-sm">
-
-    <div class="text-cyan-300">
-      Thermal CPU balancing
-    </div>
-
-    <div class="text-cyan-300">
-      Cache affinity tensors
-    </div>
-
-    <div class="text-cyan-300">
-      Probabilistic fairness
-    </div>
-
-    <div class="text-cyan-300">
-      Entropy runqueue optimization
-    </div>
-
-  </div>
-
-  <div class="mt-4 text-orange-300">
-    Replaces: naive schedulers / static affinity balancing
-  </div>
-
-</div>
-
-
-<div class="border border-pink-500 bg-black/40 rounded-2xl p-5 mt-4">
-
-  <div class="text-2xl font-bold text-pink-400">
-    055 — Q-STREAM Vector Stream Engine
-  </div>
-
-  <p class="mt-3 text-gray-300">
-    Distributed vectorized stream processing engine using
-    probabilistic sketches, adaptive backpressure and SIMD analytics.
-  </p>
-
-  <div class="grid grid-cols-2 gap-2 mt-4 text-sm">
-
-    <div class="text-cyan-300">
-      Count-Min Sketch
-    </div>
-
-    <div class="text-cyan-300">
-      Sliding Tensor Windows
-    </div>
-
-    <div class="text-cyan-300">
-      Adaptive Backpressure
-    </div>
-
-    <div class="text-cyan-300">
-      SIMD Aggregations
-    </div>
-
-  </div>
-
-  <div class="mt-4 text-pink-300">
-    Replaces: Flink / Kafka Streams / telemetry SaaS
-  </div>
-
-</div>
-
-
-<section class="mt-16 border border-cyan-500 rounded-2xl p-8 bg-black/50">
-
-  <div class="text-4xl font-bold text-cyan-400">
-    Q-Drop Ultra Vault
-  </div>
-
-  <p class="mt-4 text-gray-300 text-lg">
-    100 military-grade infrastructure projects.
-  </p>
-
-  <div class="grid grid-cols-2 gap-4 mt-8">
-
-    <div class="border border-cyan-500 rounded-xl p-4">
-      <div class="text-cyan-300 font-bold">
-        Quantum Adaptive Formats
-      </div>
-
-      <div class="text-gray-400 mt-2">
-        Schrödinger data systems with adaptive reconstruction.
-      </div>
-    </div>
-
-    <div class="border border-purple-500 rounded-xl p-4">
-      <div class="text-purple-300 font-bold">
-        Industrial Infrastructure
-      </div>
-
-      <div class="text-gray-400 mt-2">
-        Networking, OLAP, telemetry and kernel systems.
-      </div>
-    </div>
-
-  </div>
-
-  <div class="mt-8">
-
-    <a
-      href="https://buy.stripe.com/9B6eV60Gg90Z0TbcZk9fW01
-      class="bg-cyan-500 text-black px-6 py-4 rounded-xl font-bold text-xl"
-    >
-      Unlock Full Vault — 9,99€
-    </a>
-
-  </div>
-
-  <div class="mt-6 text-gray-400">
-    GitHub:
-    https://github.com/aminechabane/Q-Drop-Marketplace
-  </div>
 
 </section>
 
+<!-- PROJECTS -->
+<section class="max-w-6xl mx-auto px-6 pb-24">
 
-<div class="border border-blue-500 bg-black/40 rounded-2xl p-5 mt-4">
+<h3 class="text-2xl font-bold text-white mb-8">Latest Drops (051–067)</h3>
 
-  <div class="text-2xl font-bold text-blue-400">
-    056 — Q-QUIC Userspace QUIC Stack
-  </div>
+<div class="grid md:grid-cols-3 gap-4 text-sm">
 
-  <p class="mt-3 text-gray-300">
-    High-performance QUIC transport layer with BBR++ congestion control
-    and zero-copy stream multiplexing.
-  </p>
+<div class="border border-cyan-500 bg-black/40 p-4 rounded-xl">
+<h4 class="text-cyan-400 font-bold">051 — Q-AUD</h4>
+<p class="text-gray-400">Adaptive spectral audio codec.</p>
+</div>
 
-  <div class="mt-4 text-cyan-300">
-    Replaces: nginx QUIC / Cloudflare edge / HTTP3 stacks
-  </div>
+<div class="border border-emerald-500 bg-black/40 p-4 rounded-xl">
+<h4 class="text-emerald-400 font-bold">053 — Q-COL</h4>
+<p class="text-gray-400">SIMD columnar analytics engine.</p>
+</div>
+
+<div class="border border-orange-500 bg-black/40 p-4 rounded-xl">
+<h4 class="text-orange-400 font-bold">054 — Q-SCHED</h4>
+<p class="text-gray-400">Entropy-aware OS scheduler.</p>
+</div>
+
+<div class="border border-pink-500 bg-black/40 p-4 rounded-xl">
+<h4 class="text-pink-400 font-bold">055 — Q-STREAM</h4>
+<p class="text-gray-400">Distributed stream processing engine.</p>
+</div>
+
+<div class="border border-blue-500 bg-black/40 p-4 rounded-xl">
+<h4 class="text-blue-400 font-bold">056 — Q-QUIC</h4>
+<p class="text-gray-400">Userspace QUIC stack (BBR++).</p>
+</div>
+
+<div class="border border-red-500 bg-black/40 p-4 rounded-xl">
+<h4 class="text-red-400 font-bold">057 — Q-EFBPF</h4>
+<p class="text-gray-400">Kernel event compression engine.</p>
+</div>
+
+<div class="border border-violet-500 bg-black/40 p-4 rounded-xl">
+<h4 class="text-violet-400 font-bold">058 — Q-MERA</h4>
+<p class="text-gray-400">Holographic memory tensor runtime.</p>
+</div>
+
+<div class="border border-yellow-500 bg-black/40 p-4 rounded-xl">
+<h4 class="text-yellow-400 font-bold">059 — Q-LSM²</h4>
+<p class="text-gray-400">Learned storage engine (LSM replacement).</p>
+</div>
+
+<div class="border border-indigo-500 bg-black/40 p-4 rounded-xl">
+<h4 class="text-indigo-400 font-bold">060 — Q-HNSW²</h4>
+<p class="text-gray-400">Curvature-aware vector search.</p>
+</div>
 
 </div>
 
+</section>
 
-<div class="border border-red-500 bg-black/40 rounded-2xl p-5 mt-4">
+<!-- FOOTER -->
+<footer class="border-t border-gray-800 py-10 text-center text-gray-500 text-sm">
 
-  <div class="text-2xl font-bold text-red-400">
-    057 — Q-EFBPF Kernel Optimizer
-  </div>
+<p>Q-Drop Ultra Vault — Infrastructure for the next decade.</p>
 
-  <p class="mt-3 text-gray-300">
-    Probabilistic eBPF-inspired kernel event compression engine
-    for ultra-low-cost observability pipelines.
-  </p>
+<p class="mt-2">
+GitHub:
+<a class="text-cyan-400"
+href="https://github.com/aminechabane/Q-Drop-Marketplace">
+Marketplace Repo
+</a>
+</p>
 
-  <div class="mt-4 text-cyan-300">
-    Replaces: Datadog agents / bpftrace / kernel tracing stacks
-  </div>
+</footer>
 
-  <div class="mt-4 text-gray-400">
-    Marketplace:
-    https://github.com/aminechabane/Q-Drop-Marketplace
-  </div>
-
-</div>
-
-
-<div class="border border-violet-500 bg-black/40 rounded-2xl p-5 mt-4">
-
-  <div class="text-2xl font-bold text-violet-400">
-    058 — Q-MERA Holographic Memory Runtime
-  </div>
-
-  <p class="mt-3 text-gray-300">
-    Memory system modeled as a holographic tensor field with
-    reversible reconstruction and multi-resolution encoding.
-  </p>
-
-  <div class="mt-4 text-cyan-300">
-    Replaces: Redis / cache hierarchies / KV KV-caches / OLAP duplication
-  </div>
-
-</div>
-
-
-<div class="border border-green-500 bg-black/40 rounded-2xl p-5 mt-4">
-
-  <div class="text-2xl font-bold text-green-400">
-    059 — Q-LSM² Learned LSM Tree
-  </div>
-
-  <p class="mt-3 text-gray-300">
-    Learned compaction engine for log-structured storage systems
-    replacing deterministic merge policies with adaptive models.
-  </p>
-
-  <div class="mt-4 text-cyan-300">
-    Replaces: RocksDB / Cassandra compaction / storage engines
-  </div>
-
-</div>
-
-
-<div class="border border-cyan-500 bg-black/40 p-4 rounded-xl mt-4">
-  <h3 class="text-cyan-400 text-xl font-bold">
-    063 — Q-MEM Arena Memory Allocator
-  </h3>
-
-  <p class="text-gray-300 mt-2">
-    jemalloc-grade arena allocator with 74 size classes,
-    thread-local cache and slab carving from huge pages.
-    Sub-100ns allocation latency.
-  </p>
-
-  <div class="mt-3 text-sm text-cyan-300">
-    Replaces: glibc malloc / jemalloc / TCMalloc
-  </div>
-</div>
-
-
-<div class="border border-cyan-500 bg-black/40 p-4 rounded-xl mt-4">
-  <h3 class="text-cyan-400 text-xl font-bold">
-    064 — Q-COL Columnar Data Engine
-  </h3>
-
-  <p class="text-gray-300 mt-2">
-    Apache Arrow-grade columnar engine with SIMD predicate pushdown,
-    dictionary encoding, RLE compression and vectorized hash aggregation.
-    10-100x faster than Pandas on analytical queries.
-  </p>
-
-  <div class="mt-3 text-sm text-cyan-300">
-    Replaces: Pandas / Apache Arrow / DuckDB (embedded)
-  </div>
-</div>
-
-
-<div class="border border-cyan-500 bg-black/40 p-4 rounded-xl mt-4">
-  <h3 class="text-cyan-400 text-xl font-bold">065 — Q-SCHED CFS Task Scheduler</h3>
-  <p class="text-gray-300 mt-2">
-    Linux CFS clone with Red-Black Tree, vruntime fair-share,
-    preemption and multi-CPU load balancing.
-  </p>
-  <div class="mt-3 text-sm text-cyan-300">Replaces: FreeRTOS / Game engine job systems</div>
-</div>
-
-<div class="border border-cyan-500 bg-black/40 p-4 rounded-xl mt-4">
-  <h3 class="text-cyan-400 text-xl font-bold">066 — Q-STREAM Windowed Stream Processor</h3>
-  <p class="text-gray-300 mt-2">
-    Tumbling, sliding, session windows with watermarks,
-    T-Digest P99, OHLCV financial aggregation.
-  </p>
-  <div class="mt-3 text-sm text-cyan-300">Replaces: Kafka Streams / Apache Flink</div>
-</div>
-
-<div class="border border-violet-500 bg-black/40 p-4 rounded-xl mt-4">
-  <h3 class="text-violet-400 text-xl font-bold">067 — Q-FUSE GPU Kernel Fusion Engine</h3>
-  <p class="text-gray-300 mt-2">
-    Fuses MatMul + ReLU + LayerNorm in one GPU pass.
-    4x memory bandwidth saving. Online softmax (Flash-style).
-    Tiled GEMM with Welford variance.
-  </p>
-  <div class="mt-3 text-sm text-violet-300">Replaces: cuDNN / PyTorch eager / TensorRT</div>
-</div>
-
+</body>
+</html>
