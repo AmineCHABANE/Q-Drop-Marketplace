@@ -3,75 +3,103 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Q-Drop Marketplace</title>
+  <title>Q-Drop Vault</title>
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body { background: #05050a; }
+    .glass {
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .glow {
+      box-shadow: 0 0 80px rgba(99,102,241,0.15);
+    }
+  </style>
 </head>
 
-<body class="bg-black text-white font-mono">
+<body class="text-white font-sans">
 
-<header class="p-6 border-b border-gray-800">
-  <h1 class="text-3xl font-bold text-purple-400">Q-DROP VAULT</h1>
-  <p class="text-gray-400">9,99€ Access • 67 Systems</p>
-</header>
+<!-- HERO -->
+<section class="max-w-6xl mx-auto px-6 py-24 text-center">
 
-<section class="p-6">
+  <div class="text-sm text-indigo-400 mb-4">
+    NEXT-GEN INFRASTRUCTURE VAULT
+  </div>
 
-  <h2 class="text-xl text-cyan-400 mb-4">Projects</h2>
+  <h1 class="text-5xl md:text-7xl font-bold leading-tight">
+    Q-DROP<br>
+    <span class="text-indigo-400">Ultra Vault</span>
+  </h1>
 
-  <div id="projects" class="grid md:grid-cols-3 gap-4"></div>
+  <p class="text-gray-400 mt-6 text-lg max-w-2xl mx-auto">
+    67+ production-grade systems. Distributed, adaptive, post-quantum infrastructure replacing billion-dollar SaaS stacks.
+  </p>
 
-</section>
+  <div class="mt-10 text-3xl font-bold text-green-400">
+    9,99€
+  </div>
 
-<script>
-fetch("./data/projects.json")
-  .then(r => r.json())
-  .then(data => {
-    const container = document.getElementById("projects");
+  <div class="mt-6 flex flex-col md:flex-row gap-4 justify-center">
 
-    data.forEach(p => {
-      const div = document.createElement("div");
-      div.className = "border border-gray-700 p-4 rounded";
+    <!-- STRIPE -->
+    <a href="https://buy.stripe.com/9B6eV60Gg90Z0TbcZk9fW01"
+       class="bg-green-500 text-black px-8 py-4 rounded-xl font-bold glow">
+      Pay with Card
+    </a>
 
-      div.innerHTML = `
-        <h3 class="text-cyan-400 font-bold">${p.id} — ${p.name}</h3>
-        <p class="text-gray-400 mt-2">${p.desc}</p>
-        <p class="text-gray-600 mt-2 text-sm">Replaces: ${p.replaces}</p>
-      `;
-
-      container.appendChild(div);
-    });
-  });
-</script>
-
-</body>
-</html>
-
-<!-- PAYMENT BLOCK FIXED -->
-<div class="max-w-4xl mx-auto p-6">
-<div class="flex flex-col gap-4 mt-10">
-
-  <!-- STRIPE -->
-  <a href="https://buy.stripe.com/9B6eV60Gg90Z0TbcZk9fW01"
-     class="block bg-green-500 hover:bg-green-400 text-black px-6 py-4 rounded-xl font-bold text-center text-lg">
-    Pay with Card — 9,99€
-  </a>
-
-  <!-- PAYPAL -->
-  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+    <!-- PAYPAL -->
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
       <input type="hidden" name="cmd" value="_xclick">
       <input type="hidden" name="business" value="Aminechabane7@gmail.com">
-      <input type="hidden" name="item_name" value="Q-Drop Ultra Vault Access">
+      <input type="hidden" name="item_name" value="Q-Drop Vault Access">
       <input type="hidden" name="amount" value="9.99">
       <input type="hidden" name="currency_code" value="EUR">
 
-      <button type="submit"
-          class="w-full bg-yellow-500 hover:bg-yellow-400 text-black px-6 py-4 rounded-xl font-bold text-lg">
-          Pay with PayPal — 9,99€
+      <button class="bg-yellow-400 text-black px-8 py-4 rounded-xl font-bold">
+        PayPal Access
       </button>
-  </form>
+    </form>
 
-</div>
-</div>
+  </div>
+
+</section>
+
+<!-- FEATURES -->
+<section class="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-3 gap-6">
+
+  <div class="glass p-6 rounded-xl">
+    <h3 class="text-indigo-400 font-bold text-xl">Adaptive Systems</h3>
+    <p class="text-gray-400 mt-2">Formats that scale with compute, memory, and entropy.</p>
+  </div>
+
+  <div class="glass p-6 rounded-xl">
+    <h3 class="text-indigo-400 font-bold text-xl">Industrial Core</h3>
+    <p class="text-gray-400 mt-2">Vector search, schedulers, stream engines, kernel systems.</p>
+  </div>
+
+  <div class="glass p-6 rounded-xl">
+    <h3 class="text-indigo-400 font-bold text-xl">Research Grade</h3>
+    <p class="text-gray-400 mt-2">Applied physics, topology, compression, post-quantum logic.</p>
+  </div>
+
+</section>
+
+<!-- PROOF -->
+<section class="max-w-4xl mx-auto px-6 py-16 text-center">
+
+  <h2 class="text-2xl font-bold mb-4">Real Systems, Not Concepts</h2>
+  <p class="text-gray-400">
+    Every module includes executable solvers in Python/Rust (SVD, HNSW, LSM, BPE, CUDA fusion patterns).
+  </p>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="text-center text-gray-600 py-10 border-t border-white/10">
+  Q-Drop Vault © 2026 — Infrastructure Layer Systems
+</footer>
 
 </body>
 </html>
