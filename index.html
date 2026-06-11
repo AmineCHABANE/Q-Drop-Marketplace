@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Q-Drop Marketplace — Enterprise Infrastructure Systems for €9.99</title>
-  <meta name="description" content="14 production-grade deep tech systems: vector search, stream engines, GPU kernels, OS schedulers. One-time €9.99. Real code in C, Rust & Python.">
-  <meta property="og:title" content="Q-Drop Marketplace — Enterprise Infrastructure at €9.99">
-  <meta property="og:description" content="Replace RocksDB, FAISS, Kafka, TensorRT with battle-tested Q-Drop systems. One-time payment, instant access.">
+  <title>Q-Drop — 5 Real Infrastructure Algorithms, Implemented & Tested</title>
+  <meta name="description" content="Working, tested reference implementations of HNSW vector search, LSM-trees, columnar engines, stream windowing, and arena allocators. 100% of the code is public — read it before you pay. €9.99 commercial license.">
+  <meta property="og:title" content="Q-Drop — Real Infrastructure Algorithms, Implemented & Tested">
+  <meta property="og:description" content="The algorithms behind RocksDB, Pinecone, Kafka Streams, DuckDB and jemalloc — implemented in clean, commented Python. All code public. €9.99 commercial license.">
   <meta property="og:type" content="website">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    :root { --indigo: #6366f1; --cyan: #06b6d4; }
     body { background: #05050a; scroll-behavior: smooth; }
     .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.07); }
     .glass-strong { background: rgba(99,102,241,0.08); backdrop-filter: blur(20px); border: 1px solid rgba(99,102,241,0.2); }
@@ -22,17 +21,13 @@
     .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(99,102,241,0.2); }
     .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.25s; }
     .faq-answer.open { max-height: 400px; }
-    .pulse-dot { animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-    @keyframes countUp { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform: translateY(0); } }
-    .stat-item { animation: countUp 0.6s ease forwards; }
     .btn-primary { background: linear-gradient(135deg, #22c55e, #16a34a); transition: all 0.2s; }
     .btn-primary:hover { transform: scale(1.03); box-shadow: 0 0 30px rgba(34,197,94,0.4); }
     .badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); border-radius: 100px; padding: 4px 14px; font-size: 0.75rem; color: #a5b4fc; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
     nav { background: rgba(5,5,10,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .countdown-num { background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); border-radius: 8px; padding: 6px 12px; font-size: 1.5rem; font-weight: 700; font-variant-numeric: tabular-nums; min-width: 52px; text-align: center; }
     .tag-tech { background: rgba(6,182,212,0.12); border: 1px solid rgba(6,182,212,0.25); color: #67e8f9; border-radius: 6px; padding: 2px 8px; font-size: 0.7rem; font-weight: 600; }
-    .tag-replace { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #fca5a5; border-radius: 6px; padding: 2px 8px; font-size: 0.7rem; font-weight: 600; }
+    .tag-concept { background: rgba(168,85,247,0.12); border: 1px solid rgba(168,85,247,0.25); color: #d8b4fe; border-radius: 6px; padding: 2px 8px; font-size: 0.7rem; font-weight: 600; }
+    .code-block { background: #0a0a14; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; font-family: ui-monospace, monospace; font-size: 0.82rem; line-height: 1.6; }
   </style>
 </head>
 <body class="text-white font-sans antialiased">
@@ -43,16 +38,16 @@
     <a href="/" class="flex items-center gap-2">
       <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-black text-sm">Q</div>
       <span class="font-bold text-lg">Q-Drop</span>
-      <span class="text-gray-500 text-sm hidden sm:block">Marketplace</span>
     </a>
     <div class="hidden md:flex items-center gap-8 text-sm text-gray-400">
-      <a href="#products" class="hover:text-white transition-colors">Products</a>
+      <a href="#modules" class="hover:text-white transition-colors">The 5 Modules</a>
+      <a href="#proof" class="hover:text-white transition-colors">Proof It Works</a>
       <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
-      <a href="products.html" class="hover:text-white transition-colors">Full Catalog</a>
       <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
+      <a href="https://github.com/AmineCHABANE/Q-Drop-Marketplace" class="hover:text-white transition-colors">Source ↗</a>
     </div>
     <a href="#pricing" class="btn-primary text-white text-sm font-bold px-5 py-2.5 rounded-lg">
-      Get Access — €9.99
+      License — €9.99
     </a>
   </div>
 </nav>
@@ -61,533 +56,225 @@
 <div class="hero-glow pt-24">
 <section class="max-w-6xl mx-auto px-6 pt-20 pb-16 text-center">
 
-  <!-- Live badge -->
   <div class="flex items-center justify-center gap-2 mb-6">
-    <span class="badge">
-      <span class="pulse-dot w-2 h-2 rounded-full bg-green-400 inline-block"></span>
-      Launch Sale — Limited Time
-    </span>
+    <span class="badge">100% of the code is public — read it before you pay</span>
   </div>
 
-  <!-- Headline -->
   <h1 class="text-5xl md:text-7xl font-black leading-tight tracking-tight mb-6">
-    Enterprise Infrastructure.<br>
-    <span class="gradient-text">Not Enterprise Price.</span>
+    The algorithms behind<br>
+    <span class="gradient-text">billion-dollar infrastructure.</span><br>
+    Implemented. Tested. Readable.
   </h1>
 
   <p class="text-gray-300 text-xl max-w-3xl mx-auto mb-4">
-    14 production-grade systems replacing <strong class="text-white">RocksDB, FAISS, Kafka, TensorRT, Datadog</strong> and more — written in C, Rust & Python.
+    5 working reference implementations of the core algorithms inside
+    <strong class="text-white">RocksDB, Pinecone, Kafka Streams, DuckDB and jemalloc</strong>
+    — in clean, heavily commented Python with a full test suite.
   </p>
-  <p class="text-gray-500 text-base mb-10">One-time payment. No subscription. No seat limits. Yours forever.</p>
+  <p class="text-gray-500 text-base mb-10">Free to read and study. €9.99 one-time license for commercial use. No subscription.</p>
 
-  <!-- Countdown -->
-  <div class="flex items-center justify-center gap-3 mb-10">
-    <span class="text-gray-400 text-sm font-medium">Launch price expires in:</span>
-    <div class="flex items-center gap-1.5">
-      <div class="countdown-num text-indigo-300" id="cd-h">00</div>
-      <span class="text-gray-500 font-bold">:</span>
-      <div class="countdown-num text-indigo-300" id="cd-m">00</div>
-      <span class="text-gray-500 font-bold">:</span>
-      <div class="countdown-num text-indigo-300" id="cd-s">00</div>
-    </div>
-  </div>
-
-  <!-- Price + CTAs -->
   <div class="flex flex-col items-center gap-4">
-    <div class="flex items-center gap-4">
-      <span class="text-gray-500 line-through text-xl">€49.99</span>
-      <span class="text-4xl font-black text-green-400">€9.99</span>
-      <span class="badge" style="color:#86efac;border-color:rgba(34,197,94,0.3);background:rgba(34,197,94,0.1);">-80% OFF</span>
-    </div>
-
-    <div class="flex flex-col sm:flex-row gap-3 mt-2">
+    <div class="flex flex-col sm:flex-row gap-3">
+      <a href="https://github.com/AmineCHABANE/Q-Drop-Marketplace"
+         class="glass text-white px-8 py-4 rounded-xl font-bold text-lg flex items-center gap-2 justify-center hover:bg-white/10 transition-colors">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        Read the Code First
+      </a>
       <a href="https://buy.stripe.com/9B6eV60Gg90Z0TbcZk9fW01"
          class="btn-primary text-white px-8 py-4 rounded-xl font-bold text-lg glow-green flex items-center gap-2 justify-center">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
-        Pay by Card (Stripe)
+        Get a License — €9.99
       </a>
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-        <input type="hidden" name="cmd" value="_xclick">
-        <input type="hidden" name="business" value="Aminechabane7@gmail.com">
-        <input type="hidden" name="item_name" value="Q-Drop Ultra Vault Access — 14 Systems">
-        <input type="hidden" name="amount" value="9.99">
-        <input type="hidden" name="currency_code" value="EUR">
-        <input type="hidden" name="return" value="https://aminechabane.github.io/q-drop-marketplace/success.html">
-        <button type="submit" class="bg-[#ffc439] text-[#003087] px-8 py-4 rounded-xl font-bold text-lg flex items-center gap-2 hover:scale-105 transition-transform">
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M7.076 21.337H2.47a.641.641 0 01-.633-.74L4.944 2.79A.859.859 0 015.79 2.13h6.787c2.95 0 5.07 1.04 5.55 3.51.12.63.14 1.28.05 1.93-.93 5.45-4.1 7.32-8.17 7.32H7.65a.859.859 0 00-.848.727l-.727 5.72z"/></svg>
-          Pay with PayPal
-        </button>
-      </form>
     </div>
 
-    <!-- Trust badges -->
     <div class="flex flex-wrap items-center justify-center gap-4 mt-4 text-sm text-gray-500">
       <span class="flex items-center gap-1.5">
         <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-        30-day guarantee
+        42 automated tests, all passing
       </span>
       <span class="flex items-center gap-1.5">
         <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-        Instant access
+        Zero dependencies — pure Python 3
       </span>
       <span class="flex items-center gap-1.5">
         <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-        Real production code
-      </span>
-      <span class="flex items-center gap-1.5">
-        <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-        No subscription ever
+        30-day money-back guarantee
       </span>
     </div>
   </div>
 </section>
 </div>
 
-<!-- STATS BAR -->
-<section class="border-y border-white/5 bg-white/[0.02] py-10">
-  <div class="max-w-5xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-    <div class="stat-item">
-      <div class="text-3xl font-black gradient-text">67+</div>
-      <div class="text-gray-500 text-sm mt-1">Systems Built</div>
+<!-- PROOF -->
+<section id="proof" class="border-y border-white/5 bg-white/[0.02] py-16">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="text-center mb-10">
+      <div class="badge mb-4">Proof, Not Promises</div>
+      <h2 class="text-4xl font-black mb-3">Two commands. See for yourself.</h2>
+      <p class="text-gray-400">No screenshots, no claims to trust. Clone the repo and run it on your machine — before paying anything.</p>
     </div>
-    <div class="stat-item" style="animation-delay:.1s">
-      <div class="text-3xl font-black gradient-text">14</div>
-      <div class="text-gray-500 text-sm mt-1">In This Bundle</div>
-    </div>
-    <div class="stat-item" style="animation-delay:.2s">
-      <div class="text-3xl font-black gradient-text">C/Rust/Py</div>
-      <div class="text-gray-500 text-sm mt-1">Languages</div>
-    </div>
-    <div class="stat-item" style="animation-delay:.3s">
-      <div class="text-3xl font-black gradient-text">€9.99</div>
-      <div class="text-gray-500 text-sm mt-1">One-Time, Forever</div>
-    </div>
-  </div>
-</section>
-
-<!-- WHAT YOU GET -->
-<section class="max-w-6xl mx-auto px-6 py-20">
-  <div class="text-center mb-14">
-    <div class="badge mb-4">What's Included</div>
-    <h2 class="text-4xl font-black mb-4">Everything you need to replace<br>billion-dollar SaaS stacks</h2>
-    <p class="text-gray-400 max-w-2xl mx-auto">Each system ships with source code, Python/Rust solvers, algorithm specs, and reference implementations. Not demos — working infrastructure.</p>
-  </div>
-
-  <div class="grid md:grid-cols-3 gap-5 mb-8">
-    <div class="glass p-6 rounded-xl">
-      <div class="w-10 h-10 rounded-lg bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center mb-4">
-        <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-      </div>
-      <h3 class="font-bold text-lg mb-2">Full Source Code</h3>
-      <p class="text-gray-400 text-sm">Read-only GitHub access to private repos. C, Rust, and Python implementations. Not pseudocode — actual working systems.</p>
-    </div>
-    <div class="glass p-6 rounded-xl">
-      <div class="w-10 h-10 rounded-lg bg-cyan-600/20 border border-cyan-500/30 flex items-center justify-center mb-4">
-        <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
-      </div>
-      <h3 class="font-bold text-lg mb-2">Algorithm Specs</h3>
-      <p class="text-gray-400 text-sm">Deep technical documentation explaining the math, data structures, and design decisions behind each system.</p>
-    </div>
-    <div class="glass p-6 rounded-xl">
-      <div class="w-10 h-10 rounded-lg bg-purple-600/20 border border-purple-500/30 flex items-center justify-center mb-4">
-        <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-      </div>
-      <h3 class="font-bold text-lg mb-2">Executable Solvers</h3>
-      <p class="text-gray-400 text-sm">Runnable Python and Rust kernels (SVD, HNSW, LSM, BPE, CUDA fusion). Study them, modify them, deploy them.</p>
+    <div class="code-block p-6 text-gray-300 overflow-x-auto">
+      <div class="text-gray-600"># Clone and enter the repo</div>
+      <div><span class="text-green-400">$</span> git clone https://github.com/AmineCHABANE/Q-Drop-Marketplace && cd Q-Drop-Marketplace</div>
+      <div class="mt-4 text-gray-600"># Run the full test suite — 42 tests</div>
+      <div><span class="text-green-400">$</span> python3 -m unittest discover -s src/tests -v</div>
+      <div class="text-gray-500">Ran 42 tests in 0.554s — <span class="text-green-400">OK</span></div>
+      <div class="mt-4 text-gray-600"># Run all 5 systems end to end</div>
+      <div><span class="text-green-400">$</span> python3 examples/demo.py</div>
+      <div class="text-gray-500">All 5 systems ran successfully.</div>
     </div>
   </div>
 </section>
 
-<!-- PRODUCTS GRID -->
-<section id="products" class="max-w-6xl mx-auto px-6 pb-20">
+<!-- THE 5 MODULES -->
+<section id="modules" class="max-w-6xl mx-auto px-6 py-20">
   <div class="text-center mb-14">
-    <div class="badge mb-4">14 Systems</div>
-    <h2 class="text-4xl font-black mb-4">The Q-Drop Bundle</h2>
-    <p class="text-gray-400 max-w-xl mx-auto">All 14 systems included in one €9.99 purchase. No upsells.</p>
+    <div class="badge mb-4">The Bundle</div>
+    <h2 class="text-4xl font-black mb-4">5 modules, 5 fundamental algorithms</h2>
+    <p class="text-gray-400 max-w-2xl mx-auto">Each one is the core algorithm of a production system you already use — stripped down to a few hundred readable, commented lines.</p>
   </div>
 
   <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
     <div class="product-card glass p-5 rounded-xl">
-      <div class="flex items-start justify-between mb-3">
-        <div>
-          <span class="text-xs text-gray-500 font-mono">#051</span>
-          <h3 class="font-bold text-lg text-indigo-300">Q-AUD</h3>
-        </div>
-        <span class="tag-replace">≠ Opus / AAC</span>
-      </div>
-      <p class="text-gray-400 text-sm mb-3">Adaptive spectral audio codec with entropy-tuned compression and psychoacoustic modeling.</p>
+      <h3 class="font-bold text-lg text-indigo-300">Q-HNSW</h3>
+      <p class="text-gray-500 text-xs mb-2 font-mono">src/q_hnsw.py</p>
+      <p class="text-gray-400 text-sm mb-3">Hierarchical Navigable Small World graph for approximate nearest-neighbor vector search — the published algorithm (Malkov & Yashunin 2018) used by every major vector database.</p>
       <div class="flex gap-2 flex-wrap">
-        <span class="tag-tech">C</span>
-        <span class="tag-tech">Python</span>
-        <span class="tag-tech">DSP</span>
+        <span class="tag-concept">Pinecone</span><span class="tag-concept">Qdrant</span><span class="tag-tech">Python</span>
       </div>
     </div>
 
     <div class="product-card glass p-5 rounded-xl">
-      <div class="flex items-start justify-between mb-3">
-        <div>
-          <span class="text-xs text-gray-500 font-mono">#053</span>
-          <h3 class="font-bold text-lg text-indigo-300">Q-COL</h3>
-        </div>
-        <span class="tag-replace">≠ Parquet / Arrow</span>
-      </div>
-      <p class="text-gray-400 text-sm mb-3">SIMD-accelerated columnar storage engine with vectorized execution and dictionary encoding.</p>
+      <h3 class="font-bold text-lg text-indigo-300">Q-LSM</h3>
+      <p class="text-gray-500 text-xs mb-2 font-mono">src/q_lsm.py</p>
+      <p class="text-gray-400 text-sm mb-3">Log-Structured Merge-tree storage engine: write-ahead log, MemTable, SSTables, k-way merge compaction, and tombstone deletes — the architecture of RocksDB and Cassandra.</p>
       <div class="flex gap-2 flex-wrap">
-        <span class="tag-tech">C</span>
-        <span class="tag-tech">SIMD</span>
-        <span class="tag-tech">AVX-512</span>
+        <span class="tag-concept">RocksDB</span><span class="tag-concept">Cassandra</span><span class="tag-tech">Python</span>
       </div>
     </div>
 
     <div class="product-card glass p-5 rounded-xl">
-      <div class="flex items-start justify-between mb-3">
-        <div>
-          <span class="text-xs text-gray-500 font-mono">#054</span>
-          <h3 class="font-bold text-lg text-indigo-300">Q-SCHED</h3>
-        </div>
-        <span class="tag-replace">≠ CFS Scheduler</span>
-      </div>
-      <p class="text-gray-400 text-sm mb-3">Probabilistic OS task scheduler using entropy-based fairness and adaptive priority decay.</p>
+      <h3 class="font-bold text-lg text-indigo-300">Q-COL</h3>
+      <p class="text-gray-500 text-xs mb-2 font-mono">src/q_col.py</p>
+      <p class="text-gray-400 text-sm mb-3">Columnar analytics engine with bitmap filter masks, hash-based GROUP BY, dictionary encoding, and run-length encoding — how DuckDB and Arrow process analytical queries.</p>
       <div class="flex gap-2 flex-wrap">
-        <span class="tag-tech">C</span>
-        <span class="tag-tech">Kernel</span>
-        <span class="tag-tech">Linux</span>
+        <span class="tag-concept">DuckDB</span><span class="tag-concept">Arrow</span><span class="tag-tech">Python</span>
       </div>
     </div>
 
     <div class="product-card glass p-5 rounded-xl">
-      <div class="flex items-start justify-between mb-3">
-        <div>
-          <span class="text-xs text-gray-500 font-mono">#055</span>
-          <h3 class="font-bold text-lg text-indigo-300">Q-STREAM</h3>
-        </div>
-        <span class="tag-replace">≠ Apache Flink</span>
-      </div>
-      <p class="text-gray-400 text-sm mb-3">Distributed stream processing engine with fault-tolerant windowing and exactly-once semantics.</p>
+      <h3 class="font-bold text-lg text-indigo-300">Q-STREAM</h3>
+      <p class="text-gray-500 text-xs mb-2 font-mono">src/q_stream.py</p>
+      <p class="text-gray-400 text-sm mb-3">Windowed stream processor implementing the Dataflow model: tumbling, sliding and session windows, watermarks, and late-event handling — the concepts behind Kafka Streams and Flink.</p>
       <div class="flex gap-2 flex-wrap">
-        <span class="tag-tech">Rust</span>
-        <span class="tag-tech">Distributed</span>
-        <span class="tag-tech">Streaming</span>
+        <span class="tag-concept">Kafka Streams</span><span class="tag-concept">Flink</span><span class="tag-tech">Python</span>
       </div>
     </div>
 
     <div class="product-card glass p-5 rounded-xl">
-      <div class="flex items-start justify-between mb-3">
-        <div>
-          <span class="text-xs text-gray-500 font-mono">#056</span>
-          <h3 class="font-bold text-lg text-indigo-300">Q-QUIC</h3>
-        </div>
-        <span class="tag-replace">≠ nginx QUIC</span>
-      </div>
-      <p class="text-gray-400 text-sm mb-3">Userspace QUIC/HTTP3 network stack with zero-copy I/O and adaptive congestion control.</p>
+      <h3 class="font-bold text-lg text-indigo-300">Q-MEM</h3>
+      <p class="text-gray-500 text-xs mb-2 font-mono">src/q_mem.py</p>
+      <p class="text-gray-400 text-sm mb-3">Arena allocator with jemalloc-style size classes, slab carving, O(1) LIFO free lists, and live fragmentation statistics — the memory model of allocators and game engines.</p>
       <div class="flex gap-2 flex-wrap">
-        <span class="tag-tech">Rust</span>
-        <span class="tag-tech">QUIC</span>
-        <span class="tag-tech">HTTP/3</span>
+        <span class="tag-concept">jemalloc</span><span class="tag-concept">APR pools</span><span class="tag-tech">Python</span>
       </div>
     </div>
 
-    <div class="product-card glass p-5 rounded-xl">
-      <div class="flex items-start justify-between mb-3">
-        <div>
-          <span class="text-xs text-gray-500 font-mono">#057</span>
-          <h3 class="font-bold text-lg text-indigo-300">Q-EFBPF</h3>
-        </div>
-        <span class="tag-replace">≠ Datadog Agent</span>
-      </div>
-      <p class="text-gray-400 text-sm mb-3">Kernel-level event compression engine using eBPF and entropy coding to replace agent overhead.</p>
-      <div class="flex gap-2 flex-wrap">
-        <span class="tag-tech">C</span>
-        <span class="tag-tech">eBPF</span>
-        <span class="tag-tech">Linux</span>
-      </div>
+    <div class="product-card glass-strong p-5 rounded-xl flex flex-col justify-center text-center">
+      <h3 class="font-bold text-lg text-white mb-2">More modules coming</h3>
+      <p class="text-gray-400 text-sm">Your license covers every future module added to this repository — bloom filters, consistent hashing, Raft, and more are planned. One payment, everything forever.</p>
     </div>
 
-    <div class="product-card glass p-5 rounded-xl">
-      <div class="flex items-start justify-between mb-3">
-        <div>
-          <span class="text-xs text-gray-500 font-mono">#058</span>
-          <h3 class="font-bold text-lg text-indigo-300">Q-MERA</h3>
-        </div>
-        <span class="tag-replace">≠ Redis</span>
-      </div>
-      <p class="text-gray-400 text-sm mb-3">Holographic memory tensor system for distributed cache with topological key routing.</p>
-      <div class="flex gap-2 flex-wrap">
-        <span class="tag-tech">Rust</span>
-        <span class="tag-tech">Cache</span>
-        <span class="tag-tech">Tensors</span>
-      </div>
-    </div>
-
-    <div class="product-card glass p-5 rounded-xl">
-      <div class="flex items-start justify-between mb-3">
-        <div>
-          <span class="text-xs text-gray-500 font-mono">#059</span>
-          <h3 class="font-bold text-lg text-indigo-300">Q-LSM2</h3>
-        </div>
-        <span class="tag-replace">≠ RocksDB</span>
-      </div>
-      <p class="text-gray-400 text-sm mb-3">Learned LSM-tree storage engine with ML-guided compaction and predictive bloom filters.</p>
-      <div class="flex gap-2 flex-wrap">
-        <span class="tag-tech">C</span>
-        <span class="tag-tech">Rust</span>
-        <span class="tag-tech">LSM</span>
-      </div>
-    </div>
-
-    <div class="product-card glass p-5 rounded-xl">
-      <div class="flex items-start justify-between mb-3">
-        <div>
-          <span class="text-xs text-gray-500 font-mono">#060</span>
-          <h3 class="font-bold text-lg text-indigo-300">Q-HNSW2</h3>
-        </div>
-        <span class="tag-replace">≠ FAISS / Pinecone</span>
-      </div>
-      <p class="text-gray-400 text-sm mb-3">Curvature-aware hierarchical vector search using Riemannian geometry for hyperbolic spaces.</p>
-      <div class="flex gap-2 flex-wrap">
-        <span class="tag-tech">C++</span>
-        <span class="tag-tech">HNSW</span>
-        <span class="tag-tech">ANN</span>
-      </div>
-    </div>
-
-    <div class="product-card glass p-5 rounded-xl">
-      <div class="flex items-start justify-between mb-3">
-        <div>
-          <span class="text-xs text-gray-500 font-mono">#063</span>
-          <h3 class="font-bold text-lg text-indigo-300">Q-MEM</h3>
-        </div>
-        <span class="tag-replace">≠ jemalloc</span>
-      </div>
-      <p class="text-gray-400 text-sm mb-3">Arena allocator with slab-based memory pooling, defragmentation, and thread-local caching.</p>
-      <div class="flex gap-2 flex-wrap">
-        <span class="tag-tech">C</span>
-        <span class="tag-tech">Memory</span>
-        <span class="tag-tech">Arena</span>
-      </div>
-    </div>
-
-    <div class="product-card glass p-5 rounded-xl">
-      <div class="flex items-start justify-between mb-3">
-        <div>
-          <span class="text-xs text-gray-500 font-mono">#064</span>
-          <h3 class="font-bold text-lg text-indigo-300">Q-COL2</h3>
-        </div>
-        <span class="tag-replace">≠ Pandas / Arrow</span>
-      </div>
-      <p class="text-gray-400 text-sm mb-3">Vectorized columnar analytics engine with lazy evaluation and JIT-compiled query execution.</p>
-      <div class="flex gap-2 flex-wrap">
-        <span class="tag-tech">Rust</span>
-        <span class="tag-tech">Python</span>
-        <span class="tag-tech">Analytics</span>
-      </div>
-    </div>
-
-    <div class="product-card glass p-5 rounded-xl">
-      <div class="flex items-start justify-between mb-3">
-        <div>
-          <span class="text-xs text-gray-500 font-mono">#065</span>
-          <h3 class="font-bold text-lg text-indigo-300">Q-SCHED-CFS</h3>
-        </div>
-        <span class="tag-replace">≠ OS Schedulers</span>
-      </div>
-      <p class="text-gray-400 text-sm mb-3">Full Linux CFS scheduler implementation with vruntime tracking, cgroup integration, and load balancing.</p>
-      <div class="flex gap-2 flex-wrap">
-        <span class="tag-tech">C</span>
-        <span class="tag-tech">Kernel</span>
-        <span class="tag-tech">CFS</span>
-      </div>
-    </div>
-
-    <div class="product-card glass p-5 rounded-xl">
-      <div class="flex items-start justify-between mb-3">
-        <div>
-          <span class="text-xs text-gray-500 font-mono">#066</span>
-          <h3 class="font-bold text-lg text-indigo-300">Q-STREAM2</h3>
-        </div>
-        <span class="tag-replace">≠ Kafka Streams</span>
-      </div>
-      <p class="text-gray-400 text-sm mb-3">Windowed stream processing with stateful operators, watermarks, and out-of-order event handling.</p>
-      <div class="flex gap-2 flex-wrap">
-        <span class="tag-tech">Rust</span>
-        <span class="tag-tech">Streaming</span>
-        <span class="tag-tech">Windows</span>
-      </div>
-    </div>
-
-    <div class="product-card glass p-5 rounded-xl">
-      <div class="flex items-start justify-between mb-3">
-        <div>
-          <span class="text-xs text-gray-500 font-mono">#067</span>
-          <h3 class="font-bold text-lg text-indigo-300">Q-FUSE</h3>
-        </div>
-        <span class="tag-replace">≠ cuDNN / TensorRT</span>
-      </div>
-      <p class="text-gray-400 text-sm mb-3">GPU kernel fusion engine that automatically merges operations to minimize memory bandwidth and launch overhead.</p>
-      <div class="flex gap-2 flex-wrap">
-        <span class="tag-tech">CUDA</span>
-        <span class="tag-tech">Python</span>
-        <span class="tag-tech">GPU</span>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="text-center mt-8">
-    <a href="products.html" class="text-indigo-400 hover:text-indigo-300 text-sm font-medium underline underline-offset-4 transition-colors">
-      View full technical specs for all 14 systems →
-    </a>
   </div>
 </section>
 
-<!-- VALUE COMPARISON -->
+<!-- WHO IT'S FOR -->
 <section class="bg-white/[0.02] border-y border-white/5 py-20">
   <div class="max-w-5xl mx-auto px-6">
     <div class="text-center mb-12">
-      <div class="badge mb-4">ROI</div>
-      <h2 class="text-4xl font-black mb-4">What you'd pay otherwise</h2>
-      <p class="text-gray-400">These systems replace SaaS tools costing thousands per year.</p>
+      <div class="badge mb-4">Who It's For</div>
+      <h2 class="text-4xl font-black mb-4">Built for engineers who want to understand</h2>
     </div>
-    <div class="grid md:grid-cols-2 gap-6">
+    <div class="grid md:grid-cols-3 gap-6">
       <div class="glass p-6 rounded-xl">
-        <h3 class="text-red-400 font-bold mb-4 text-lg">Enterprise SaaS (Annual)</h3>
-        <div class="space-y-3 text-sm">
-          <div class="flex justify-between"><span class="text-gray-400">Pinecone (vector DB)</span><span class="text-red-400 font-mono">$1,200/yr</span></div>
-          <div class="flex justify-between"><span class="text-gray-400">Confluent (Kafka managed)</span><span class="text-red-400 font-mono">$6,000/yr</span></div>
-          <div class="flex justify-between"><span class="text-gray-400">Datadog (monitoring)</span><span class="text-red-400 font-mono">$3,600/yr</span></div>
-          <div class="flex justify-between"><span class="text-gray-400">TensorRT license</span><span class="text-red-400 font-mono">$2,400/yr</span></div>
-          <div class="flex justify-between border-t border-white/10 pt-3 font-bold"><span>Total</span><span class="text-red-400">$13,200/yr</span></div>
-        </div>
+        <h3 class="font-bold text-lg mb-2 text-indigo-300">Interview prep</h3>
+        <p class="text-gray-400 text-sm">LSM-trees, vector search and stream windowing come up constantly in system-design interviews. Reading a clean 300-line implementation beats skimming a 300,000-line codebase.</p>
       </div>
-      <div class="glass-strong p-6 rounded-xl">
-        <h3 class="text-green-400 font-bold mb-4 text-lg">Q-Drop Bundle (One-Time)</h3>
-        <div class="space-y-3 text-sm">
-          <div class="flex justify-between"><span class="text-gray-400">Q-HNSW2 (vector search)</span><span class="text-green-400 font-mono">Included</span></div>
-          <div class="flex justify-between"><span class="text-gray-400">Q-STREAM + Q-STREAM2</span><span class="text-green-400 font-mono">Included</span></div>
-          <div class="flex justify-between"><span class="text-gray-400">Q-EFBPF (monitoring)</span><span class="text-green-400 font-mono">Included</span></div>
-          <div class="flex justify-between"><span class="text-gray-400">Q-FUSE (GPU kernels)</span><span class="text-green-400 font-mono">Included</span></div>
-          <div class="flex justify-between border-t border-white/10 pt-3 font-bold"><span>Total — All 14 Systems</span><span class="text-green-400 text-xl">€9.99</span></div>
-        </div>
+      <div class="glass p-6 rounded-xl">
+        <h3 class="font-bold text-lg mb-2 text-indigo-300">Learning & teaching</h3>
+        <p class="text-gray-400 text-sm">Every file explains the <em>why</em> behind each data structure, with references to the original papers. Use it for courses, study groups, or onboarding juniors.</p>
       </div>
+      <div class="glass p-6 rounded-xl">
+        <h3 class="font-bold text-lg mb-2 text-indigo-300">Building your own</h3>
+        <p class="text-gray-400 text-sm">Prototyping a storage engine, a vector index, or an event pipeline? Start from a tested skeleton instead of a blank page.</p>
+      </div>
+    </div>
+
+    <div class="glass p-6 rounded-xl mt-6 text-center">
+      <p class="text-gray-300 text-sm"><strong class="text-white">Honest limits:</strong> these are reference implementations optimized for clarity, not speed. They won't outperform RocksDB or FAISS — they exist so you can understand what those systems do under the hood.</p>
     </div>
   </div>
 </section>
 
 <!-- PRICING -->
 <section id="pricing" class="max-w-4xl mx-auto px-6 py-24 text-center">
-  <div class="badge mb-4">Simple Pricing</div>
-  <h2 class="text-4xl font-black mb-4">One bundle. Everything included.</h2>
-  <p class="text-gray-400 mb-12">No tiers. No upsells. No monthly fees. You pay once, you own it.</p>
+  <div class="badge mb-4">Fair Pricing</div>
+  <h2 class="text-4xl font-black mb-4">Free to study. €9.99 to use commercially.</h2>
+  <p class="text-gray-400 mb-12 max-w-2xl mx-auto">The entire source is public — like Sidekiq or other fair-code projects, you can evaluate 100% of what you're buying before paying a cent.</p>
 
-  <div class="glass-strong rounded-2xl p-8 max-w-md mx-auto glow-indigo">
-    <div class="badge mx-auto mb-4" style="background:rgba(34,197,94,0.15);border-color:rgba(34,197,94,0.3);color:#86efac;">Most Popular</div>
-    <h3 class="text-2xl font-black mb-2">Ultra Vault Bundle</h3>
-    <p class="text-gray-400 text-sm mb-6">All 14 systems. Instant GitHub access.</p>
-    <div class="flex items-center justify-center gap-3 mb-6">
-      <span class="text-gray-500 line-through text-lg">€49.99</span>
-      <span class="text-5xl font-black text-green-400">€9.99</span>
-    </div>
-    <ul class="text-left space-y-3 mb-8 text-sm">
-      <li class="flex items-center gap-2 text-gray-300"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>All 14 infrastructure systems</li>
-      <li class="flex items-center gap-2 text-gray-300"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Read-only GitHub repo access</li>
-      <li class="flex items-center gap-2 text-gray-300"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Full source: C, Rust, Python kernels</li>
-      <li class="flex items-center gap-2 text-gray-300"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Algorithm specs & documentation</li>
-      <li class="flex items-center gap-2 text-gray-300"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Lifetime access — no expiry</li>
-      <li class="flex items-center gap-2 text-gray-300"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>30-day money-back guarantee</li>
-    </ul>
-    <div class="flex flex-col gap-3">
-      <a href="https://buy.stripe.com/9B6eV60Gg90Z0TbcZk9fW01"
-         class="btn-primary text-white px-8 py-4 rounded-xl font-bold text-lg glow-green flex items-center gap-2 justify-center">
-        Get Instant Access — €9.99
+  <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+    <div class="glass rounded-2xl p-8">
+      <h3 class="text-2xl font-black mb-2">Study</h3>
+      <div class="text-4xl font-black text-gray-300 mb-6">Free</div>
+      <ul class="text-left space-y-3 mb-8 text-sm text-gray-400">
+        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Read all source code</li>
+        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Run tests & demos locally</li>
+        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Personal study & research</li>
+      </ul>
+      <a href="https://github.com/AmineCHABANE/Q-Drop-Marketplace" class="block glass text-white px-8 py-3.5 rounded-xl font-bold hover:bg-white/10 transition-colors">
+        Browse the Repo
       </a>
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-        <input type="hidden" name="cmd" value="_xclick">
-        <input type="hidden" name="business" value="Aminechabane7@gmail.com">
-        <input type="hidden" name="item_name" value="Q-Drop Ultra Vault Access — 14 Systems">
-        <input type="hidden" name="amount" value="9.99">
-        <input type="hidden" name="currency_code" value="EUR">
-        <button type="submit" class="w-full bg-[#ffc439] text-[#003087] px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 justify-center hover:opacity-90 transition-opacity">
-          Pay with PayPal
-        </button>
-      </form>
     </div>
-  </div>
-</section>
 
-<!-- TESTIMONIALS -->
-<section class="bg-white/[0.02] border-y border-white/5 py-20">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="text-center mb-12">
-      <div class="badge mb-4">Early Adopters</div>
-      <h2 class="text-4xl font-black">Built for engineers who ship</h2>
-    </div>
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="glass p-6 rounded-xl">
-        <div class="flex gap-1 mb-4">
-          <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-        </div>
-        <p class="text-gray-300 text-sm mb-4">"Q-LSM2 alone saved us from a $6k/mo RocksDB managed service. The source code is dense but extremely well-documented. Worth 100x the price."</p>
-        <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-xs font-bold">MK</div>
-          <div>
-            <div class="text-sm font-medium">M. Kowalski</div>
-            <div class="text-xs text-gray-500">Senior SRE, fintech startup</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="glass p-6 rounded-xl">
-        <div class="flex gap-1 mb-4">
-          <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-        </div>
-        <p class="text-gray-300 text-sm mb-4">"I bought Q-HNSW2 to study the Riemannian HNSW approach for my PhD. The implementation is cleaner than anything in the open-source space. Seriously impressive work."</p>
-        <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-full bg-cyan-600 flex items-center justify-center text-xs font-bold">AL</div>
-          <div>
-            <div class="text-sm font-medium">A. Laurent</div>
-            <div class="text-xs text-gray-500">ML Researcher, university lab</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="glass p-6 rounded-xl">
-        <div class="flex gap-1 mb-4">
-          <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-        </div>
-        <p class="text-gray-300 text-sm mb-4">"The Q-FUSE GPU kernel fusion patterns are exactly what I needed for our LLM inference stack. Reduced our GPU memory bandwidth by ~35%. This is the real deal."</p>
-        <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-xs font-bold">JC</div>
-          <div>
-            <div class="text-sm font-medium">J. Chen</div>
-            <div class="text-xs text-gray-500">Infrastructure Lead, AI company</div>
-          </div>
-        </div>
+    <div class="glass-strong rounded-2xl p-8 glow-indigo">
+      <h3 class="text-2xl font-black mb-2">Commercial License</h3>
+      <div class="text-4xl font-black text-green-400 mb-1">€9.99</div>
+      <div class="text-gray-500 text-sm mb-5">one-time · lifetime · per developer</div>
+      <ul class="text-left space-y-3 mb-8 text-sm text-gray-300">
+        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Use at work & in client projects</li>
+        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Covers all future modules too</li>
+        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Email support from the author</li>
+        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>30-day money-back guarantee</li>
+      </ul>
+      <div class="flex flex-col gap-3">
+        <a href="https://buy.stripe.com/9B6eV60Gg90Z0TbcZk9fW01"
+           class="btn-primary text-white px-8 py-4 rounded-xl font-bold text-lg glow-green">
+          Buy License — €9.99
+        </a>
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+          <input type="hidden" name="cmd" value="_xclick">
+          <input type="hidden" name="business" value="Aminechabane7@gmail.com">
+          <input type="hidden" name="item_name" value="Q-Drop Commercial License">
+          <input type="hidden" name="amount" value="9.99">
+          <input type="hidden" name="currency_code" value="EUR">
+          <input type="hidden" name="return" value="https://aminechabane.github.io/Q-Drop-Marketplace/success.html">
+          <button type="submit" class="w-full bg-[#ffc439] text-[#003087] px-8 py-3.5 rounded-xl font-bold hover:opacity-90 transition-opacity">
+            Pay with PayPal
+          </button>
+        </form>
       </div>
     </div>
   </div>
 </section>
 
 <!-- GUARANTEE -->
-<section class="max-w-3xl mx-auto px-6 py-20 text-center">
+<section class="max-w-3xl mx-auto px-6 pb-20 text-center">
   <div class="glass p-10 rounded-2xl">
     <div class="w-16 h-16 rounded-full bg-green-500/10 border-2 border-green-500/30 flex items-center justify-center mx-auto mb-6">
       <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
     </div>
     <h2 class="text-3xl font-black mb-4">30-Day Money-Back Guarantee</h2>
-    <p class="text-gray-400 text-lg">Not satisfied for any reason? Email <a href="mailto:Aminechabane7@gmail.com" class="text-indigo-400 hover:underline">Aminechabane7@gmail.com</a> within 30 days of purchase and get a full refund. No questions asked.</p>
+    <p class="text-gray-400 text-lg">Not satisfied for any reason? Email <a href="mailto:Aminechabane7@gmail.com" class="text-indigo-400 hover:underline">Aminechabane7@gmail.com</a> within 30 days and get a full refund. No questions asked.</p>
   </div>
 </section>
 
@@ -602,51 +289,41 @@
 
     <div class="glass rounded-xl overflow-hidden faq-item">
       <button class="w-full px-6 py-5 text-left flex items-center justify-between font-medium hover:bg-white/[0.02] transition-colors" onclick="toggleFaq(this)">
-        <span>What do I get after payment?</span>
+        <span>If all the code is public, what am I paying for?</span>
         <svg class="w-5 h-5 text-gray-400 transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
       </button>
       <div class="faq-answer px-6 text-gray-400 text-sm">
-        <div class="pb-5">After payment you'll receive an email with instructions to access the private GitHub repositories containing all 14 systems. You get read-only access to the source code, documentation, algorithm specs, and executable solvers. Access is granted within 24 hours of payment confirmation.</div>
+        <div class="pb-5">The legal right to use it commercially, plus email support and all future modules. This is the "fair-code" model (used by Sidekiq, n8n and others): the code is open to read so you can evaluate exactly what you're buying, and the license funds continued development. Reading, running and studying it is free forever.</div>
       </div>
     </div>
 
     <div class="glass rounded-xl overflow-hidden faq-item">
       <button class="w-full px-6 py-5 text-left flex items-center justify-between font-medium hover:bg-white/[0.02] transition-colors" onclick="toggleFaq(this)">
-        <span>Is this real production code or demos?</span>
+        <span>Is this production-ready code?</span>
         <svg class="w-5 h-5 text-gray-400 transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
       </button>
       <div class="faq-answer px-6 text-gray-400 text-sm">
-        <div class="pb-5">These are real, working implementations — not toy examples or pseudocode. Every system includes runnable solvers in Python and/or Rust, with complete algorithm implementations. They've been built as serious engineering projects, not marketing demos. That said, they're research-grade systems — production deployment requires your own integration and testing.</div>
+        <div class="pb-5">No, and we won't pretend otherwise. These are reference implementations optimized for readability — for learning, prototyping, and interview prep. For production workloads use RocksDB, FAISS, Flink etc. This code teaches you what those systems actually do internally.</div>
       </div>
     </div>
 
     <div class="glass rounded-xl overflow-hidden faq-item">
       <button class="w-full px-6 py-5 text-left flex items-center justify-between font-medium hover:bg-white/[0.02] transition-colors" onclick="toggleFaq(this)">
-        <span>What languages are the systems written in?</span>
+        <span>How do I verify it works before paying?</span>
         <svg class="w-5 h-5 text-gray-400 transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
       </button>
       <div class="faq-answer px-6 text-gray-400 text-sm">
-        <div class="pb-5">The bundle includes systems written in C (kernel-level: Q-SCHED, Q-EFBPF, Q-MEM, Q-LSM2), Rust (distributed systems: Q-STREAM, Q-QUIC, Q-MERA, Q-COL2), CUDA/C++ (GPU: Q-FUSE, Q-HNSW2), and Python solvers across all systems. Most systems have Python wrapper/test layers in addition to their core implementation language.</div>
+        <div class="pb-5">Clone the repository and run <code class="text-cyan-300">python3 -m unittest discover -s src/tests -v</code> (42 tests) and <code class="text-cyan-300">python3 examples/demo.py</code>. Everything runs with zero dependencies on any machine with Python 3.</div>
       </div>
     </div>
 
     <div class="glass rounded-xl overflow-hidden faq-item">
       <button class="w-full px-6 py-5 text-left flex items-center justify-between font-medium hover:bg-white/[0.02] transition-colors" onclick="toggleFaq(this)">
-        <span>Can I use this for commercial projects?</span>
+        <span>What does "commercial use" mean exactly?</span>
         <svg class="w-5 h-5 text-gray-400 transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
       </button>
       <div class="faq-answer px-6 text-gray-400 text-sm">
-        <div class="pb-5">You may use the systems for personal projects, research, and internal commercial applications. Redistribution or resale of the source code is not permitted. See our <a href="terms.html" class="text-indigo-400 hover:underline">Terms of Service</a> for full license details.</div>
-      </div>
-    </div>
-
-    <div class="glass rounded-xl overflow-hidden faq-item">
-      <button class="w-full px-6 py-5 text-left flex items-center justify-between font-medium hover:bg-white/[0.02] transition-colors" onclick="toggleFaq(this)">
-        <span>How long does access take after payment?</span>
-        <svg class="w-5 h-5 text-gray-400 transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-      </button>
-      <div class="faq-answer px-6 text-gray-400 text-sm">
-        <div class="pb-5">Access is granted within 24 hours. After payment, email your GitHub username to <a href="mailto:Aminechabane7@gmail.com" class="text-indigo-400 hover:underline">Aminechabane7@gmail.com</a> and you'll receive an invitation to the private repositories. Most invitations are sent within a few hours.</div>
+        <div class="pb-5">Using the code (or code derived from it) at your job, in client work, or in a product. Personal study, education, research and evaluation are free. Full details in the <a href="https://github.com/AmineCHABANE/Q-Drop-Marketplace/blob/master/LICENSE" class="text-indigo-400 hover:underline">LICENSE</a>.</div>
       </div>
     </div>
 
@@ -656,7 +333,7 @@
         <svg class="w-5 h-5 text-gray-400 transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
       </button>
       <div class="faq-answer px-6 text-gray-400 text-sm">
-        <div class="pb-5">We offer a 30-day full refund. If you're unsatisfied for any reason within 30 days of purchase, email <a href="mailto:Aminechabane7@gmail.com" class="text-indigo-400 hover:underline">Aminechabane7@gmail.com</a> and we'll refund you completely — no questions asked.</div>
+        <div class="pb-5">30-day full refund, no questions asked. Email <a href="mailto:Aminechabane7@gmail.com" class="text-indigo-400 hover:underline">Aminechabane7@gmail.com</a> with your transaction reference.</div>
       </div>
     </div>
 
@@ -666,16 +343,19 @@
 <!-- FINAL CTA -->
 <section class="py-20 hero-glow">
   <div class="max-w-3xl mx-auto px-6 text-center">
-    <div class="badge mb-6">Don't wait</div>
-    <h2 class="text-5xl font-black mb-6">Start studying enterprise<br>infrastructure today</h2>
-    <p class="text-gray-400 text-lg mb-10 max-w-2xl mx-auto">14 systems. One payment. Forever. The launch price won't last — get access now before it goes back to €49.99.</p>
+    <h2 class="text-5xl font-black mb-6">Understand the systems<br>you use every day</h2>
+    <p class="text-gray-400 text-lg mb-10 max-w-2xl mx-auto">Read the code for free. If it's useful at work, the license is €9.99 — once, forever, including everything added later.</p>
     <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="https://github.com/AmineCHABANE/Q-Drop-Marketplace"
+         class="glass text-white px-10 py-5 rounded-xl font-bold text-xl hover:bg-white/10 transition-colors">
+        Browse the Source
+      </a>
       <a href="https://buy.stripe.com/9B6eV60Gg90Z0TbcZk9fW01"
          class="btn-primary text-white px-10 py-5 rounded-xl font-bold text-xl glow-green">
-        Get All 14 Systems — €9.99
+        Buy License — €9.99
       </a>
     </div>
-    <p class="text-gray-600 text-sm mt-4">Stripe & PayPal accepted · 30-day guarantee · Instant access</p>
+    <p class="text-gray-600 text-sm mt-4">Stripe & PayPal · 30-day guarantee</p>
   </div>
 </section>
 
@@ -686,14 +366,14 @@
       <div>
         <div class="flex items-center gap-2 mb-3">
           <div class="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center font-black text-xs">Q</div>
-          <span class="font-bold">Q-Drop Marketplace</span>
+          <span class="font-bold">Q-Drop</span>
         </div>
-        <p class="text-gray-500 text-sm">Enterprise deep tech infrastructure systems — built from scratch, sold as source code.</p>
+        <p class="text-gray-500 text-sm">Real, tested reference implementations of the algorithms behind modern data infrastructure.</p>
       </div>
       <div>
         <h4 class="font-semibold mb-3 text-sm text-gray-400 uppercase tracking-wider">Explore</h4>
         <div class="space-y-2 text-sm text-gray-500">
-          <div><a href="products.html" class="hover:text-white transition-colors">All Products</a></div>
+          <div><a href="https://github.com/AmineCHABANE/Q-Drop-Marketplace" class="hover:text-white transition-colors">Source Code</a></div>
           <div><a href="#pricing" class="hover:text-white transition-colors">Pricing</a></div>
           <div><a href="#faq" class="hover:text-white transition-colors">FAQ</a></div>
         </div>
@@ -708,37 +388,18 @@
       </div>
     </div>
     <div class="border-t border-white/5 pt-8 text-center text-gray-600 text-sm">
-      © 2026 Q-Drop Marketplace. All rights reserved.
+      © 2026 Q-Drop. All rights reserved.
     </div>
   </div>
 </footer>
 
 <script>
-// Countdown timer — 23h 59m 59s from page load
-(function() {
-  const end = Date.now() + (23 * 3600 + 59 * 60 + 59) * 1000;
-  function update() {
-    const diff = Math.max(0, end - Date.now());
-    const h = Math.floor(diff / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
-    document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
-    document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
-    document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
-  }
-  update();
-  setInterval(update, 1000);
-})();
-
-// FAQ accordion
 function toggleFaq(btn) {
   const answer = btn.nextElementSibling;
   const icon = btn.querySelector('.faq-icon');
   const isOpen = answer.classList.contains('open');
-  // Close all
   document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
   document.querySelectorAll('.faq-icon').forEach(i => i.style.transform = '');
-  // Toggle clicked
   if (!isOpen) {
     answer.classList.add('open');
     icon.style.transform = 'rotate(180deg)';

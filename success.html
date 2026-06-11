@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Payment Successful — Q-Drop Marketplace</title>
+  <title>License Confirmed — Q-Drop</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { background: #05050a; }
@@ -12,6 +12,7 @@
     .check-circle { animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
     @keyframes scaleIn { from { transform: scale(0); opacity:0; } to { transform: scale(1); opacity:1; } }
     .step-num { width: 28px; height: 28px; background: rgba(99,102,241,0.2); border: 1px solid rgba(99,102,241,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: #a5b4fc; flex-shrink: 0; }
+    .code-block { background: #0a0a14; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; font-family: ui-monospace, monospace; font-size: 0.8rem; }
   </style>
 </head>
 <body class="text-white font-sans antialiased min-h-screen flex flex-col">
@@ -19,14 +20,13 @@
 <nav class="border-b border-white/5 py-4 px-6">
   <a href="/" class="flex items-center gap-2 w-fit">
     <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-black text-sm">Q</div>
-    <span class="font-bold">Q-Drop Marketplace</span>
+    <span class="font-bold">Q-Drop</span>
   </a>
 </nav>
 
 <main class="flex-1 flex items-center justify-center px-6 py-20">
   <div class="max-w-lg w-full text-center">
 
-    <!-- Success icon -->
     <div class="check-circle w-20 h-20 rounded-full bg-green-500/10 border-2 border-green-500/40 flex items-center justify-center mx-auto mb-8">
       <svg class="w-10 h-10 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
@@ -34,20 +34,17 @@
     </div>
 
     <h1 class="text-4xl font-black mb-3">
-      <span class="gradient-text">Payment Confirmed!</span>
+      <span class="gradient-text">You're licensed!</span>
     </h1>
-    <p class="text-gray-400 text-lg mb-10">Welcome to Q-Drop Marketplace. Here's how to get your access:</p>
+    <p class="text-gray-400 text-lg mb-10">Thank you for supporting the project. Your commercial license is active immediately — here's everything you need:</p>
 
-    <!-- Steps -->
     <div class="glass rounded-2xl p-6 text-left mb-8">
-      <h2 class="font-bold text-lg mb-5 text-center">3 Steps to Get Your Access</h2>
-
       <div class="space-y-5">
         <div class="flex items-start gap-4">
           <div class="step-num">1</div>
           <div>
-            <p class="font-semibold text-white mb-1">Find your GitHub username</p>
-            <p class="text-gray-400 text-sm">Go to <a href="https://github.com" target="_blank" class="text-indigo-400 hover:underline">github.com</a> and copy your username from the top-right avatar. If you don't have a GitHub account, create a free one first.</p>
+            <p class="font-semibold text-white mb-1">Keep your payment receipt</p>
+            <p class="text-gray-400 text-sm">The Stripe or PayPal receipt in your inbox <em>is</em> your proof of license. No activation key needed — the license takes effect on purchase.</p>
           </div>
         </div>
 
@@ -56,11 +53,9 @@
         <div class="flex items-start gap-4">
           <div class="step-num">2</div>
           <div>
-            <p class="font-semibold text-white mb-1">Email your GitHub username</p>
-            <p class="text-gray-400 text-sm">Send your GitHub username to <a href="mailto:Aminechabane7@gmail.com?subject=Q-Drop Access Request&body=Hello, I just purchased Q-Drop Ultra Vault. My GitHub username is: [YOUR USERNAME]" class="text-indigo-400 hover:underline">Aminechabane7@gmail.com</a> with subject "Q-Drop Access Request". Include your transaction ID if you have it.</p>
-            <a href="mailto:Aminechabane7@gmail.com?subject=Q-Drop Access Request&body=Hello, I just purchased Q-Drop Ultra Vault. My GitHub username is: " class="inline-block mt-2 text-sm bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 px-4 py-2 rounded-lg hover:bg-indigo-600/30 transition-colors">
-              Open Email Template →
-            </a>
+            <p class="font-semibold text-white mb-1">Get the code</p>
+            <p class="text-gray-400 text-sm mb-2">Clone the repository — you already have access to everything, including all future modules:</p>
+            <div class="code-block px-4 py-3 text-gray-300 overflow-x-auto">git clone https://github.com/AmineCHABANE/Q-Drop-Marketplace</div>
           </div>
         </div>
 
@@ -69,26 +64,25 @@
         <div class="flex items-start gap-4">
           <div class="step-num">3</div>
           <div>
-            <p class="font-semibold text-white mb-1">Accept the GitHub invitation</p>
-            <p class="text-gray-400 text-sm">Within 24 hours, you'll receive a GitHub repository invitation by email. Click "Accept invitation" to get read-only access to all 14 systems.</p>
+            <p class="font-semibold text-white mb-1">Verify it runs</p>
+            <div class="code-block px-4 py-3 text-gray-300 overflow-x-auto mt-2">python3 -m unittest discover -s src/tests -v<br>python3 examples/demo.py</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Support note -->
     <div class="glass rounded-xl p-4 text-sm text-gray-400 mb-8">
-      <p>Questions? Email <a href="mailto:Aminechabane7@gmail.com" class="text-indigo-400 hover:underline">Aminechabane7@gmail.com</a> — we typically respond within a few hours.</p>
+      <p>Questions, support, or want an invoice? Email <a href="mailto:Aminechabane7@gmail.com" class="text-indigo-400 hover:underline">Aminechabane7@gmail.com</a>. Not satisfied? Full refund within 30 days, no questions asked.</p>
     </div>
 
     <a href="/" class="text-indigo-400 hover:text-indigo-300 text-sm transition-colors">
-      ← Back to Q-Drop Marketplace
+      ← Back to Q-Drop
     </a>
   </div>
 </main>
 
 <footer class="border-t border-white/5 py-6 text-center text-gray-600 text-sm">
-  © 2026 Q-Drop Marketplace
+  © 2026 Q-Drop
 </footer>
 
 </body>
