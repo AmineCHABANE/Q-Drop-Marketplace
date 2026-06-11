@@ -1,5 +1,5 @@
 """
-Q-Drop demo — runs all 13 reference implementations end to end.
+Q-Drop demo — runs all 16 reference implementations end to end.
 
 Usage (from the repository root):
     python3 examples/demo.py
@@ -27,6 +27,9 @@ from q_vqe import VQE, Hamiltonian, UCCSDSingletAnsatz, QAOA
 import q_pack
 import q_sign
 import q_qsf
+import q_dilithium
+import q_raft
+import q_bloom
 
 
 def divider(title: str) -> None:
@@ -277,4 +280,85 @@ print(f"Decrypted + decompressed: {len(opened.payload)} bytes, "
 print(f"Signature valid: {opened.signature_valid}")
 print("Every cryptographic layer in this file survives a quantum computer.")
 
-print(f"\n{'=' * 60}\n  All 13 systems ran successfully.\n{'=' * 60}")
+# ---------------------------------------------------------------------------
+divider("14. Q-DILITHIUM — CRYSTALS-Dilithium post-quantum signatures (NIST FIPS 204)")
+
+print("Generating Dilithium-2 keypair (Module-LWE, security level 2)...")
+pk, sk = q_dilithium.generate_keypair(seed=b"\xAB" * 32)
+pk_bytes = pk.to_bytes()
+print(f"  Public key:  {len(pk_bytes)} bytes")
+
+msg = b"TLS 1.3 certificate: CN=example.com, issuer=post-quantum-ca.example"
+sig = sk.sign(msg)
+sig_bytes = sig.to_bytes()
+print(f"  Signature:   {len(sig_bytes)} bytes  (z vector + hints + challenge hash)")
+print(f"  Verify OK:   {q_dilithium.verify(pk, msg, sig)}")
+print(f"  Tamper fail: {not q_dilithium.verify(pk, b'CN=attacker.evil', sig)}")
+
+ok, total = q_dilithium.verify_correctness(5)
+print(f"  Correctness: {ok}/{total} sign/verify pairs")
+print("Pair Dilithium (signatures) + Kyber (KEM) = complete post-quantum TLS 1.3")
+
+# ---------------------------------------------------------------------------
+divider("15. Q-RAFT — Raft distributed consensus (the algorithm behind etcd/CockroachDB)")
+
+print("Simulating 5-node Raft cluster...")
+cluster = q_raft.RaftCluster(5, seed=7)
+cluster.tick(40)   # elect initial leader
+ldr = cluster.leader()
+print(f"  Elected leader: node {ldr.id}  (term {ldr.current_term})")
+
+# Write 10 key-value pairs
+for i in range(10):
+    ok, idx = cluster.propose({"op": "set", "key": f"counter:{i}", "value": i * 100})
+
+print(f"  10 writes committed.  Leader commit index: {cluster.leader().commit_index}")
+print(f"  Cluster consistent:   {cluster.is_consistent()}")
+
+# Demonstrate partition tolerance
+old_id = cluster.leader().id
+cluster.partition([old_id])
+cluster.tick(50)
+new_ldr = cluster.leader()
+print(f"  Partitioned leader {old_id} → new leader: node {new_ldr.id} "
+      f"(term {new_ldr.current_term})")
+
+cluster.heal()
+cluster.tick(40)
+print(f"  Healed. Single leader: node {cluster.leader().id}, "
+      f"consistent: {cluster.is_consistent()}")
+print("Same algorithm used in etcd, CockroachDB, TiKV, Consul, YugabyteDB.")
+
+# ---------------------------------------------------------------------------
+divider("16. Q-BLOOM — Probabilistic filters + cardinality (Bloom / Xor / HLL / MinHash)")
+
+print("Bloom filter (LSM-tree point-lookup guard):")
+bf = q_bloom.BloomFilter(50_000, fpr=0.01)
+for i in range(50_000):
+    bf.add(f"key:{i}")
+fp = sum(1 for i in range(50_000, 100_000) if f"key:{i}" in bf)
+print(f"  {bf}")
+print(f"  FPR on 50k non-members: {fp/50_000:.4f}  (target <0.01)")
+
+print("\nXor filter (Binary Fuse 8 — more compact than Bloom):")
+xf = q_bloom.XorFilter.from_items([f"id:{i}" for i in range(10_000)])
+print(f"  {xf}")
+
+print("\nHyperLogLog (Redis PFCOUNT cardinality estimation):")
+hll = q_bloom.HyperLogLog(b=12)   # m=4096 registers, ~0.8% error
+for i in range(100_000):
+    hll.add(f"user:{i}")
+print(f"  True count: 100000   Estimate: {hll.count()}   "
+      f"Error: {abs(hll.count()-100000)/100000:.3f}")
+
+print("\nMinHash Jaccard similarity (duplicate detection):")
+doc_a = set("the quick brown fox jumps over the lazy dog".split())
+doc_b = set("the quick brown fox runs over the lazy cat".split())
+real_j = len(doc_a & doc_b) / len(doc_a | doc_b)
+m_a = q_bloom.MinHash.from_set(doc_a, n_hashes=512)
+m_b = q_bloom.MinHash.from_set(doc_b, n_hashes=512)
+est_j = m_a.similarity(m_b)
+print(f"  Real Jaccard: {real_j:.3f}   MinHash estimate: {est_j:.3f}")
+print("Deployed in: RocksDB, Cassandra, Redis, Chrome Safe Browsing, Elasticsearch.")
+
+print(f"\n{'=' * 60}\n  All 16 systems ran successfully.\n{'=' * 60}")

@@ -1,8 +1,9 @@
 # Q-Drop — Infrastructure + Quantum Algorithms, Implemented For Real
 
-**Thirteen working, tested reference implementations** — the core algorithms
+**Sixteen working, tested reference implementations** — the core algorithms
 behind modern data infrastructure, the quantum algorithms that will reshape
-computing, and the quantum-safe formats for everyday data in that future.
+computing, the quantum-safe formats for everyday data in that future, and the
+distributed systems primitives that underpin it all.
 
 Every line of code is in this repository. Read it all before you pay anything.
 
@@ -17,6 +18,8 @@ Every line of code is in this repository. Read it all before you pay anything.
 | [`src/q_col.py`](src/q_col.py) | Columnar engine: bitmap filters, hash GROUP BY, dict & RLE encoding | DuckDB, Arrow, Polars, Parquet |
 | [`src/q_stream.py`](src/q_stream.py) | Windowed stream processing: tumbling/sliding/session, watermarks | Kafka Streams, Flink, Dataflow |
 | [`src/q_mem.py`](src/q_mem.py) | Arena allocator: size classes, slabs, free lists, fragmentation stats | jemalloc, APR pools, game engines |
+| [`src/q_raft.py`](src/q_raft.py) | **Raft consensus**: leader election, log replication, snapshots, partition tolerance | etcd, CockroachDB, TiKV, Consul |
+| [`src/q_bloom.py`](src/q_bloom.py) | **Bloom + Xor + Cuckoo filters**, HyperLogLog, MinHash / LSH | RocksDB, Redis, Elasticsearch, Cassandra |
 
 ### Quantum (simulation)
 
@@ -24,6 +27,7 @@ Every line of code is in this repository. Read it all before you pay anything.
 |--------|--------------------|----------------|
 | [`src/q_grover.py`](src/q_grover.py) | Grover's search: full statevector, amplitude amplification, QFT | O(√N) quantum speedup over classical O(N) search |
 | [`src/q_kyber.py`](src/q_kyber.py) | CRYSTALS-Kyber KEM (NIST FIPS 203): Module-LWE keygen/encap/decap | Replacing RSA/ECC in TLS, SSH, Signal — quantum-safe |
+| [`src/q_dilithium.py`](src/q_dilithium.py) | **CRYSTALS-Dilithium signatures (NIST FIPS 204)**: Module-LWE sign/verify | Replacing ECDSA/RSA-PSS in TLS certificates, SSH, code signing |
 | [`src/q_shor.py`](src/q_shor.py) | Shor's algorithm: QFT period-finding, classical GCD post-processing | Why RSA breaks with quantum computers — O(n³) vs exp |
 | [`src/q_qec.py`](src/q_qec.py) | QEC: bit/phase-flip codes, Shor [[9,1,3]], Steane [[7,1,3]] stabilizer | Fault-tolerant QC — the engineering layer enabling quantum advantage |
 | [`src/q_vqe.py`](src/q_vqe.py) | VQE + QAOA: parametric ansatz, parameter-shift gradients, H₂ molecule | NISQ quantum chemistry and combinatorial optimization today |
@@ -37,7 +41,17 @@ Every line of code is in this repository. Read it all before you pay anything.
 | [`src/q_qsf.py`](src/q_qsf.py) | **QSF** — Quantum-Safe File format: compression + Kyber encryption + hash signing in one container | What PGP/age look like when every primitive must survive a quantum computer |
 
 Pure Python 3, zero external dependencies, every file commented with
-references to original papers.
+references to the original papers.
+
+### What Kyber + Dilithium together mean
+
+Kyber and Dilithium are the two NIST-standardised post-quantum primitives.
+Kyber handles *key encapsulation* (replace RSA/ECDH in TLS handshakes).
+Dilithium handles *signatures* (replace ECDSA/RSA-PSS in certificates and
+code signing). Together they make a complete quantum-safe replacement for
+the cryptography that secures the entire internet today. Both are now live
+in production (OpenSSH 9.x uses Kyber; Chrome 116+ negotiates Kyber KEM in
+TLS 1.3). Dilithium is in FIPS 204, signed into law August 2024.
 
 ### Post-quantum license system (dogfooding)
 
@@ -58,14 +72,15 @@ Full flow documented in [LICENSING.md](LICENSING.md).
 git clone https://github.com/AmineCHABANE/Q-Drop-Marketplace
 cd Q-Drop-Marketplace
 
-# Run the full test suite (114 tests)
+# Run the full test suite (145 tests)
 python3 -m unittest discover -s src/tests -v
 
-# Run the end-to-end demo of all 13 systems
+# Run the end-to-end demo of all 16 systems
 python3 examples/demo.py
 ```
 
-If those two commands work on your machine, the product works. That's the proof.
+If those two commands run without errors, every implementation in this bundle
+works on your machine. That's the proof.
 
 ## Who this is for
 

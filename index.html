@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Q-Drop — 13 Real Algorithms: Infrastructure, Quantum & Quantum-Safe Formats</title>
-  <meta name="description" content="13 working, tested implementations: HNSW, LSM-trees, columnar engines + Grover, Kyber, Shor, QEC, VQE + QSF quantum-safe file format, hash-based signatures, and compression. All code public. €9.99 commercial license.">
-  <meta property="og:title" content="Q-Drop — Infrastructure, Quantum & Quantum-Safe Formats, Implemented & Tested">
-  <meta property="og:description" content="The algorithms behind RocksDB and Pinecone — plus CRYSTALS-Kyber, Shor's factoring, VQE, and QSF: a file format where every primitive survives a quantum computer. All code public. €9.99 lifetime license.">
+  <title>Q-Drop — 16 Real Algorithms: Infrastructure, Quantum & Quantum-Safe</title>
+  <meta name="description" content="16 working, tested implementations: HNSW, LSM-trees, Raft consensus, Bloom/Xor/HLL filters + Grover, Kyber, Dilithium (FIPS 204), Shor, QEC, VQE + QSF quantum-safe file format. All code public. €9.99 commercial license.">
+  <meta property="og:title" content="Q-Drop — 16 Infrastructure + Quantum Algorithms, Implemented & Tested">
+  <meta property="og:description" content="The algorithms behind RocksDB, Pinecone, etcd and Redis — plus CRYSTALS-Kyber & Dilithium (NIST post-quantum standards), Shor, VQE, Raft consensus, Bloom/Xor filters, HyperLogLog, MinHash LSH, and QSF. All code public. €9.99 lifetime license.">
   <meta property="og:type" content="website">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -40,7 +40,7 @@
       <span class="font-bold text-lg">Q-Drop</span>
     </a>
     <div class="hidden md:flex items-center gap-8 text-sm text-gray-400">
-      <a href="#modules" class="hover:text-white transition-colors">13 Modules</a>
+      <a href="#modules" class="hover:text-white transition-colors">16 Modules</a>
       <a href="#proof" class="hover:text-white transition-colors">Proof It Works</a>
       <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
       <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
@@ -67,9 +67,10 @@
   </h1>
 
   <p class="text-gray-300 text-xl max-w-3xl mx-auto mb-4">
-    <strong class="text-white">13 working reference implementations</strong> — the core algorithms behind
-    RocksDB, Pinecone, Kafka Streams and DuckDB, the quantum algorithms
-    (Grover, Kyber, Shor, QEC, VQE) that matter over the next decade, and
+    <strong class="text-white">16 working reference implementations</strong> — the core algorithms behind
+    RocksDB, Pinecone, Kafka Streams, DuckDB, <strong class="text-white">etcd, and Redis</strong>,
+    the quantum algorithms (Grover, Kyber, <strong class="text-white">Dilithium</strong>, Shor, QEC, VQE)
+    that matter over the next decade, and
     <strong class="text-white">QSF</strong> — a new file format where every cryptographic layer survives a quantum computer.
   </p>
   <p class="text-gray-500 text-base mb-10">Free to read and study. €9.99 one-time license for commercial use. No subscription.</p>
@@ -90,7 +91,7 @@
     <div class="flex flex-wrap items-center justify-center gap-4 mt-4 text-sm text-gray-500">
       <span class="flex items-center gap-1.5">
         <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-        114 automated tests, all passing
+        145 automated tests, all passing
       </span>
       <span class="flex items-center gap-1.5">
         <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
@@ -116,12 +117,12 @@
     <div class="code-block p-6 text-gray-300 overflow-x-auto">
       <div class="text-gray-600"># Clone and enter the repo</div>
       <div><span class="text-green-400">$</span> git clone https://github.com/AmineCHABANE/Q-Drop-Marketplace && cd Q-Drop-Marketplace</div>
-      <div class="mt-4 text-gray-600"># Run the full test suite — 114 tests</div>
+      <div class="mt-4 text-gray-600"># Run the full test suite — 145 tests</div>
       <div><span class="text-green-400">$</span> python3 -m unittest discover -s src/tests -v</div>
-      <div class="text-gray-500">Ran 114 tests in 2.9s — <span class="text-green-400">OK</span></div>
-      <div class="mt-4 text-gray-600"># Run all 13 systems end to end</div>
+      <div class="text-gray-500">Ran 145 tests in 2.9s — <span class="text-green-400">OK</span></div>
+      <div class="mt-4 text-gray-600"># Run all 16 systems end to end</div>
       <div><span class="text-green-400">$</span> python3 examples/demo.py</div>
-      <div class="text-gray-500">All 13 systems ran successfully.</div>
+      <div class="text-gray-500">All 16 systems ran successfully.</div>
     </div>
   </div>
 </section>
@@ -130,7 +131,7 @@
 <section id="modules" class="max-w-6xl mx-auto px-6 py-20">
   <div class="text-center mb-14">
     <div class="badge mb-4">The Bundle</div>
-    <h2 class="text-4xl font-black mb-4">13 modules. Infrastructure today. Quantum tomorrow.</h2>
+    <h2 class="text-4xl font-black mb-4">16 modules. Infrastructure today. Quantum tomorrow.</h2>
     <p class="text-gray-400 max-w-2xl mx-auto">Each one is the core algorithm of a system you'll either use at work this year or encounter in the next five. Stripped to readable, commented Python.</p>
   </div>
 
@@ -291,6 +292,45 @@
 
     </div>
   </div>
+
+  <!-- New modules: Dilithium, Raft, Bloom -->
+  <div class="mt-6">
+    <div class="flex items-center gap-3 mb-4">
+      <div class="h-px flex-1 bg-white/5"></div>
+      <span class="text-xs font-bold text-violet-400 uppercase tracking-widest">New — Q-Day Signatures + Distributed Consensus + Probabilistic Filters</span>
+      <div class="h-px flex-1 bg-white/5"></div>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(167,139,250,0.2)">
+        <h3 class="font-bold text-lg text-violet-300">Q-DILITHIUM</h3>
+        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_dilithium.py</p>
+        <p class="text-gray-400 text-sm mb-3">CRYSTALS-Dilithium post-quantum digital signatures (NIST FIPS 204): full NTT over Z_q[X]/(X²⁵⁶+1), Module-LWE keygen, rejection-sampling signer, hint-based verifier. Pair with Kyber = complete post-quantum TLS 1.3.</p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="tag-concept">Replaces ECDSA / RSA-PSS</span><span class="tag-tech">NIST FIPS 204</span>
+        </div>
+      </div>
+
+      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(167,139,250,0.2)">
+        <h3 class="font-bold text-lg text-violet-300">Q-RAFT</h3>
+        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_raft.py</p>
+        <p class="text-gray-400 text-sm mb-3">Full Raft consensus simulation: randomised leader election, log replication with conflict resolution, snapshots and log compaction, network partitions and crash/restart — all testable in-process without any network.</p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="tag-concept">etcd / CockroachDB / TiKV</span><span class="tag-tech">Ongaro & Ousterhout 2014</span>
+        </div>
+      </div>
+
+      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(167,139,250,0.2)">
+        <h3 class="font-bold text-lg text-violet-300">Q-BLOOM</h3>
+        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_bloom.py</p>
+        <p class="text-gray-400 text-sm mb-3">Six structures in one file: Bloom filter, Counting Bloom (with deletion), Xor/Binary-Fuse filter (9 bits/elem), Cuckoo filter, HyperLogLog (Redis PFCOUNT), MinHash + LSH band index for similarity search.</p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="tag-concept">RocksDB / Redis / Elasticsearch</span><span class="tag-tech">Bloom 1970 — Flajolet 1985 — Broder 1997</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </section>
 
 <!-- WHO IT'S FOR -->
@@ -325,7 +365,7 @@
 <section id="pricing" class="max-w-4xl mx-auto px-6 py-24 text-center">
   <div class="badge mb-4">Fair Pricing</div>
   <h2 class="text-4xl font-black mb-4">Free to study. €9.99 to use commercially.</h2>
-  <p class="text-gray-400 mb-12 max-w-2xl mx-auto">The entire source is public — evaluate 100% of what you're buying before paying a cent. One license covers all 13 modules and everything added in future.</p>
+  <p class="text-gray-400 mb-12 max-w-2xl mx-auto">The entire source is public — evaluate 100% of what you're buying before paying a cent. One license covers all 16 modules and everything added in future.</p>
 
   <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
     <div class="glass rounded-2xl p-8">
@@ -418,7 +458,7 @@
         <svg class="w-5 h-5 text-gray-400 transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
       </button>
       <div class="faq-answer px-6 text-gray-400 text-sm">
-        <div class="pb-5">Clone the repository and run <code class="text-cyan-300">python3 -m unittest discover -s src/tests -v</code> (114 tests) and <code class="text-cyan-300">python3 examples/demo.py</code>. Everything runs with zero dependencies on any machine with Python 3.</div>
+        <div class="pb-5">Clone the repository and run <code class="text-cyan-300">python3 -m unittest discover -s src/tests -v</code> (145 tests) and <code class="text-cyan-300">python3 examples/demo.py</code>. Everything runs with zero dependencies on any machine with Python 3.</div>
       </div>
     </div>
 

@@ -981,5 +981,281 @@ class TestQSF(unittest.TestCase):
             q_qsf.open_container(b"NOPE" + b"\x00" * 40)
 
 
+# ---------------------------------------------------------------------------
+# Q-DILITHIUM
+# ---------------------------------------------------------------------------
+
+import q_dilithium
+
+class TestDilithium(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.pk, cls.sk = q_dilithium.keygen(b"\xAB" * 32)
+
+    def test_sign_and_verify(self):
+        msg = b"dilithium test message"
+        sig = self.__class__.sk.sign(msg)
+        self.assertTrue(q_dilithium.verify(self.__class__.pk, msg, sig))
+
+    def test_sign_high_level_api(self):
+        msg = b"post-quantum signature test"
+        sig_bytes = q_dilithium.sign_message(self.__class__.sk, msg)
+        self.assertTrue(q_dilithium.verify_signature(self.__class__.pk, msg, sig_bytes))
+
+    def test_tampered_message_rejected(self):
+        msg = b"original"
+        sig = self.__class__.sk.sign(msg)
+        self.assertFalse(q_dilithium.verify(self.__class__.pk, b"tampered", sig))
+
+    def test_wrong_key_rejected(self):
+        pk2, _ = q_dilithium.keygen()
+        msg = b"hello quantum"
+        sig = self.__class__.sk.sign(msg)
+        self.assertFalse(q_dilithium.verify(pk2, msg, sig))
+
+    def test_keygen_deterministic(self):
+        seed = b"\xCC" * 32
+        pk1, sk1 = q_dilithium.keygen(seed)
+        pk2, sk2 = q_dilithium.keygen(seed)
+        self.assertEqual(pk1.to_bytes(), pk2.to_bytes())
+        self.assertEqual(sk1.rho, sk2.rho)
+
+    def test_pk_serialisation_roundtrip(self):
+        pk = self.__class__.pk
+        raw = pk.to_bytes()
+        pk2 = q_dilithium.DilithiumPublicKey.from_bytes(raw)
+        self.assertEqual(pk.rho, pk2.rho)
+        self.assertEqual(pk.t1[0][:10], pk2.t1[0][:10])
+
+    def test_sig_serialisation_roundtrip(self):
+        msg = b"sig serialisation"
+        sig = self.__class__.sk.sign(msg)
+        raw = sig.to_bytes()
+        sig2 = q_dilithium.DilithiumSignature.from_bytes(raw)
+        self.assertEqual(sig.c_tilde, sig2.c_tilde)
+
+    def test_ntt_roundtrip(self):
+        from q_dilithium import _ntt, _inv_ntt, _Q
+        rng = random.Random(99)
+        a = [rng.randrange(_Q) for _ in range(256)]
+        back = _inv_ntt(_ntt(a))
+        self.assertTrue(all((x - y) % _Q == 0 for x, y in zip(a, back)))
+
+    def test_poly_multiplication(self):
+        """(1+X)^2 = 1 + 2X + X^2 mod q."""
+        from q_dilithium import _ntt, _inv_ntt, _ntt_mul
+        a = [0] * 256; a[0] = 1; a[1] = 1
+        prod = _inv_ntt(_ntt_mul(_ntt(a), _ntt(a)))
+        self.assertEqual(prod[0], 1)
+        self.assertEqual(prod[1], 2)
+        self.assertEqual(prod[2], 1)
+        self.assertEqual(prod[3], 0)
+
+    def test_correctness_batch(self):
+        ok, total = q_dilithium.verify_correctness(3)
+        self.assertEqual(ok, total)
+
+    def test_empty_message(self):
+        sig = self.__class__.sk.sign(b"")
+        self.assertTrue(q_dilithium.verify(self.__class__.pk, b"", sig))
+
+
+# ---------------------------------------------------------------------------
+# Q-RAFT
+# ---------------------------------------------------------------------------
+
+import q_raft
+
+class TestRaft(unittest.TestCase):
+    def _make_cluster(self, n=5, seed=7):
+        return q_raft.RaftCluster(n, seed=seed)
+
+    def test_leader_election(self):
+        c = self._make_cluster()
+        c.tick(40)
+        self.assertIsNotNone(c.leader())
+
+    def test_single_write(self):
+        c = self._make_cluster()
+        c.tick(40)
+        ok, idx = c.propose({"op": "set", "key": "x", "value": 42})
+        self.assertTrue(ok)
+        self.assertGreater(idx, 0)
+        c.tick(10)
+        self.assertEqual(c.read("x"), 42)
+
+    def test_multiple_writes_consistent(self):
+        c = self._make_cluster()
+        c.tick(40)
+        for i in range(5):
+            ok, _ = c.propose({"op": "set", "key": f"k{i}", "value": i})
+            self.assertTrue(ok)
+        c.tick(20)
+        self.assertTrue(c.is_consistent())
+
+    def test_follower_crash_and_recovery(self):
+        c = self._make_cluster()
+        c.tick(40)
+        ldr = c.leader()
+        follower = next(s for s in c.servers.values()
+                        if s.id != ldr.id and s.id not in c._dead)
+        c.crash(follower.id)
+        ok, _ = c.propose({"op": "set", "key": "after_crash", "value": 1})
+        self.assertTrue(ok)
+        c.tick(20)
+        c.restart(follower.id)
+        c.tick(60)
+        self.assertTrue(c.is_consistent())
+
+    def test_partition_and_reelection(self):
+        c = self._make_cluster()
+        c.tick(40)
+        old_id = c.leader().id
+        c.partition([old_id])
+        c.tick(50)
+        new_ldr = c.leader()
+        self.assertIsNotNone(new_ldr)
+        self.assertNotEqual(new_ldr.id, old_id)
+
+    def test_heal_gives_single_leader(self):
+        c = self._make_cluster()
+        c.tick(40)
+        c.partition([c.leader().id])
+        c.tick(40)
+        c.heal()
+        c.tick(40)
+        leaders = [s for s in c.servers.values() if s.role == q_raft.Role.LEADER
+                   and s.id not in c._dead]
+        self.assertEqual(len(leaders), 1)
+
+    def test_quorum_required_for_commit(self):
+        """No commit when majority down."""
+        c = self._make_cluster(5)
+        c.tick(40)
+        # Kill 3 out of 5 (minority left = 2, can't reach quorum)
+        live = [s.id for s in c.servers.values() if s.id not in c._dead]
+        for sid in live[:3]:
+            c.crash(sid)
+        c.tick(40)
+        ldr = c.leader()
+        self.assertIsNone(ldr)   # no leader can be elected with only 2 nodes
+
+    def test_full_demo(self):
+        result = q_raft.run_basic_demo(5, seed=42)
+        self.assertTrue(result["consistent"])
+        self.assertGreater(result["entries_committed"], 10)
+
+    def test_log_replication_order(self):
+        c = self._make_cluster()
+        c.tick(40)
+        cmds = [{"op": "set", "key": "seq", "value": i} for i in range(5)]
+        for cmd in cmds:
+            c.propose(cmd)
+        c.tick(30)
+        # All live servers should have same commit index
+        live = [s for s in c.servers.values() if s.id not in c._dead]
+        commits = [s.commit_index for s in live]
+        self.assertEqual(len(set(commits)), 1)
+
+
+# ---------------------------------------------------------------------------
+# Q-BLOOM
+# ---------------------------------------------------------------------------
+
+import q_bloom
+
+class TestBloom(unittest.TestCase):
+    def test_bloom_membership(self):
+        bf = q_bloom.BloomFilter(1000, 0.01)
+        for i in range(500):
+            bf.add(f"item{i}")
+        for i in range(500):
+            self.assertIn(f"item{i}", bf)
+
+    def test_bloom_false_positive_rate(self):
+        bf = q_bloom.BloomFilter(10000, 0.01)
+        for i in range(10000):
+            bf.add(f"member:{i}")
+        fp = sum(1 for i in range(10000, 30000) if f"member:{i}" in bf)
+        self.assertLess(fp / 20000, 0.05)  # generous bound
+
+    def test_bloom_merge(self):
+        bf1 = q_bloom.BloomFilter(100, 0.01)
+        bf2 = q_bloom.BloomFilter(100, 0.01)
+        for i in range(50):
+            bf1.add(f"a{i}")
+        for i in range(50):
+            bf2.add(f"b{i}")
+        merged = bf1.merge(bf2)
+        self.assertIn("a0", merged)
+        self.assertIn("b0", merged)
+
+    def test_counting_bloom_delete(self):
+        cf = q_bloom.CountingBloomFilter(50, 0.01)
+        cf.add("solo")
+        self.assertIn("solo", cf)
+        cf.remove("solo")
+        self.assertNotIn("solo", cf)
+
+    def test_xor_filter_membership(self):
+        items = [f"key:{i}" for i in range(300)]
+        xf = q_bloom.XorFilter.from_items(items)
+        for item in items:
+            self.assertIn(item, xf)
+
+    def test_xor_filter_false_positive_rate(self):
+        items = [f"in:{i}" for i in range(1000)]
+        xf = q_bloom.XorFilter.from_items(items)
+        fp = sum(1 for i in range(1000, 5000) if f"in:{i}" in xf)
+        self.assertLess(fp / 4000, 0.05)
+
+    def test_cuckoo_filter_insert_lookup_delete(self):
+        cf = q_bloom.CuckooFilter(500)
+        for i in range(200):
+            cf.add(f"x{i}")
+        self.assertIn("x0", cf)
+        cf.remove("x0")
+        self.assertNotIn("x0", cf)
+
+    def test_hll_cardinality(self):
+        hll = q_bloom.HyperLogLog(b=10)
+        for i in range(5000):
+            hll.add(f"el:{i}")
+        est = hll.count()
+        self.assertAlmostEqual(est, 5000, delta=500)  # within 10%
+
+    def test_hll_merge(self):
+        h1 = q_bloom.HyperLogLog(10)
+        h2 = q_bloom.HyperLogLog(10)
+        for i in range(1000):
+            h1.add(f"a{i}")
+        for i in range(1000):
+            h2.add(f"b{i}")
+        merged = h1.merge(h2)
+        est = merged.count()
+        self.assertGreater(est, 1000)
+
+    def test_minhash_jaccard(self):
+        s1 = set(range(100))
+        s2 = set(range(50, 150))
+        real = len(s1 & s2) / len(s1 | s2)   # = 50/150 = 1/3
+        m1 = q_bloom.MinHash.from_set(s1, n_hashes=256)
+        m2 = q_bloom.MinHash.from_set(s2, n_hashes=256)
+        est = m1.similarity(m2)
+        self.assertAlmostEqual(est, real, delta=0.10)
+
+    def test_lsh_finds_candidates(self):
+        lsh = q_bloom.LSHBand(n_hashes=128, bands=16)
+        base = set(range(100))
+        # Add near-duplicate (Jaccard ≈ 0.9)
+        similar = set(list(range(90)) + [200, 201, 202, 203, 204, 205, 206, 207, 208, 209])
+        m_base = q_bloom.MinHash.from_set(base, n_hashes=128)
+        m_sim  = q_bloom.MinHash.from_set(similar, n_hashes=128)
+        lsh.add("base", m_base)
+        lsh.add("similar", m_sim)
+        cands = lsh.candidates(m_sim)
+        self.assertIn("base", cands)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

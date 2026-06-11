@@ -128,5 +128,35 @@
     "concept_behind": "What PGP/age become when every primitive must survive a quantum computer",
     "language": "Python 3, no dependencies",
     "tested": true
+  },
+  {
+    "id": "q-dilithium",
+    "name": "Q-DILITHIUM",
+    "file": "src/q_dilithium.py",
+    "category": "quantum",
+    "desc": "CRYSTALS-Dilithium post-quantum digital signatures: Module-LWE keygen, sign, verify (NIST FIPS 204)",
+    "concept_behind": "The algorithm replacing ECDSA/RSA-PSS in TLS certificates, SSH host keys, code signing",
+    "language": "Python 3, no dependencies",
+    "tested": true
+  },
+  {
+    "id": "q-raft",
+    "name": "Q-RAFT",
+    "file": "src/q_raft.py",
+    "category": "infrastructure",
+    "desc": "Raft distributed consensus: leader election, log replication, snapshots, partition tolerance",
+    "concept_behind": "etcd / CockroachDB / TiKV / Consul — linearizable consensus for distributed systems",
+    "language": "Python 3, no dependencies",
+    "tested": true
+  },
+  {
+    "id": "q-bloom",
+    "name": "Q-BLOOM",
+    "file": "src/q_bloom.py",
+    "category": "infrastructure",
+    "desc": "Bloom + Counting + Xor + Cuckoo filters, HyperLogLog cardinality, MinHash / LSH similarity",
+    "concept_behind": "RocksDB / Redis / Elasticsearch / Cassandra — space-efficient probabilistic data structures",
+    "language": "Python 3, no dependencies",
+    "tested": true
   }
 ]
