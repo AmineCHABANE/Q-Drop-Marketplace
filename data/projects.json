@@ -1,86 +1,47 @@
 [
   {
-    "id": 51,
-    "name": "Q-AUD",
-    "desc": "Adaptive spectral audio codec",
-    "replaces": "Opus / AAC"
+    "id": "q-hnsw",
+    "name": "Q-HNSW",
+    "file": "src/q_hnsw.py",
+    "desc": "HNSW approximate nearest-neighbor search graph (Malkov & Yashunin 2018)",
+    "concept_behind": "Pinecone / Weaviate / Qdrant / pgvector",
+    "language": "Python 3, no dependencies",
+    "tested": true
   },
   {
-    "id": 53,
+    "id": "q-lsm",
+    "name": "Q-LSM",
+    "file": "src/q_lsm.py",
+    "desc": "Log-Structured Merge-tree: WAL, MemTable, SSTables, k-way merge compaction, tombstones",
+    "concept_behind": "RocksDB / LevelDB / Cassandra",
+    "language": "Python 3, no dependencies",
+    "tested": true
+  },
+  {
+    "id": "q-col",
     "name": "Q-COL",
-    "desc": "SIMD columnar engine",
-    "replaces": "Parquet / Arrow"
+    "file": "src/q_col.py",
+    "desc": "Columnar analytics engine: bitmap filter masks, hash GROUP BY, dictionary & run-length encoding",
+    "concept_behind": "DuckDB / Apache Arrow / Polars",
+    "language": "Python 3, no dependencies",
+    "tested": true
   },
   {
-    "id": 54,
-    "name": "Q-SCHED",
-    "desc": "Probabilistic OS scheduler",
-    "replaces": "CFS naive scheduler"
-  },
-  {
-    "id": 55,
+    "id": "q-stream",
     "name": "Q-STREAM",
-    "desc": "Distributed stream engine",
-    "replaces": "Flink"
+    "file": "src/q_stream.py",
+    "desc": "Windowed stream processor: tumbling/sliding/session windows, watermarks, late-event handling",
+    "concept_behind": "Kafka Streams / Flink / Google Dataflow",
+    "language": "Python 3, no dependencies",
+    "tested": true
   },
   {
-    "id": 56,
-    "name": "Q-QUIC",
-    "desc": "Userspace QUIC stack",
-    "replaces": "nginx QUIC"
-  },
-  {
-    "id": 57,
-    "name": "Q-EFBPF",
-    "desc": "Kernel event compression engine",
-    "replaces": "Datadog agents"
-  },
-  {
-    "id": 58,
-    "name": "Q-MERA",
-    "desc": "Holographic memory tensor system",
-    "replaces": "Redis cache layer"
-  },
-  {
-    "id": 59,
-    "name": "Q-LSM2",
-    "desc": "Learned LSM storage engine",
-    "replaces": "RocksDB"
-  },
-  {
-    "id": 60,
-    "name": "Q-HNSW2",
-    "desc": "Curvature-aware vector search",
-    "replaces": "FAISS / Pinecone"
-  },
-  {
-    "id": 63,
+    "id": "q-mem",
     "name": "Q-MEM",
-    "desc": "Arena allocator memory engine",
-    "replaces": "malloc / jemalloc"
-  },
-  {
-    "id": 64,
-    "name": "Q-COL2",
-    "desc": "Vectorized columnar analytics engine",
-    "replaces": "Pandas / Arrow"
-  },
-  {
-    "id": 65,
-    "name": "Q-SCHED-CFS",
-    "desc": "Linux scheduler clone",
-    "replaces": "OS schedulers"
-  },
-  {
-    "id": 66,
-    "name": "Q-STREAM2",
-    "desc": "Windowed stream processing",
-    "replaces": "Flink / Kafka Streams"
-  },
-  {
-    "id": 67,
-    "name": "Q-FUSE",
-    "desc": "GPU kernel fusion engine",
-    "replaces": "cuDNN / TensorRT"
+    "file": "src/q_mem.py",
+    "desc": "Arena allocator: jemalloc-style size classes, slab carving, O(1) free lists, fragmentation stats",
+    "concept_behind": "jemalloc / APR pools / game engine allocators",
+    "language": "Python 3, no dependencies",
+    "tested": true
   }
 ]
