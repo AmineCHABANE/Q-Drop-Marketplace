@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Q-Drop — 5 Real Infrastructure Algorithms, Implemented & Tested</title>
-  <meta name="description" content="Working, tested reference implementations of HNSW vector search, LSM-trees, columnar engines, stream windowing, and arena allocators. 100% of the code is public — read it before you pay. €9.99 commercial license.">
-  <meta property="og:title" content="Q-Drop — Real Infrastructure Algorithms, Implemented & Tested">
-  <meta property="og:description" content="The algorithms behind RocksDB, Pinecone, Kafka Streams, DuckDB and jemalloc — implemented in clean, commented Python. All code public. €9.99 commercial license.">
+  <title>Q-Drop — 10 Real Algorithms: Infrastructure + Quantum, Implemented & Tested</title>
+  <meta name="description" content="10 working, tested implementations: HNSW, LSM-trees, columnar engines, stream windowing, arena allocators + Grover's search, Kyber post-quantum KEM, Shor's algorithm, QEC, and VQE. All code public. €9.99 commercial license.">
+  <meta property="og:title" content="Q-Drop — Infrastructure + Quantum Algorithms, Implemented & Tested">
+  <meta property="og:description" content="The algorithms behind RocksDB, Pinecone, Kafka Streams — plus CRYSTALS-Kyber (NIST FIPS 203), Grover's search, Shor's factoring, and VQE. All code public. €9.99 lifetime license.">
   <meta property="og:type" content="website">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -40,7 +40,7 @@
       <span class="font-bold text-lg">Q-Drop</span>
     </a>
     <div class="hidden md:flex items-center gap-8 text-sm text-gray-400">
-      <a href="#modules" class="hover:text-white transition-colors">The 5 Modules</a>
+      <a href="#modules" class="hover:text-white transition-colors">10 Modules</a>
       <a href="#proof" class="hover:text-white transition-colors">Proof It Works</a>
       <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
       <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
@@ -61,15 +61,15 @@
   </div>
 
   <h1 class="text-5xl md:text-7xl font-black leading-tight tracking-tight mb-6">
-    The algorithms behind<br>
-    <span class="gradient-text">billion-dollar infrastructure.</span><br>
+    Infrastructure today.<br>
+    <span class="gradient-text">Quantum-ready tomorrow.</span><br>
     Implemented. Tested. Readable.
   </h1>
 
   <p class="text-gray-300 text-xl max-w-3xl mx-auto mb-4">
-    5 working reference implementations of the core algorithms inside
-    <strong class="text-white">RocksDB, Pinecone, Kafka Streams, DuckDB and jemalloc</strong>
-    — in clean, heavily commented Python with a full test suite.
+    <strong class="text-white">10 working reference implementations</strong> — the core algorithms behind
+    RocksDB, Pinecone, Kafka Streams and DuckDB, plus the quantum algorithms
+    (Grover, Kyber, Shor, QEC, VQE) that matter over the next decade.
   </p>
   <p class="text-gray-500 text-base mb-10">Free to read and study. €9.99 one-time license for commercial use. No subscription.</p>
 
@@ -89,7 +89,7 @@
     <div class="flex flex-wrap items-center justify-center gap-4 mt-4 text-sm text-gray-500">
       <span class="flex items-center gap-1.5">
         <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-        42 automated tests, all passing
+        87 automated tests, all passing
       </span>
       <span class="flex items-center gap-1.5">
         <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
@@ -115,76 +115,141 @@
     <div class="code-block p-6 text-gray-300 overflow-x-auto">
       <div class="text-gray-600"># Clone and enter the repo</div>
       <div><span class="text-green-400">$</span> git clone https://github.com/AmineCHABANE/Q-Drop-Marketplace && cd Q-Drop-Marketplace</div>
-      <div class="mt-4 text-gray-600"># Run the full test suite — 42 tests</div>
+      <div class="mt-4 text-gray-600"># Run the full test suite — 87 tests</div>
       <div><span class="text-green-400">$</span> python3 -m unittest discover -s src/tests -v</div>
-      <div class="text-gray-500">Ran 42 tests in 0.554s — <span class="text-green-400">OK</span></div>
-      <div class="mt-4 text-gray-600"># Run all 5 systems end to end</div>
+      <div class="text-gray-500">Ran 87 tests in 2.9s — <span class="text-green-400">OK</span></div>
+      <div class="mt-4 text-gray-600"># Run all 10 systems end to end</div>
       <div><span class="text-green-400">$</span> python3 examples/demo.py</div>
-      <div class="text-gray-500">All 5 systems ran successfully.</div>
+      <div class="text-gray-500">All 10 systems ran successfully.</div>
     </div>
   </div>
 </section>
 
-<!-- THE 5 MODULES -->
+<!-- THE 10 MODULES -->
 <section id="modules" class="max-w-6xl mx-auto px-6 py-20">
   <div class="text-center mb-14">
     <div class="badge mb-4">The Bundle</div>
-    <h2 class="text-4xl font-black mb-4">5 modules, 5 fundamental algorithms</h2>
-    <p class="text-gray-400 max-w-2xl mx-auto">Each one is the core algorithm of a production system you already use — stripped down to a few hundred readable, commented lines.</p>
+    <h2 class="text-4xl font-black mb-4">10 modules. Infrastructure today. Quantum tomorrow.</h2>
+    <p class="text-gray-400 max-w-2xl mx-auto">Each one is the core algorithm of a system you'll either use at work this year or encounter in the next five. Stripped to readable, commented Python.</p>
   </div>
 
-  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  <!-- Infrastructure subsection -->
+  <div class="mb-6">
+    <div class="flex items-center gap-3 mb-4">
+      <div class="h-px flex-1 bg-white/5"></div>
+      <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Infrastructure — Classical</span>
+      <div class="h-px flex-1 bg-white/5"></div>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
-    <div class="product-card glass p-5 rounded-xl">
-      <h3 class="font-bold text-lg text-indigo-300">Q-HNSW</h3>
-      <p class="text-gray-500 text-xs mb-2 font-mono">src/q_hnsw.py</p>
-      <p class="text-gray-400 text-sm mb-3">Hierarchical Navigable Small World graph for approximate nearest-neighbor vector search — the published algorithm (Malkov & Yashunin 2018) used by every major vector database.</p>
-      <div class="flex gap-2 flex-wrap">
-        <span class="tag-concept">Pinecone</span><span class="tag-concept">Qdrant</span><span class="tag-tech">Python</span>
+      <div class="product-card glass p-5 rounded-xl">
+        <h3 class="font-bold text-lg text-indigo-300">Q-HNSW</h3>
+        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_hnsw.py</p>
+        <p class="text-gray-400 text-sm mb-3">HNSW graph for approximate nearest-neighbor vector search — the published algorithm (Malkov & Yashunin 2018) used by every major vector database.</p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="tag-concept">Pinecone</span><span class="tag-concept">Qdrant</span><span class="tag-tech">Python</span>
+        </div>
       </div>
-    </div>
 
-    <div class="product-card glass p-5 rounded-xl">
-      <h3 class="font-bold text-lg text-indigo-300">Q-LSM</h3>
-      <p class="text-gray-500 text-xs mb-2 font-mono">src/q_lsm.py</p>
-      <p class="text-gray-400 text-sm mb-3">Log-Structured Merge-tree storage engine: write-ahead log, MemTable, SSTables, k-way merge compaction, and tombstone deletes — the architecture of RocksDB and Cassandra.</p>
-      <div class="flex gap-2 flex-wrap">
-        <span class="tag-concept">RocksDB</span><span class="tag-concept">Cassandra</span><span class="tag-tech">Python</span>
+      <div class="product-card glass p-5 rounded-xl">
+        <h3 class="font-bold text-lg text-indigo-300">Q-LSM</h3>
+        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_lsm.py</p>
+        <p class="text-gray-400 text-sm mb-3">Log-Structured Merge-tree: write-ahead log, MemTable, SSTables, k-way merge compaction, tombstone deletes — the architecture of RocksDB and Cassandra.</p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="tag-concept">RocksDB</span><span class="tag-concept">Cassandra</span><span class="tag-tech">Python</span>
+        </div>
       </div>
-    </div>
 
-    <div class="product-card glass p-5 rounded-xl">
-      <h3 class="font-bold text-lg text-indigo-300">Q-COL</h3>
-      <p class="text-gray-500 text-xs mb-2 font-mono">src/q_col.py</p>
-      <p class="text-gray-400 text-sm mb-3">Columnar analytics engine with bitmap filter masks, hash-based GROUP BY, dictionary encoding, and run-length encoding — how DuckDB and Arrow process analytical queries.</p>
-      <div class="flex gap-2 flex-wrap">
-        <span class="tag-concept">DuckDB</span><span class="tag-concept">Arrow</span><span class="tag-tech">Python</span>
+      <div class="product-card glass p-5 rounded-xl">
+        <h3 class="font-bold text-lg text-indigo-300">Q-COL</h3>
+        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_col.py</p>
+        <p class="text-gray-400 text-sm mb-3">Columnar analytics engine: bitmap filter masks, hash GROUP BY, dictionary encoding, run-length encoding — how DuckDB and Arrow process analytical queries.</p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="tag-concept">DuckDB</span><span class="tag-concept">Arrow</span><span class="tag-tech">Python</span>
+        </div>
       </div>
-    </div>
 
-    <div class="product-card glass p-5 rounded-xl">
-      <h3 class="font-bold text-lg text-indigo-300">Q-STREAM</h3>
-      <p class="text-gray-500 text-xs mb-2 font-mono">src/q_stream.py</p>
-      <p class="text-gray-400 text-sm mb-3">Windowed stream processor implementing the Dataflow model: tumbling, sliding and session windows, watermarks, and late-event handling — the concepts behind Kafka Streams and Flink.</p>
-      <div class="flex gap-2 flex-wrap">
-        <span class="tag-concept">Kafka Streams</span><span class="tag-concept">Flink</span><span class="tag-tech">Python</span>
+      <div class="product-card glass p-5 rounded-xl">
+        <h3 class="font-bold text-lg text-indigo-300">Q-STREAM</h3>
+        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_stream.py</p>
+        <p class="text-gray-400 text-sm mb-3">Windowed stream processor: tumbling, sliding and session windows, watermarks, late-event handling — the Dataflow model behind Kafka Streams and Flink.</p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="tag-concept">Kafka Streams</span><span class="tag-concept">Flink</span><span class="tag-tech">Python</span>
+        </div>
       </div>
-    </div>
 
-    <div class="product-card glass p-5 rounded-xl">
-      <h3 class="font-bold text-lg text-indigo-300">Q-MEM</h3>
-      <p class="text-gray-500 text-xs mb-2 font-mono">src/q_mem.py</p>
-      <p class="text-gray-400 text-sm mb-3">Arena allocator with jemalloc-style size classes, slab carving, O(1) LIFO free lists, and live fragmentation statistics — the memory model of allocators and game engines.</p>
-      <div class="flex gap-2 flex-wrap">
-        <span class="tag-concept">jemalloc</span><span class="tag-concept">APR pools</span><span class="tag-tech">Python</span>
+      <div class="product-card glass p-5 rounded-xl">
+        <h3 class="font-bold text-lg text-indigo-300">Q-MEM</h3>
+        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_mem.py</p>
+        <p class="text-gray-400 text-sm mb-3">Arena allocator with jemalloc-style size classes, slab carving, O(1) LIFO free lists, and live fragmentation statistics.</p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="tag-concept">jemalloc</span><span class="tag-concept">APR pools</span><span class="tag-tech">Python</span>
+        </div>
       </div>
-    </div>
 
-    <div class="product-card glass-strong p-5 rounded-xl flex flex-col justify-center text-center">
-      <h3 class="font-bold text-lg text-white mb-2">More modules coming</h3>
-      <p class="text-gray-400 text-sm">Your license covers every future module added to this repository — bloom filters, consistent hashing, Raft, and more are planned. One payment, everything forever.</p>
     </div>
+  </div>
 
+  <!-- Quantum subsection -->
+  <div>
+    <div class="flex items-center gap-3 mb-4">
+      <div class="h-px flex-1 bg-white/5"></div>
+      <span class="text-xs font-bold text-cyan-500 uppercase tracking-widest">Quantum — Simulation</span>
+      <div class="h-px flex-1 bg-white/5"></div>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(6,182,212,0.15)">
+        <h3 class="font-bold text-lg text-cyan-300">Q-GROVER</h3>
+        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_grover.py</p>
+        <p class="text-gray-400 text-sm mb-3">Grover's quantum search: full statevector simulation, amplitude amplification, QFT. O(√N) queries versus classical O(N). 99.7% success probability shown in demo.</p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="tag-concept">Quantum speedup</span><span class="tag-tech">Grover 1996</span>
+        </div>
+      </div>
+
+      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(6,182,212,0.15)">
+        <h3 class="font-bold text-lg text-cyan-300">Q-KYBER</h3>
+        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_kyber.py</p>
+        <p class="text-gray-400 text-sm mb-3">CRYSTALS-Kyber KEM (NIST FIPS 203): Module-LWE key generation, encapsulation, decapsulation — the post-quantum standard replacing RSA/ECC in TLS, SSH, Signal.</p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="tag-concept">Post-quantum TLS</span><span class="tag-tech">NIST FIPS 203</span>
+        </div>
+      </div>
+
+      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(6,182,212,0.15)">
+        <h3 class="font-bold text-lg text-cyan-300">Q-SHOR</h3>
+        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_shor.py</p>
+        <p class="text-gray-400 text-sm mb-3">Shor's algorithm: quantum QFT period-finding, GCD post-processing. Shows exactly why RSA breaks with a quantum computer — O(n³) vs classical exp complexity.</p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="tag-concept">Breaks RSA</span><span class="tag-tech">Shor 1997</span>
+        </div>
+      </div>
+
+      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(6,182,212,0.15)">
+        <h3 class="font-bold text-lg text-cyan-300">Q-QEC</h3>
+        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_qec.py</p>
+        <p class="text-gray-400 text-sm mb-3">Quantum error correction: 3-qubit bit/phase-flip codes, Shor's [[9,1,3]] code, Steane [[7,1,3]] stabilizer code. The engineering layer enabling fault-tolerant quantum computing.</p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="tag-concept">Fault-tolerant QC</span><span class="tag-tech">Stabilizer codes</span>
+        </div>
+      </div>
+
+      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(6,182,212,0.15)">
+        <h3 class="font-bold text-lg text-cyan-300">Q-VQE</h3>
+        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_vqe.py</p>
+        <p class="text-gray-400 text-sm mb-3">VQE + QAOA: parametric ansatz circuits, parameter-shift rule gradients, H₂ molecule ground state. The hybrid quantum-classical approach running on NISQ hardware today.</p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="tag-concept">Quantum chemistry</span><span class="tag-tech">Peruzzo 2014</span>
+        </div>
+      </div>
+
+      <div class="product-card glass-strong p-5 rounded-xl flex flex-col justify-center text-center">
+        <h3 class="font-bold text-lg text-white mb-2">More coming</h3>
+        <p class="text-gray-400 text-sm">License covers every future module — bloom filters, Raft consensus, CRYSTALS-Dilithium signatures, surface codes, and more. One payment, everything forever.</p>
+      </div>
+
+    </div>
   </div>
 </section>
 
@@ -198,20 +263,20 @@
     <div class="grid md:grid-cols-3 gap-6">
       <div class="glass p-6 rounded-xl">
         <h3 class="font-bold text-lg mb-2 text-indigo-300">Interview prep</h3>
-        <p class="text-gray-400 text-sm">LSM-trees, vector search and stream windowing come up constantly in system-design interviews. Reading a clean 300-line implementation beats skimming a 300,000-line codebase.</p>
+        <p class="text-gray-400 text-sm">LSM-trees, vector search, stream windowing — and increasingly Grover's, QEC, and post-quantum crypto — come up in system-design and "quantum readiness" conversations at FAANG. Clean 300-line implementations beat skimming million-line codebases.</p>
       </div>
       <div class="glass p-6 rounded-xl">
-        <h3 class="font-bold text-lg mb-2 text-indigo-300">Learning & teaching</h3>
-        <p class="text-gray-400 text-sm">Every file explains the <em>why</em> behind each data structure, with references to the original papers. Use it for courses, study groups, or onboarding juniors.</p>
+        <h3 class="font-bold text-lg mb-2 text-indigo-300">Getting quantum-ready</h3>
+        <p class="text-gray-400 text-sm">Kyber (NIST FIPS 203) is already shipping in TLS 1.3 and Signal. VQE runs on real hardware at IBM and IonQ today. These aren't future tech — they're the algorithms your security and ML teams will work with in the next 12 months.</p>
       </div>
       <div class="glass p-6 rounded-xl">
         <h3 class="font-bold text-lg mb-2 text-indigo-300">Building your own</h3>
-        <p class="text-gray-400 text-sm">Prototyping a storage engine, a vector index, or an event pipeline? Start from a tested skeleton instead of a blank page.</p>
+        <p class="text-gray-400 text-sm">Prototyping a storage engine, a vector index, a quantum circuit simulator, or a post-quantum auth flow? Start from a tested, well-commented skeleton instead of a blank page.</p>
       </div>
     </div>
 
     <div class="glass p-6 rounded-xl mt-6 text-center">
-      <p class="text-gray-300 text-sm"><strong class="text-white">Honest limits:</strong> these are reference implementations optimized for clarity, not speed. They won't outperform RocksDB or FAISS — they exist so you can understand what those systems do under the hood.</p>
+      <p class="text-gray-300 text-sm"><strong class="text-white">Honest limits:</strong> reference implementations optimized for clarity, not speed. They won't outperform RocksDB, FAISS, Qiskit, or PennyLane — they exist so you can understand what those systems do under the hood.</p>
     </div>
   </div>
 </section>
@@ -220,7 +285,7 @@
 <section id="pricing" class="max-w-4xl mx-auto px-6 py-24 text-center">
   <div class="badge mb-4">Fair Pricing</div>
   <h2 class="text-4xl font-black mb-4">Free to study. €9.99 to use commercially.</h2>
-  <p class="text-gray-400 mb-12 max-w-2xl mx-auto">The entire source is public — like Sidekiq or other fair-code projects, you can evaluate 100% of what you're buying before paying a cent.</p>
+  <p class="text-gray-400 mb-12 max-w-2xl mx-auto">The entire source is public — evaluate 100% of what you're buying before paying a cent. One license covers all 10 modules and everything added in future.</p>
 
   <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
     <div class="glass rounded-2xl p-8">
@@ -313,7 +378,7 @@
         <svg class="w-5 h-5 text-gray-400 transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
       </button>
       <div class="faq-answer px-6 text-gray-400 text-sm">
-        <div class="pb-5">Clone the repository and run <code class="text-cyan-300">python3 -m unittest discover -s src/tests -v</code> (42 tests) and <code class="text-cyan-300">python3 examples/demo.py</code>. Everything runs with zero dependencies on any machine with Python 3.</div>
+        <div class="pb-5">Clone the repository and run <code class="text-cyan-300">python3 -m unittest discover -s src/tests -v</code> (87 tests) and <code class="text-cyan-300">python3 examples/demo.py</code>. Everything runs with zero dependencies on any machine with Python 3.</div>
       </div>
     </div>
 
@@ -343,8 +408,8 @@
 <!-- FINAL CTA -->
 <section class="py-20 hero-glow">
   <div class="max-w-3xl mx-auto px-6 text-center">
-    <h2 class="text-5xl font-black mb-6">Understand the systems<br>you use every day</h2>
-    <p class="text-gray-400 text-lg mb-10 max-w-2xl mx-auto">Read the code for free. If it's useful at work, the license is €9.99 — once, forever, including everything added later.</p>
+    <h2 class="text-5xl font-black mb-6">Infrastructure today.<br>Quantum-ready tomorrow.</h2>
+    <p class="text-gray-400 text-lg mb-10 max-w-2xl mx-auto">Read the code for free. If it's useful at work — classical or quantum — the license is €9.99 once, forever, including everything added later.</p>
     <div class="flex flex-col sm:flex-row gap-3 justify-center">
       <a href="https://github.com/AmineCHABANE/Q-Drop-Marketplace"
          class="glass text-white px-10 py-5 rounded-xl font-bold text-xl hover:bg-white/10 transition-colors">
@@ -368,7 +433,7 @@
           <div class="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center font-black text-xs">Q</div>
           <span class="font-bold">Q-Drop</span>
         </div>
-        <p class="text-gray-500 text-sm">Real, tested reference implementations of the algorithms behind modern data infrastructure.</p>
+        <p class="text-gray-500 text-sm">Real, tested reference implementations of the algorithms behind modern infrastructure and quantum computing.</p>
       </div>
       <div>
         <h4 class="font-semibold mb-3 text-sm text-gray-400 uppercase tracking-wider">Explore</h4>

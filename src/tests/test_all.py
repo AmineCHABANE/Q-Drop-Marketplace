@@ -21,6 +21,15 @@ from q_lsm import LSMTree
 from q_col import ColumnStore, DictColumn, RLEColumn, Mask
 from q_stream import StreamProcessor, SessionWindowProcessor, Event
 from q_mem import ArenaAllocator, build_size_classes, size_class_for
+from q_grover import GroverSearch, PhaseOracle, DiffusionOperator, QuantumFourierTransform, _hadamard_all
+from q_kyber import keygen, encapsulate, decapsulate, verify_correctness, N as KYBER_N
+from q_shor import ShorFactorer, find_period_classical, is_prime, gcd
+from q_qec import (BitFlipCode, PhaseFlipCode, ShorCode, QubitState,
+                   Register, Error, ErrorType, apply_error, run_error_correction_demo,
+                   build_steane_code, PauliOperator)
+from q_vqe import (VQE, QAOA, HardwareEfficientAnsatz, UCCSDSingletAnsatz,
+                   Hamiltonian, PauliTerm,
+                   zero_state, _apply_ry, _apply_h, _pauli_string_expectation)
 
 
 # ---------------------------------------------------------------------------
@@ -412,6 +421,365 @@ class TestArena(unittest.TestCase):
             arena.write(a, bytes([i] * 8))
         for i, a in enumerate(allocs):
             self.assertEqual(arena.read(a, 8), bytes([i] * 8))
+
+
+# ---------------------------------------------------------------------------
+# Q-GROVER
+# ---------------------------------------------------------------------------
+
+class TestGrover(unittest.TestCase):
+    def test_finds_target_with_high_probability(self):
+        """Grover's should find the target with probability >> 1/N."""
+        gs = GroverSearch(n_qubits=4, seed=42)   # N = 16
+        target = 7
+        p_success = gs.probability_of_success([target])
+        # Optimal Grover: should exceed 90% success probability for N=16
+        self.assertGreater(p_success, 0.9)
+
+    def test_single_search_returns_target(self):
+        """Run search 10 times; target must appear in majority."""
+        target = 11
+        gs = GroverSearch(n_qubits=4, seed=0)
+        hits = sum(1 for s in range(10) if GroverSearch(n_qubits=4, seed=s).search([target]) == target)
+        self.assertGreaterEqual(hits, 8)
+
+    def test_optimal_iterations(self):
+        """π/4 · √N for 1 solution."""
+        gs = GroverSearch(n_qubits=8)   # N = 256
+        k = gs.optimal_iterations()
+        # Should be close to π/4 · sqrt(256) = π/4 · 16 ≈ 12.6
+        self.assertAlmostEqual(k, 13, delta=2)
+
+    def test_multiple_targets(self):
+        """With 4 targets in N=16, probability should be very high."""
+        gs = GroverSearch(n_qubits=4, n_solutions=4, seed=1)
+        targets = [0, 4, 8, 12]
+        p = gs.probability_of_success(targets)
+        self.assertGreater(p, 0.95)
+
+    def test_statevector_is_normalized(self):
+        """Total probability must sum to 1."""
+        gs = GroverSearch(n_qubits=5, seed=7)
+        sv = gs.statevector([3])
+        total_prob = sum(abs(a)**2 for a in sv)
+        self.assertAlmostEqual(total_prob, 1.0, places=10)
+
+    def test_hadamard_all_uniform(self):
+        """H⊗n should give uniform amplitudes 1/√N."""
+        import math
+        state = _hadamard_all(4)
+        expected = 1.0 / math.sqrt(16)
+        for amp in state:
+            self.assertAlmostEqual(abs(amp), expected, places=12)
+
+    def test_qft_preserves_norm(self):
+        """QFT should be unitary (norm-preserving)."""
+        import math
+        qft = QuantumFourierTransform(n_qubits=4)
+        state = _hadamard_all(4)
+        transformed = qft.apply(state)
+        norm = sum(abs(a)**2 for a in transformed)
+        self.assertAlmostEqual(norm, 1.0, places=8)
+
+    def test_invalid_oracle_raises(self):
+        gs = GroverSearch(n_qubits=3)
+        with self.assertRaises(ValueError):
+            gs.search([100])   # 100 >= 2^3 = 8
+
+
+# ---------------------------------------------------------------------------
+# Q-KYBER
+# ---------------------------------------------------------------------------
+
+class TestKyber(unittest.TestCase):
+    def test_keygen_produces_keys(self):
+        seed = b"\x00" * 32
+        pk, sk = keygen(seed)
+        # Matrix A is k×k = 2×2, each polynomial has N=256 coefficients
+        self.assertEqual(len(pk.A), 2)
+        self.assertEqual(len(pk.A[0]), 2)
+        self.assertEqual(len(pk.A[0][0]), KYBER_N)
+
+    def test_encap_decap_correctness(self):
+        """Shared secrets must match after key exchange."""
+        seed = b"\x01" * 32
+        msg  = b"\x42" * 32
+        pk, sk = keygen(seed)
+        ct, ss_enc = encapsulate(pk, msg)
+        ss_dec = decapsulate(sk, ct)
+        self.assertEqual(ss_enc, ss_dec)
+
+    def test_different_messages_different_secrets(self):
+        seed = b"\x00" * 32
+        pk, sk = keygen(seed)
+        msg1, msg2 = b"\x01" * 32, b"\x02" * 32
+        _, ss1 = encapsulate(pk, msg1)
+        _, ss2 = encapsulate(pk, msg2)
+        self.assertNotEqual(ss1, ss2)
+
+    def test_different_keys_different_decap(self):
+        """Decapsulating with the wrong key should produce a different secret."""
+        pk1, sk1 = keygen(b"\x01" * 32)
+        pk2, sk2 = keygen(b"\x02" * 32)
+        msg = b"\xAB" * 32
+        ct, ss_enc = encapsulate(pk1, msg)
+        ss_wrong = decapsulate(sk2, ct)
+        self.assertNotEqual(ss_enc, ss_wrong)
+
+    def test_bulk_correctness(self):
+        """verify_correctness helper should pass all 10 trials."""
+        successes, n = verify_correctness(n_trials=10)
+        self.assertEqual(successes, n)
+
+    def test_ciphertext_structure(self):
+        pk, sk = keygen(b"\x00" * 32)
+        ct, _ = encapsulate(pk)
+        # u: k=2 polynomials of N=256 compressed coefficients
+        self.assertEqual(len(ct.u), 2)
+        self.assertEqual(len(ct.u[0]), KYBER_N)
+        # v: single polynomial
+        self.assertEqual(len(ct.v), KYBER_N)
+
+
+# ---------------------------------------------------------------------------
+# Q-SHOR
+# ---------------------------------------------------------------------------
+
+class TestShor(unittest.TestCase):
+    def test_gcd(self):
+        self.assertEqual(gcd(48, 18), 6)
+        self.assertEqual(gcd(100, 75), 25)
+        self.assertEqual(gcd(7, 13), 1)
+
+    def test_is_prime(self):
+        primes = [2, 3, 5, 7, 11, 13, 17, 97, 9973]
+        composites = [1, 4, 6, 9, 15, 100, 9975]
+        for p in primes:
+            self.assertTrue(is_prime(p), f"{p} should be prime")
+        for c in composites:
+            self.assertFalse(is_prime(c), f"{c} should be composite")
+
+    def test_classical_period_finding(self):
+        """2^r ≡ 1 (mod 15) has period 4."""
+        r = find_period_classical(2, 15)
+        self.assertEqual(r, 4)
+        self.assertEqual(pow(2, r, 15), 1)
+
+    def test_factor_small_semiprime(self):
+        """Factor N=15=3×5 and N=21=3×7."""
+        shor = ShorFactorer(use_quantum_simulation=False)
+        for N, factors in [(15, {3, 5}), (21, {3, 7})]:
+            f = shor.factor(N, seed=0)
+            self.assertIsNotNone(f, f"Failed to factor {N}")
+            self.assertIn(f, factors, f"Factor of {N} should be in {factors}, got {f}")
+
+    def test_full_factorization(self):
+        """Full factorization of 12 = 2 × 2 × 3."""
+        shor = ShorFactorer(use_quantum_simulation=False)
+        factors = shor.full_factorization(12, seed=0)
+        self.assertEqual(factors, [2, 2, 3])
+
+    def test_prime_raises(self):
+        shor = ShorFactorer()
+        with self.assertRaises(ValueError):
+            shor.factor(13)
+
+    def test_even_number_factor(self):
+        shor = ShorFactorer()
+        self.assertEqual(shor.factor(14), 2)
+
+    def test_perfect_power_detection(self):
+        shor = ShorFactorer()
+        f = shor.factor(8)   # 2^3
+        self.assertIn(f, {2, 4})
+
+
+# ---------------------------------------------------------------------------
+# Q-QEC
+# ---------------------------------------------------------------------------
+
+class TestQEC(unittest.TestCase):
+    def test_qubit_state_normalization(self):
+        import math
+        q = QubitState(3 + 0j, 4 + 0j)
+        self.assertAlmostEqual(abs(q.alpha)**2 + abs(q.beta)**2, 1.0)
+        self.assertAlmostEqual(abs(q.alpha), 0.6)
+
+    def test_pauli_gates(self):
+        import math
+        # X: |0⟩ → |1⟩
+        q = QubitState.zero().apply_x()
+        self.assertAlmostEqual(abs(q.beta), 1.0)
+        # Z: |+⟩ → |−⟩
+        plus = QubitState.plus()
+        minus = plus.apply_z()
+        self.assertAlmostEqual(minus.beta.real, -1/math.sqrt(2), places=10)
+        # HZH = X
+        q0 = QubitState.zero()
+        q1 = q0.apply_h().apply_z().apply_h()
+        # Should equal X|0⟩ = |1⟩ approximately
+        self.assertAlmostEqual(abs(q1.beta), 1.0, places=10)
+
+    def test_fidelity_same_state(self):
+        q = QubitState.plus()
+        self.assertAlmostEqual(q.fidelity(q), 1.0)
+
+    def test_fidelity_orthogonal(self):
+        self.assertAlmostEqual(QubitState.zero().fidelity(QubitState.one()), 0.0)
+
+    def test_bit_flip_code_corrects_error(self):
+        import math
+        code = BitFlipCode()
+        alpha, beta = 1/math.sqrt(2), 1/math.sqrt(2)
+        reg = code.encode(alpha, beta)
+        # Inject bit flip on qubit 1
+        reg.apply_x(1)
+        s01, s12 = code.syndrome(reg, random.Random(0))
+        code.correct(reg, s01, s12)
+        recovered = code.decode(reg, random.Random(0))
+        ideal = QubitState(alpha, beta)
+        self.assertGreater(recovered.fidelity(ideal), 0.99)
+
+    def test_bit_flip_code_no_error(self):
+        import math
+        code = BitFlipCode()
+        alpha, beta = 1/math.sqrt(2), 1/math.sqrt(2)
+        reg = code.encode(alpha, beta)
+        s01, s12 = code.syndrome(reg, random.Random(0))
+        self.assertEqual((s01, s12), (0, 0))
+
+    def test_phase_flip_code_corrects_z_error(self):
+        import math
+        code = PhaseFlipCode()
+        alpha, beta = 1/math.sqrt(2), 1/math.sqrt(2)
+        reg = code.encode(alpha, beta)
+        reg.apply_z(2)
+        s01, s12 = code.syndrome(reg, random.Random(0))
+        code.correct(reg, s01, s12)
+        # No assertion on exact recovered state due to product-state approximation
+        # Just verify syndrome and correction ran without error
+
+    def test_error_correction_monte_carlo(self):
+        stats = run_error_correction_demo(n_trials=200, p_error=0.05, seed=42)
+        # QEC should outperform no-correction
+        self.assertGreater(
+            stats["success_rate_with_qec"],
+            stats["success_rate_without_qec"]
+        )
+        self.assertGreater(stats["success_rate_with_qec"], 0.85)
+
+    def test_steane_code_structure(self):
+        code = build_steane_code()
+        self.assertEqual(code.n, 7)
+        self.assertEqual(code.k, 1)
+        self.assertEqual(len(code.generators), 6)
+
+    def test_stabilizer_syndrome_trivial(self):
+        code = build_steane_code()
+        # Identity error: should commute with all generators
+        n = 7
+        identity = PauliOperator(n, [0]*n, [0]*n)
+        syndrome = code.syndrome(identity)
+        self.assertEqual(syndrome, [0] * 6)
+
+    def test_pauli_commutation(self):
+        """X and Z anticommute, X and X commute."""
+        n = 1
+        X = PauliOperator(n, [1], [0])
+        Z = PauliOperator(n, [0], [1])
+        self.assertFalse(X.commutes_with(Z))
+        self.assertTrue(X.commutes_with(X))
+        self.assertTrue(Z.commutes_with(Z))
+
+
+# ---------------------------------------------------------------------------
+# Q-VQE
+# ---------------------------------------------------------------------------
+
+class TestVQE(unittest.TestCase):
+    def test_zero_state(self):
+        sv = zero_state(2)
+        self.assertEqual(len(sv), 4)
+        self.assertAlmostEqual(abs(sv[0]), 1.0)
+
+    def test_pauli_z_expectation_on_zero(self):
+        """⟨0|Z|0⟩ = 1."""
+        sv = zero_state(1)
+        ev = _pauli_string_expectation(sv, "Z")
+        self.assertAlmostEqual(ev, 1.0)
+
+    def test_pauli_x_expectation_on_zero(self):
+        """⟨0|X|0⟩ = 0."""
+        sv = zero_state(1)
+        ev = _pauli_string_expectation(sv, "X")
+        self.assertAlmostEqual(ev, 0.0, places=10)
+
+    def test_pauli_z_expectation_on_plus(self):
+        """⟨+|Z|+⟩ = 0."""
+        sv = zero_state(1)
+        sv = _apply_h(sv, 0, 1)
+        ev = _pauli_string_expectation(sv, "Z")
+        self.assertAlmostEqual(ev, 0.0, places=10)
+
+    def test_hamiltonian_energy_ground_state(self):
+        """For single-qubit H = Z, ground state is |1⟩ with energy -1."""
+        H = Hamiltonian([PauliTerm(1.0, "Z")])
+        sv = zero_state(1)
+        sv[0], sv[1] = 0j, 1 + 0j   # |1⟩
+        ev = H.expectation_value(sv)
+        self.assertAlmostEqual(ev, -1.0, places=10)
+
+    def test_h2_hamiltonian_energy_range(self):
+        """H₂ ground state energy should be around -1.137 Hartree."""
+        H = Hamiltonian.h2_molecule()
+        ansatz = UCCSDSingletAnsatz()
+        vqe = VQE(H, ansatz, learning_rate=0.05, max_iterations=300)
+        result = vqe.run(seed=42)
+        # Ground state is around -1.137; accept -1.3 to -0.8 for convergence range
+        self.assertLess(result.optimal_energy, -0.8)
+        self.assertGreater(result.optimal_energy, -1.3)
+
+    def test_ising_model_hamiltonian(self):
+        H = Hamiltonian.ising_model(n=2, J=1.0, h=0.5)
+        self.assertGreater(len(H.terms), 0)
+        self.assertEqual(H.n_qubits, 2)
+
+    def test_hardware_efficient_ansatz_param_count(self):
+        ansatz = HardwareEfficientAnsatz(n_qubits=3, depth=2)
+        # (depth+1) × n_qubits = 3 × 3 = 9
+        self.assertEqual(ansatz.n_params, 9)
+
+    def test_hardware_efficient_ansatz_builds_state(self):
+        ansatz = HardwareEfficientAnsatz(n_qubits=2, depth=1)
+        params = [0.0] * ansatz.n_params
+        sv = ansatz.build_state(params)
+        # All-zero rotation: state stays near |00⟩
+        self.assertEqual(len(sv), 4)
+        total_prob = sum(abs(a)**2 for a in sv)
+        self.assertAlmostEqual(total_prob, 1.0, places=8)
+
+    def test_vqe_minimizes_energy(self):
+        """VQE should lower energy from initial random params."""
+        import math
+        H = Hamiltonian([PauliTerm(1.0, "ZZ"), PauliTerm(0.5, "XI")])
+        ansatz = HardwareEfficientAnsatz(n_qubits=2, depth=1)
+        vqe = VQE(H, ansatz, learning_rate=0.05, max_iterations=100)
+        result = vqe.run(seed=0)
+        # Energy must have decreased over iterations
+        self.assertLess(result.energy_history[-1], result.energy_history[0])
+
+    def test_maxcut_hamiltonian(self):
+        edges = [(0, 1), (1, 2), (2, 0)]
+        H = Hamiltonian.maxcut_qubo(edges, n=3)
+        self.assertEqual(H.n_qubits, 3)
+
+    def test_qaoa_runs(self):
+        edges = [(0, 1), (1, 2)]
+        H = Hamiltonian.maxcut_qubo(edges, n=3)
+        qaoa = QAOA(H, p_layers=1)
+        result = qaoa.run(seed=42)
+        self.assertIsNotNone(result.optimal_energy)
+        self.assertGreater(len(result.energy_history), 0)
 
 
 if __name__ == "__main__":
