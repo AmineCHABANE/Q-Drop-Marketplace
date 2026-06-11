@@ -9,14 +9,23 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Set up Python
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python-version }}
       - name: Run test suite
         run: python -m unittest discover -s src/tests -v
       - name: Run end-to-end demo
         run: python examples/demo.py
+      - name: License system smoke test
+        run: |
+          python tools/license_manager.py init
+          KEY=$(python tools/license_manager.py issue --email ci@example.com --order CI-TEST | sed -n 3p)
+          python tools/license_manager.py verify --key "$KEY"
+          python tools/license_manager.py status

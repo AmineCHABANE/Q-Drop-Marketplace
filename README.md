@@ -1,8 +1,8 @@
 # Q-Drop — Infrastructure + Quantum Algorithms, Implemented For Real
 
-**Ten working, tested reference implementations** — the core algorithms behind
-modern data infrastructure *and* the quantum algorithms that will reshape
-computing over the next decade.
+**Thirteen working, tested reference implementations** — the core algorithms
+behind modern data infrastructure, the quantum algorithms that will reshape
+computing, and the quantum-safe formats for everyday data in that future.
 
 Every line of code is in this repository. Read it all before you pay anything.
 
@@ -28,8 +28,29 @@ Every line of code is in this repository. Read it all before you pay anything.
 | [`src/q_qec.py`](src/q_qec.py) | QEC: bit/phase-flip codes, Shor [[9,1,3]], Steane [[7,1,3]] stabilizer | Fault-tolerant QC — the engineering layer enabling quantum advantage |
 | [`src/q_vqe.py`](src/q_vqe.py) | VQE + QAOA: parametric ansatz, parameter-shift gradients, H₂ molecule | NISQ quantum chemistry and combinatorial optimization today |
 
+### Quantum-safe formats (the encodings of tomorrow)
+
+| Module | What it implements | Why it matters |
+|--------|--------------------|----------------|
+| [`src/q_pack.py`](src/q_pack.py) | LZSS + canonical Huffman compression (the DEFLATE recipe, RFC 1951) | Post-quantum crypto is BIG — compression matters more, not less |
+| [`src/q_sign.py`](src/q_sign.py) | Hash-based signatures: WOTS + Merkle tree (XMSS-style, cf. NIST FIPS 205) | Signatures that survive Shor's algorithm — security = SHA-256 only |
+| [`src/q_qsf.py`](src/q_qsf.py) | **QSF** — Quantum-Safe File format: compression + Kyber encryption + hash signing in one container | What PGP/age look like when every primitive must survive a quantum computer |
+
 Pure Python 3, zero external dependencies, every file commented with
 references to original papers.
+
+### Post-quantum license system (dogfooding)
+
+License keys for this product are themselves issued with `q_sign` — WOTS
+hash-based signatures verifiable offline against the Merkle root in
+[`LICENSE_ROOT.txt`](LICENSE_ROOT.txt). No license server, no database,
+quantum-unforgeable. Buyers verify with one command:
+
+```bash
+python3 tools/license_manager.py verify --key "<your key>"
+```
+
+Full flow documented in [LICENSING.md](LICENSING.md).
 
 ## Try it right now
 
@@ -37,10 +58,10 @@ references to original papers.
 git clone https://github.com/AmineCHABANE/Q-Drop-Marketplace
 cd Q-Drop-Marketplace
 
-# Run the full test suite (87 tests)
+# Run the full test suite (114 tests)
 python3 -m unittest discover -s src/tests -v
 
-# Run the end-to-end demo of all 10 systems
+# Run the end-to-end demo of all 13 systems
 python3 examples/demo.py
 ```
 

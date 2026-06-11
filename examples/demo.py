@@ -1,5 +1,5 @@
 """
-Q-Drop demo — runs all 10 reference implementations end to end.
+Q-Drop demo — runs all 13 reference implementations end to end.
 
 Usage (from the repository root):
     python3 examples/demo.py
@@ -24,6 +24,9 @@ from q_kyber import keygen, encapsulate, decapsulate
 from q_shor import ShorFactorer, demonstrate_why_rsa_breaks
 from q_qec import BitFlipCode, run_error_correction_demo, build_steane_code
 from q_vqe import VQE, Hamiltonian, UCCSDSingletAnsatz, QAOA
+import q_pack
+import q_sign
+import q_qsf
 
 
 def divider(title: str) -> None:
@@ -223,4 +226,55 @@ qaoa = QAOA(H_cut, p_layers=1)
 qaoa_result = qaoa.run(seed=0)
 print(f"  Best cut value: {-qaoa_result.optimal_energy:.4f}  (max-cut = 2 for K₃)")
 
-print(f"\n{'=' * 60}\n  All 10 systems ran successfully.\n{'=' * 60}")
+# ---------------------------------------------------------------------------
+divider("11. Q-PACK — LZSS + Huffman compression (the gzip recipe)")
+
+text = open(os.path.join(os.path.dirname(__file__), "..", "README.md"), "rb").read()
+blob = q_pack.compress(text)
+restored = q_pack.decompress(blob)
+print(f"README.md: {len(text)} bytes → {len(blob)} bytes "
+      f"({100 * len(blob) / len(text):.0f}% of original)")
+print(f"Lossless roundtrip: {restored == text}")
+
+repetitive = b"quantum " * 1000
+print(f"Repetitive input: {len(repetitive)} → {len(q_pack.compress(repetitive))} bytes")
+
+# ---------------------------------------------------------------------------
+divider("12. Q-SIGN — post-quantum hash-based signatures (WOTS + Merkle)")
+
+signer = q_sign.MerkleSigner.generate(height=4, seed=b"demo-seed-0123456789abcdef000000")
+root = signer.public_root
+print(f"Keypair: 2^4 = {signer.n_leaves} one-time signatures, "
+      f"public root = {root.hex()[:32]}...")
+
+message = b"license: buyer@example.com, order ST-123"
+sig = signer.sign(message)
+print(f"Signature: leaf {sig.leaf_index}, "
+      f"{len(sig.to_bytes())} bytes (67 WOTS chains + auth path)")
+print(f"Verify (correct message): {q_sign.verify(message, sig, root)}")
+print(f"Verify (tampered message): {q_sign.verify(b'license: attacker@evil.com', sig, root)}")
+print("Security reduces to SHA-256 only — Shor's algorithm has no effect.")
+
+# ---------------------------------------------------------------------------
+divider("13. Q-QSF — Quantum-Safe File format (compress + Kyber + sign)")
+
+document = ("Donnees quotidiennes proteges pour l'ere quantique. " * 60).encode()
+pk_qsf, sk_qsf = keygen(b"\x09" * 32)
+
+container = q_qsf.create(
+    document,
+    metadata={"creator": "q-drop-demo", "type": "text/plain"},
+    recipient_pk=pk_qsf,
+    signer=signer,
+    _kem_message=b"\x33" * 32,
+)
+print(f"Document: {len(document)} bytes")
+print(f"QSF container (compressed + Kyber-encrypted + hash-signed): {len(container)} bytes")
+
+opened = q_qsf.open_container(container, sk=sk_qsf, signer_root=root)
+print(f"Decrypted + decompressed: {len(opened.payload)} bytes, "
+      f"intact = {opened.payload == document}")
+print(f"Signature valid: {opened.signature_valid}")
+print("Every cryptographic layer in this file survives a quantum computer.")
+
+print(f"\n{'=' * 60}\n  All 13 systems ran successfully.\n{'=' * 60}")

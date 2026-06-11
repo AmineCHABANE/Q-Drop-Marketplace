@@ -98,5 +98,35 @@
     "concept_behind": "Near-term (NISQ) quantum algorithms for chemistry and combinatorial optimization",
     "language": "Python 3, no dependencies",
     "tested": true
+  },
+  {
+    "id": "q-pack",
+    "name": "Q-PACK",
+    "file": "src/q_pack.py",
+    "category": "format",
+    "desc": "LZSS + canonical Huffman compression — the DEFLATE recipe (RFC 1951) with stored-block fallback",
+    "concept_behind": "gzip / zlib / PNG — and the compression stage of QSF",
+    "language": "Python 3, no dependencies",
+    "tested": true
+  },
+  {
+    "id": "q-sign",
+    "name": "Q-SIGN",
+    "file": "src/q_sign.py",
+    "category": "format",
+    "desc": "Hash-based post-quantum signatures: WOTS chains + Merkle tree, one-time-leaf state tracking",
+    "concept_behind": "XMSS (RFC 8391) / SPHINCS+ (NIST FIPS 205) — signatures Shor's algorithm cannot break",
+    "language": "Python 3, no dependencies",
+    "tested": true
+  },
+  {
+    "id": "q-qsf",
+    "name": "Q-QSF",
+    "file": "src/q_qsf.py",
+    "category": "format",
+    "desc": "QSF — Quantum-Safe File format: LZSS compression + Kyber encryption + hash-based signing in one container",
+    "concept_behind": "What PGP/age become when every primitive must survive a quantum computer",
+    "language": "Python 3, no dependencies",
+    "tested": true
   }
 ]

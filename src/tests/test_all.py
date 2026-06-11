@@ -30,6 +30,10 @@ from q_qec import (BitFlipCode, PhaseFlipCode, ShorCode, QubitState,
 from q_vqe import (VQE, QAOA, HardwareEfficientAnsatz, UCCSDSingletAnsatz,
                    Hamiltonian, PauliTerm,
                    zero_state, _apply_ry, _apply_h, _pauli_string_expectation)
+import q_pack
+import q_sign
+import q_qsf
+import q_kyber
 
 
 # ---------------------------------------------------------------------------
@@ -780,6 +784,201 @@ class TestVQE(unittest.TestCase):
         result = qaoa.run(seed=42)
         self.assertIsNotNone(result.optimal_energy)
         self.assertGreater(len(result.energy_history), 0)
+
+
+# ---------------------------------------------------------------------------
+# Q-PACK
+# ---------------------------------------------------------------------------
+
+class TestPack(unittest.TestCase):
+    def test_roundtrip_empty(self):
+        self.assertEqual(q_pack.decompress(q_pack.compress(b"")), b"")
+
+    def test_roundtrip_single_byte(self):
+        self.assertEqual(q_pack.decompress(q_pack.compress(b"x")), b"x")
+
+    def test_roundtrip_repetitive(self):
+        data = b"abcabcabc" * 500
+        blob = q_pack.compress(data)
+        self.assertEqual(q_pack.decompress(blob), data)
+        # Highly repetitive data must compress well
+        self.assertLess(len(blob), len(data) // 4)
+
+    def test_roundtrip_random(self):
+        rng = random.Random(0)
+        data = bytes(rng.randrange(256) for _ in range(4096))
+        self.assertEqual(q_pack.decompress(q_pack.compress(data)), data)
+
+    def test_incompressible_falls_back_to_stored(self):
+        """Random data must never blow up beyond input + small header."""
+        rng = random.Random(1)
+        data = bytes(rng.randrange(256) for _ in range(1000))
+        blob = q_pack.compress(data)
+        self.assertLessEqual(len(blob), len(data) + 4)
+
+    def test_overlapping_match(self):
+        """Run-length via self-overlapping back-reference (offset < length)."""
+        data = b"a" * 1000
+        self.assertEqual(q_pack.decompress(q_pack.compress(data)), data)
+
+    def test_bad_magic_raises(self):
+        with self.assertRaises(ValueError):
+            q_pack.decompress(b"XXXX" + b"\x00" * 20)
+
+    def test_text_compresses(self):
+        data = ("the quick brown fox jumps over the lazy dog " * 100).encode()
+        blob = q_pack.compress(data)
+        self.assertEqual(q_pack.decompress(blob), data)
+        self.assertLess(len(blob), len(data) // 2)
+
+
+# ---------------------------------------------------------------------------
+# Q-SIGN
+# ---------------------------------------------------------------------------
+
+class TestSign(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        # height=3 → 8 leaves; small for test speed, shared across tests
+        cls.seed = b"unit-test-seed-0123456789abcdef0"
+
+    def make_signer(self):
+        return q_sign.MerkleSigner(self.seed, height=3)
+
+    def test_sign_and_verify(self):
+        s = self.make_signer()
+        root = s.public_root
+        sig = s.sign(b"hello quantum world")
+        self.assertTrue(q_sign.verify(b"hello quantum world", sig, root))
+
+    def test_wrong_message_rejected(self):
+        s = self.make_signer()
+        sig = s.sign(b"message A")
+        self.assertFalse(q_sign.verify(b"message B", sig, s.public_root))
+
+    def test_wrong_root_rejected(self):
+        s = self.make_signer()
+        sig = s.sign(b"msg")
+        other = q_sign.MerkleSigner(b"another-seed-0123456789abcdef000", height=3)
+        self.assertFalse(q_sign.verify(b"msg", sig, other.public_root))
+
+    def test_tampered_signature_rejected(self):
+        s = self.make_signer()
+        sig = s.sign(b"msg")
+        sig.wots_sig[0] = b"\x00" * 32
+        self.assertFalse(q_sign.verify(b"msg", sig, s.public_root))
+
+    def test_each_leaf_used_once(self):
+        s = self.make_signer()
+        indices = [s.sign(f"m{i}".encode()).leaf_index for i in range(8)]
+        self.assertEqual(indices, list(range(8)))
+
+    def test_exhaustion_raises(self):
+        s = self.make_signer()
+        for i in range(8):
+            s.sign(f"m{i}".encode())
+        with self.assertRaises(RuntimeError):
+            s.sign(b"one too many")
+
+    def test_serialization_roundtrip(self):
+        s = self.make_signer()
+        sig = s.sign(b"serialize me")
+        sig2 = q_sign.Signature.from_bytes(sig.to_bytes())
+        self.assertTrue(q_sign.verify(b"serialize me", sig2, s.public_root))
+
+    def test_state_persistence(self):
+        s = self.make_signer()
+        s.sign(b"first")
+        restored = q_sign.MerkleSigner.from_state(s.to_state())
+        self.assertEqual(restored.next_index, 1)
+        self.assertEqual(restored.public_root, s.public_root)
+        # restored signer must not reuse leaf 0
+        sig = restored.sign(b"second")
+        self.assertEqual(sig.leaf_index, 1)
+
+    def test_deterministic_root_from_seed(self):
+        a = q_sign.MerkleSigner(self.seed, height=3)
+        b = q_sign.MerkleSigner(self.seed, height=3)
+        self.assertEqual(a.public_root, b.public_root)
+
+
+# ---------------------------------------------------------------------------
+# Q-QSF
+# ---------------------------------------------------------------------------
+
+class TestQSF(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.payload = ("quantum daily data " * 200).encode()
+        cls.meta = {"creator": "test", "type": "text/plain"}
+        cls.pk, cls.sk = q_kyber.keygen(b"\x05" * 32)
+        cls.pk2, cls.sk2 = q_kyber.keygen(b"\x06" * 32)
+
+    def test_plain_roundtrip(self):
+        blob = q_qsf.create(self.payload, self.meta)
+        c = q_qsf.open_container(blob)
+        self.assertEqual(c.payload, self.payload)
+        self.assertEqual(c.metadata, self.meta)
+        self.assertTrue(c.compressed)
+        self.assertFalse(c.encrypted)
+
+    def test_compression_effective(self):
+        blob = q_qsf.create(self.payload, self.meta)
+        self.assertLess(len(blob), len(self.payload) // 2)
+
+    def test_encrypted_roundtrip(self):
+        blob = q_qsf.create(self.payload, self.meta,
+                            recipient_pk=self.pk, _kem_message=b"\x11" * 32)
+        c = q_qsf.open_container(blob, sk=self.sk)
+        self.assertEqual(c.payload, self.payload)
+        self.assertTrue(c.encrypted)
+
+    def test_encrypted_requires_key(self):
+        blob = q_qsf.create(self.payload, self.meta,
+                            recipient_pk=self.pk, _kem_message=b"\x12" * 32)
+        with self.assertRaises(ValueError):
+            q_qsf.open_container(blob)
+
+    def test_wrong_key_fails(self):
+        blob = q_qsf.create(self.payload, self.meta,
+                            recipient_pk=self.pk, _kem_message=b"\x13" * 32)
+        with self.assertRaises(ValueError):
+            q_qsf.open_container(blob, sk=self.sk2)
+
+    def test_signed_roundtrip(self):
+        signer = q_sign.MerkleSigner(b"qsf-test-seed-000000000000000000", height=3)
+        root = signer.public_root
+        blob = q_qsf.create(self.payload, self.meta, signer=signer)
+        c = q_qsf.open_container(blob, signer_root=root)
+        self.assertIs(c.signature_valid, True)
+
+    def test_unsigned_with_root_required_fails(self):
+        signer = q_sign.MerkleSigner(b"qsf-test-seed-000000000000000000", height=3)
+        blob = q_qsf.create(self.payload, self.meta)   # unsigned
+        with self.assertRaises(ValueError):
+            q_qsf.open_container(blob, signer_root=signer.public_root)
+
+    def test_corruption_detected(self):
+        blob = bytearray(q_qsf.create(self.payload, self.meta))
+        blob[15] ^= 0xFF
+        with self.assertRaises(ValueError):
+            q_qsf.open_container(bytes(blob))
+
+    def test_full_stack(self):
+        """Compressed + Kyber-encrypted + hash-signed, all verified."""
+        signer = q_sign.MerkleSigner(b"qsf-full-seed-000000000000000000", height=3)
+        root = signer.public_root
+        blob = q_qsf.create(self.payload, self.meta,
+                            recipient_pk=self.pk, signer=signer,
+                            _kem_message=b"\x14" * 32)
+        c = q_qsf.open_container(blob, sk=self.sk, signer_root=root)
+        self.assertEqual(c.payload, self.payload)
+        self.assertTrue(c.compressed and c.encrypted and c.signed)
+        self.assertIs(c.signature_valid, True)
+
+    def test_bad_magic(self):
+        with self.assertRaises(ValueError):
+            q_qsf.open_container(b"NOPE" + b"\x00" * 40)
 
 
 if __name__ == "__main__":

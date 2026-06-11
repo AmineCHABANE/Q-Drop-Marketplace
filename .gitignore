@@ -1,2 +1,5 @@
 __pycache__/
 *.pyc
+
+# License signing private key — NEVER commit
+tools/license_keys/
