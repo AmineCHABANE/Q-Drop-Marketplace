@@ -1,5 +1,5 @@
 """
-Q-Drop demo — runs all 25 reference implementations end to end.
+Q-Drop demo — runs all 28 reference implementations end to end.
 
 Usage (from the repository root):
     python3 examples/demo.py
@@ -39,6 +39,9 @@ import q_reed_solomon
 import q_bptree
 import q_roaring
 import q_skip
+import q_graph
+import q_rate_limit
+import q_trie
 
 
 def divider(title: str) -> None:
@@ -514,4 +517,39 @@ print(f"  Top-3 scores: {skip['top3_scores']}")
 print(f"  Full iteration in sorted order:              {skip['iteration_sorted']}")
 print("O(log n) search/insert/rank with no rotations — Redis ZSET & LevelDB MemTable.")
 
-print(f"\n{'=' * 60}\n  All 25 systems ran successfully.\n{'=' * 60}")
+# ---------------------------------------------------------------------------
+divider("26. Q-GRAPH — graph algorithms (Dijkstra, A*, PageRank, topo sort)")
+
+gr = q_graph.demonstrate_graph()
+print(f"Road network shortest path A→E (Dijkstra): {gr['dijkstra_path']} "
+      f"cost={gr['dijkstra_cost']}")
+print(f"  A* agrees with Dijkstra: {gr['astar_agrees_with_dijkstra']}")
+print(f"Build-dependency topological order: {gr['topological_order']}")
+print(f"PageRank highest-ranked page: '{gr['pagerank_top_page']}' "
+      f"(ranks sum to 1: {gr['pagerank_sums_to_1']})")
+print("Dijkstra/A* → GPS routing; topo sort → build systems; PageRank → Google.")
+
+# ---------------------------------------------------------------------------
+divider("27. Q-RATELIMIT — rate limiting (the gatekeeper of every API)")
+
+rl = q_rate_limit.demonstrate_rate_limit()
+print(f"Token bucket (5/s, burst 10) hit with 12 instant requests:")
+print(f"  Allowed: {rl['burst_allowed']} (= capacity), denied: {rl['burst_denied']}")
+print(f"  After 1s refill: {rl['allowed_after_1s_refill']} more allowed (= rate)")
+print(f"Sliding-window log (3/s): first 3 allowed={rl['sliding_log_first3_allowed']}, "
+      f"4th denied={rl['sliding_log_fourth_denied']}, "
+      f"recovers after window={rl['sliding_log_recovers_after_window']}")
+print("Token bucket → AWS/Stripe; leaky bucket → traffic shaping; sliding → Cloudflare.")
+
+# ---------------------------------------------------------------------------
+divider("28. Q-TRIE — prefix trees + IP longest-prefix match (autocomplete & routers)")
+
+tr = q_trie.demonstrate_trie()
+print(f"Autocomplete 'qu' → {tr['autocomplete_qu']}")
+print(f"IP routing table — longest-prefix match (how routers forward packets):")
+for ip, hop in tr["ip_routes"].items():
+    print(f"  {ip:14s} → {hop}")
+print(f"  Longest-prefix match correct: {tr['lpm_correct']}")
+print("Tries power autocomplete & spell-check; binary tries power IP/BGP routing.")
+
+print(f"\n{'=' * 60}\n  All 28 systems ran successfully.\n{'=' * 60}")

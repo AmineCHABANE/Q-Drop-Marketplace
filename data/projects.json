@@ -248,5 +248,35 @@
     "concept_behind": "Redis sorted sets (ZSET) / LevelDB MemTable (Pugh 1990)",
     "language": "Python 3, no dependencies",
     "tested": true
+  },
+  {
+    "id": "q-graph",
+    "name": "Q-GRAPH",
+    "file": "src/q_graph.py",
+    "category": "infrastructure",
+    "desc": "Graph algorithms: BFS/DFS, Dijkstra, A* search, topological sort, union-find connected components, Kruskal MST, PageRank",
+    "concept_behind": "Google Maps routing / build systems / Google PageRank / Neo4j (Dijkstra 1959, Page & Brin 1998)",
+    "language": "Python 3, no dependencies",
+    "tested": true
+  },
+  {
+    "id": "q-ratelimit",
+    "name": "Q-RATELIMIT",
+    "file": "src/q_rate_limit.py",
+    "category": "infrastructure",
+    "desc": "Rate limiters: token bucket, leaky bucket, fixed window, sliding-window log & counter, with an injectable clock",
+    "concept_behind": "AWS API Gateway / Stripe / Cloudflare — API throttling & traffic shaping",
+    "language": "Python 3, no dependencies",
+    "tested": true
+  },
+  {
+    "id": "q-trie",
+    "name": "Q-TRIE",
+    "file": "src/q_trie.py",
+    "category": "infrastructure",
+    "desc": "Prefix trees: classic trie with autocomplete, path-compressed radix trie, binary IP routing table (longest-prefix match)",
+    "concept_behind": "Autocomplete / spell-check / IP routers & BGP forwarding tables",
+    "language": "Python 3, no dependencies",
+    "tested": true
   }
 ]

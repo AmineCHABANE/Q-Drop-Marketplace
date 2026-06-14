@@ -1975,5 +1975,249 @@ class TestSkipList(unittest.TestCase):
                              r["iteration_sorted"]]))
 
 
+# ---------------------------------------------------------------------------
+# Q-GRAPH
+# ---------------------------------------------------------------------------
+
+import q_graph
+
+class TestGraph(unittest.TestCase):
+    def _diamond(self):
+        g = q_graph.Graph(directed=False)
+        for u, v, w in [("A", "B", 4), ("A", "C", 2), ("C", "B", 1),
+                        ("B", "D", 5), ("C", "D", 8), ("D", "E", 3)]:
+            g.add_edge(u, v, w)
+        return g
+
+    def test_bfs_dfs_visit_all(self):
+        g = self._diamond()
+        self.assertEqual(set(q_graph.bfs(g, "A")), set(g.nodes))
+        self.assertEqual(set(q_graph.dfs(g, "A")), set(g.nodes))
+
+    def test_unweighted_path(self):
+        g = self._diamond()
+        path = q_graph.shortest_unweighted_path(g, "A", "E")
+        self.assertEqual(path[0], "A")
+        self.assertEqual(path[-1], "E")
+
+    def test_dijkstra(self):
+        g = self._diamond()
+        path, cost = q_graph.dijkstra_path(g, "A", "E")
+        self.assertEqual(path, ["A", "C", "B", "D", "E"])
+        self.assertEqual(cost, 11.0)
+
+    def test_dijkstra_rejects_negative(self):
+        g = q_graph.Graph()
+        g.add_edge("x", "y", -1)
+        with self.assertRaises(ValueError):
+            q_graph.dijkstra(g, "x")
+
+    def test_astar_matches_dijkstra(self):
+        g = self._diamond()
+        dpath, dcost = q_graph.dijkstra_path(g, "A", "E")
+        apath, acost = q_graph.astar(g, "A", "E", heuristic=lambda a, b: 0.0)
+        self.assertEqual(apath, dpath)
+        self.assertAlmostEqual(acost, dcost)
+
+    def test_topological_sort(self):
+        g = q_graph.Graph(directed=True)
+        for u, v in [("a", "b"), ("b", "c"), ("a", "c")]:
+            g.add_edge(u, v)
+        order = q_graph.topological_sort(g)
+        self.assertLess(order.index("a"), order.index("b"))
+        self.assertLess(order.index("b"), order.index("c"))
+
+    def test_cycle_detection(self):
+        g = q_graph.Graph(directed=True)
+        for u, v in [("a", "b"), ("b", "c"), ("c", "a")]:
+            g.add_edge(u, v)
+        self.assertIsNone(q_graph.topological_sort(g))
+        self.assertTrue(q_graph.has_cycle(g))
+
+    def test_connected_components(self):
+        g = q_graph.Graph(directed=False)
+        g.add_edge("a", "b")
+        g.add_edge("c", "d")
+        g.add_node("e")
+        comps = q_graph.connected_components(g)
+        self.assertEqual(len(comps), 3)
+
+    def test_union_find(self):
+        uf = q_graph.UnionFind()
+        for x in "abcd":
+            uf.add(x)
+        uf.union("a", "b")
+        uf.union("b", "c")
+        self.assertEqual(uf.find("a"), uf.find("c"))
+        self.assertNotEqual(uf.find("a"), uf.find("d"))
+
+    def test_kruskal_mst(self):
+        g = q_graph.Graph(directed=False)
+        for u, v, w in [("a", "b", 1), ("b", "c", 2), ("a", "c", 3), ("c", "d", 4)]:
+            g.add_edge(u, v, w)
+        mst, total = q_graph.kruskal_mst(g)
+        self.assertEqual(total, 7.0)
+        self.assertEqual(len(mst), 3)
+
+    def test_pagerank_sums_to_one(self):
+        g = q_graph.Graph(directed=True)
+        for u, v in [("p1", "hub"), ("p2", "hub"), ("hub", "p1")]:
+            g.add_edge(u, v)
+        ranks = q_graph.pagerank(g)
+        self.assertAlmostEqual(sum(ranks.values()), 1.0, places=6)
+        self.assertEqual(max(ranks, key=ranks.get), "hub")
+
+    def test_demonstrate(self):
+        r = q_graph.demonstrate_graph()
+        self.assertTrue(r["astar_agrees_with_dijkstra"])
+        self.assertTrue(r["pagerank_sums_to_1"])
+        self.assertTrue(r["topo_valid"])
+
+
+# ---------------------------------------------------------------------------
+# Q-RATELIMIT
+# ---------------------------------------------------------------------------
+
+import q_rate_limit
+
+class TestRateLimit(unittest.TestCase):
+    def test_token_bucket_burst(self):
+        clk = q_rate_limit.ManualClock()
+        tb = q_rate_limit.TokenBucket(rate=5, capacity=10, clock=clk)
+        allowed = sum(tb.allow() for _ in range(12))
+        self.assertEqual(allowed, 10)
+
+    def test_token_bucket_refill(self):
+        clk = q_rate_limit.ManualClock()
+        tb = q_rate_limit.TokenBucket(rate=5, capacity=10, clock=clk)
+        for _ in range(10):
+            tb.allow()
+        self.assertFalse(tb.allow())
+        clk.advance(1.0)               # +5 tokens
+        self.assertEqual(sum(tb.allow() for _ in range(6)), 5)
+
+    def test_token_bucket_average_rate(self):
+        clk = q_rate_limit.ManualClock()
+        tb = q_rate_limit.TokenBucket(rate=10, capacity=10, clock=clk)
+        # Drain initial burst
+        for _ in range(10):
+            tb.allow()
+        allowed = 0
+        for _ in range(100):
+            clk.advance(0.1)           # 0.1s → 1 token each tick
+            if tb.allow():
+                allowed += 1
+        self.assertAlmostEqual(allowed, 100, delta=2)
+
+    def test_leaky_bucket(self):
+        clk = q_rate_limit.ManualClock()
+        lb = q_rate_limit.LeakyBucket(rate=2, capacity=5, clock=clk)
+        self.assertEqual(sum(lb.allow() for _ in range(5)), 5)
+        self.assertFalse(lb.allow())
+        clk.advance(1.0)               # leaks 2
+        self.assertEqual(sum(lb.allow() for _ in range(2)), 2)
+
+    def test_fixed_window(self):
+        clk = q_rate_limit.ManualClock()
+        fw = q_rate_limit.FixedWindowCounter(limit=3, window=1.0, clock=clk)
+        self.assertEqual(sum(fw.allow() for _ in range(5)), 3)
+        clk.advance(1.01)
+        self.assertTrue(fw.allow())
+
+    def test_sliding_window_log(self):
+        clk = q_rate_limit.ManualClock()
+        swl = q_rate_limit.SlidingWindowLog(limit=3, window=1.0, clock=clk)
+        self.assertTrue(all(swl.allow() for _ in range(3)))
+        self.assertFalse(swl.allow())
+        clk.advance(1.01)
+        self.assertTrue(swl.allow())
+
+    def test_sliding_window_counter(self):
+        clk = q_rate_limit.ManualClock()
+        swc = q_rate_limit.SlidingWindowCounter(limit=10, window=1.0, clock=clk)
+        allowed = sum(swc.allow() for _ in range(15))
+        self.assertEqual(allowed, 10)
+
+    def test_demonstrate(self):
+        r = q_rate_limit.demonstrate_rate_limit()
+        self.assertEqual(r["burst_allowed"], 10)
+        self.assertTrue(r["sliding_log_recovers_after_window"])
+
+
+# ---------------------------------------------------------------------------
+# Q-TRIE
+# ---------------------------------------------------------------------------
+
+import q_trie
+
+class TestTrie(unittest.TestCase):
+    def test_insert_search(self):
+        t = q_trie.Trie()
+        t.insert("hello", 1)
+        self.assertTrue(t.search("hello"))
+        self.assertFalse(t.search("hell"))
+        self.assertEqual(t.get("hello"), 1)
+
+    def test_prefix(self):
+        t = q_trie.Trie()
+        t.insert("hello")
+        self.assertTrue(t.starts_with("hell"))
+        self.assertFalse(t.starts_with("world"))
+
+    def test_autocomplete(self):
+        t = q_trie.Trie()
+        for w in ["quantum", "quasar", "query", "zebra"]:
+            t.insert(w)
+        self.assertEqual(t.autocomplete("qu"), ["quantum", "quasar", "query"])
+        self.assertEqual(t.autocomplete("z"), ["zebra"])
+        self.assertEqual(t.autocomplete("x"), [])
+
+    def test_autocomplete_limit(self):
+        t = q_trie.Trie()
+        for w in ["a", "ab", "abc", "abcd"]:
+            t.insert(w)
+        self.assertEqual(len(t.autocomplete("a", limit=2)), 2)
+
+    def test_delete(self):
+        t = q_trie.Trie()
+        t.insert("car"); t.insert("card")
+        self.assertTrue(t.delete("car"))
+        self.assertFalse(t.search("car"))
+        self.assertTrue(t.search("card"))      # longer key survives
+        self.assertFalse(t.delete("car"))       # already gone
+
+    def test_radix_trie(self):
+        rt = q_trie.RadixTrie()
+        for w in ["romane", "romanus", "romulus", "rubens", "ruber"]:
+            rt.insert(w)
+        self.assertTrue(all(rt.search(w)
+                            for w in ["romane", "romanus", "rubens"]))
+        self.assertFalse(rt.search("rom"))
+        self.assertFalse(rt.search("rube"))
+        self.assertEqual(len(rt), 5)
+
+    def test_ip_longest_prefix_match(self):
+        r = q_trie.IPRoutingTable()
+        r.add_route("0.0.0.0/0", "default")
+        r.add_route("10.0.0.0/8", "internal")
+        r.add_route("10.1.0.0/16", "subnet")
+        r.add_route("10.1.2.0/24", "rack")
+        self.assertEqual(r.lookup("10.1.2.55"), "rack")
+        self.assertEqual(r.lookup("10.1.9.9"), "subnet")
+        self.assertEqual(r.lookup("10.9.9.9"), "internal")
+        self.assertEqual(r.lookup("8.8.8.8"), "default")
+
+    def test_ip_no_default(self):
+        r = q_trie.IPRoutingTable()
+        r.add_route("192.168.0.0/16", "lan")
+        self.assertEqual(r.lookup("192.168.5.5"), "lan")
+        self.assertIsNone(r.lookup("8.8.8.8"))
+
+    def test_demonstrate(self):
+        r = q_trie.demonstrate_trie()
+        self.assertTrue(r["autocomplete_correct"])
+        self.assertTrue(r["lpm_correct"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

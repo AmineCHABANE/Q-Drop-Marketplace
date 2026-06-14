@@ -1,6 +1,6 @@
 # Q-Drop — Infrastructure + Quantum + AI Algorithms, Implemented For Real
 
-**Twenty-five working, tested reference implementations** — the core algorithms
+**Twenty-eight working, tested reference implementations** — the core algorithms
 behind modern data infrastructure, the AI mechanism and tokenizer inside every
 large language model, the cryptography behind privacy tech, the quantum
 algorithms that will reshape computing, the quantum-safe formats for everyday
@@ -27,6 +27,9 @@ Every line of code is in this repository. Read it all before you pay anything.
 | [`src/q_bptree.py`](src/q_bptree.py) | **B+ tree**: balanced index, node splitting, leaf-linked range scans | PostgreSQL, MySQL/InnoDB, SQLite, Oracle |
 | [`src/q_roaring.py`](src/q_roaring.py) | **Roaring bitmaps**: array/bitmap containers, AND/OR/XOR/ANDNOT, cardinality | Lucene, Elasticsearch, Druid, ClickHouse, Spark |
 | [`src/q_skip.py`](src/q_skip.py) | **Skip list**: probabilistic O(log n) order + span-based rank/select | Redis ZSET, LevelDB MemTable |
+| [`src/q_graph.py`](src/q_graph.py) | **Graph algorithms**: BFS/DFS, Dijkstra, A*, topo sort, union-find, MST, PageRank | Google Maps, build systems, Google PageRank, Neo4j |
+| [`src/q_rate_limit.py`](src/q_rate_limit.py) | **Rate limiters**: token/leaky bucket, fixed & sliding windows (injectable clock) | AWS API Gateway, Stripe, Cloudflare |
+| [`src/q_trie.py`](src/q_trie.py) | **Tries**: autocomplete trie, radix/Patricia trie, IP longest-prefix-match table | Autocomplete, spell-check, IP/BGP routers |
 
 ### AI (the mechanism inside every LLM)
 
@@ -92,10 +95,10 @@ Full flow documented in [LICENSING.md](LICENSING.md).
 git clone https://github.com/AmineCHABANE/Q-Drop-Marketplace
 cd Q-Drop-Marketplace
 
-# Run the full test suite (241 tests)
+# Run the full test suite (270 tests)
 python3 -m unittest discover -s src/tests -v
 
-# Run the end-to-end demo of all 25 systems
+# Run the end-to-end demo of all 28 systems
 python3 examples/demo.py
 ```
 
