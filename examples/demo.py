@@ -1,5 +1,5 @@
 """
-Q-Drop demo — runs all 18 reference implementations end to end.
+Q-Drop demo — runs all 22 reference implementations end to end.
 
 Usage (from the repository root):
     python3 examples/demo.py
@@ -32,6 +32,10 @@ import q_raft
 import q_bloom
 import q_attention
 import q_crdt
+import q_bpe
+import q_zkp
+import q_ring
+import q_reed_solomon
 
 
 def divider(title: str) -> None:
@@ -417,4 +421,58 @@ p2 = q_crdt.PNCounter("n2"); p2.increment(5); p2.decrement(2)
 print(f"  PNCounter (+10−3) merge (+5−2) = {p1.merge(p2).value}")
 print("Same math behind Figma, Linear, Notion, Apple Notes, Automerge, Yjs, Riak.")
 
-print(f"\n{'=' * 60}\n  All 18 systems ran successfully.\n{'=' * 60}")
+# ---------------------------------------------------------------------------
+divider("19. Q-BPE — Byte-Pair Encoding tokenizer (the input pipeline of every LLM)")
+
+print("Training a byte-level BPE tokenizer on a small corpus...")
+bpe = q_bpe.demonstrate_bpe()
+print(f"  Vocabulary: {bpe['vocab_size']} tokens ({bpe['n_merges']} learned merges)")
+print(f"  '{bpe['sample']}' → {bpe['sample_token_count']} tokens "
+      f"(from {bpe['sample_bytes']} raw bytes)")
+print(f"  The word 'quantum' compressed to {bpe['quantum_token_count']} token(s)")
+print(f"  Bytes per token: {bpe['bytes_per_token']}   Lossless roundtrip: {bpe['roundtrip_ok']}")
+print("Byte-level means ANY input (emoji, binary, any language) round-trips — never OOV.")
+print("This is the exact stage feeding tokens into the attention mechanism above.")
+
+# ---------------------------------------------------------------------------
+divider("20. Q-ZKP — zero-knowledge proofs (prove you know a secret, reveal nothing)")
+
+zkp = q_zkp.demonstrate_zkp()
+print(f"Working over a {zkp['group_bits']}-bit safe-prime group (RFC 3526 Group 14):")
+print(f"  Schnorr proof of knowledge verifies:        {zkp['schnorr_interactive_verifies']}")
+print(f"  Forged proof (no secret) rejected:          {zkp['forged_proof_rejected']}")
+print(f"  Fiat-Shamir non-interactive sig verifies:   {zkp['fiat_shamir_verifies']}")
+print(f"  Tampered-message signature rejected:        {zkp['fiat_shamir_tamper_rejected']}")
+print(f"  Pedersen homomorphism Commit(30)+Commit(12)→opens to 42: "
+      f"{zkp['pedersen_homomorphic_30_plus_12_eq_42']}")
+print("The cryptography behind Zcash, zk-rollups, anonymous credentials, e-voting.")
+
+# ---------------------------------------------------------------------------
+divider("21. Q-RING — consistent hashing (how DynamoDB/Cassandra shard keys)")
+
+cmp = q_ring.compare_remapping(n_keys=10000, n_nodes=10)
+print("Remove 1 server from a 10-node cluster holding 10,000 keys:")
+print(f"  Naive hash(key) % N:   {cmp['modulo_keys_moved']:5d} keys move "
+      f"({cmp['modulo_fraction']*100:.0f}% — catastrophic reshuffle)")
+print(f"  Consistent hashing:    {cmp['consistent_keys_moved']:5d} keys move "
+      f"({cmp['consistent_fraction']*100:.0f}% — only the dead node's share)")
+print(f"  Improvement: {cmp['improvement_factor']}× fewer keys remapped")
+bal = q_ring.balance_stats(50000, 10, 200)
+print(f"  Load balance across nodes: {bal['min_over_ideal']:.2f}× – {bal['max_over_ideal']:.2f}× of ideal")
+print("Plus rendezvous (HRW) hashing — the simpler max-weight variant used by CRUSH.")
+
+# ---------------------------------------------------------------------------
+divider("22. Q-RS — Reed-Solomon erasure coding (durability without 3× replication)")
+
+rs = q_reed_solomon.demonstrate_reed_solomon()
+print(f"Encode a message into {rs['total_shards']} shards "
+      f"({rs['k_data_shards']} data + {rs['m_parity_shards']} parity), "
+      f"storage overhead {rs['storage_overhead']}×:")
+print(f"  Message: \"{rs['message']}\"")
+print(f"  Deleted {rs['shards_lost']} of {rs['total_shards']} shards (40% of all storage)...")
+print(f"  Reconstructed from the surviving {rs['total_shards'] - rs['shards_lost']}: "
+      f"{rs['recovered_ok']}")
+print("Lose 40% of your disks, lose zero data — at 1.67× cost vs replication's 2–3×.")
+print("The math behind RAID-6, Ceph, HDFS-EC, Backblaze, QR codes, and Voyager telemetry.")
+
+print(f"\n{'=' * 60}\n  All 22 systems ran successfully.\n{'=' * 60}")

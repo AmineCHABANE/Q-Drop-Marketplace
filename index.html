@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Q-Drop — 18 Real Algorithms: AI, Infrastructure, Quantum & Quantum-Safe</title>
-  <meta name="description" content="18 working, tested implementations: the Transformer attention mechanism, CRDTs, Raft, HNSW, LSM-trees, Bloom filters + Grover, Kyber, Dilithium (FIPS 204), Shor, QEC, VQE + QSF quantum-safe format. All code public. €9.99 commercial license.">
-  <meta property="og:title" content="Q-Drop — 18 AI + Infrastructure + Quantum Algorithms, Implemented & Tested">
-  <meta property="og:description" content="The Transformer attention mechanism + CRDTs + the algorithms behind RocksDB, Pinecone, etcd, Figma and Redis — plus CRYSTALS-Kyber & Dilithium (NIST post-quantum standards), Shor, VQE, Raft. All code public. €9.99 lifetime license.">
+  <title>Q-Drop — 22 Real Algorithms: AI, Crypto, Infrastructure, Quantum</title>
+  <meta name="description" content="22 working, tested implementations: the Transformer attention mechanism, BPE tokenizer, zero-knowledge proofs, CRDTs, Raft, consistent hashing, Reed-Solomon + Grover, Kyber, Dilithium, Shor, QEC, VQE + QSF quantum-safe format. All code public. €9.99 commercial license.">
+  <meta property="og:title" content="Q-Drop — 22 AI + Crypto + Infrastructure + Quantum Algorithms, Tested">
+  <meta property="og:description" content="The Transformer + BPE tokenizer + zero-knowledge proofs + CRDTs + the algorithms behind RocksDB, Pinecone, DynamoDB, Ceph, etcd and Figma — plus CRYSTALS-Kyber & Dilithium (NIST post-quantum standards), Shor, VQE. All code public. €9.99 lifetime license.">
   <meta property="og:type" content="website">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -40,7 +40,7 @@
       <span class="font-bold text-lg">Q-Drop</span>
     </a>
     <div class="hidden md:flex items-center gap-8 text-sm text-gray-400">
-      <a href="#modules" class="hover:text-white transition-colors">18 Modules</a>
+      <a href="#modules" class="hover:text-white transition-colors">22 Modules</a>
       <a href="#proof" class="hover:text-white transition-colors">Proof It Works</a>
       <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
       <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
@@ -67,10 +67,11 @@
   </h1>
 
   <p class="text-gray-300 text-xl max-w-3xl mx-auto mb-4">
-    <strong class="text-white">18 working reference implementations</strong> — the
-    <strong class="text-white">Transformer attention mechanism</strong> inside every LLM, the
+    <strong class="text-white">22 working reference implementations</strong> — the
+    <strong class="text-white">Transformer &amp; BPE tokenizer</strong> inside every LLM,
+    <strong class="text-white">zero-knowledge proofs</strong>, the
     <strong class="text-white">CRDTs</strong> behind Figma, the core algorithms powering
-    RocksDB, Pinecone, Kafka Streams, etcd and Redis, and the quantum algorithms
+    RocksDB, Pinecone, DynamoDB, Ceph and etcd, and the quantum algorithms
     (Grover, Kyber, <strong class="text-white">Dilithium</strong>, Shor, QEC, VQE) that matter over the next decade.
   </p>
   <p class="text-gray-500 text-base mb-10">Free to read and study. €9.99 one-time license for commercial use. No subscription.</p>
@@ -91,7 +92,7 @@
     <div class="flex flex-wrap items-center justify-center gap-4 mt-4 text-sm text-gray-500">
       <span class="flex items-center gap-1.5">
         <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-        176 automated tests, all passing
+        213 automated tests, all passing
       </span>
       <span class="flex items-center gap-1.5">
         <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
@@ -117,12 +118,12 @@
     <div class="code-block p-6 text-gray-300 overflow-x-auto">
       <div class="text-gray-600"># Clone and enter the repo</div>
       <div><span class="text-green-400">$</span> git clone https://github.com/AmineCHABANE/Q-Drop-Marketplace && cd Q-Drop-Marketplace</div>
-      <div class="mt-4 text-gray-600"># Run the full test suite — 176 tests</div>
+      <div class="mt-4 text-gray-600"># Run the full test suite — 213 tests</div>
       <div><span class="text-green-400">$</span> python3 -m unittest discover -s src/tests -v</div>
-      <div class="text-gray-500">Ran 176 tests in 3.4s — <span class="text-green-400">OK</span></div>
-      <div class="mt-4 text-gray-600"># Run all 18 systems end to end</div>
+      <div class="text-gray-500">Ran 213 tests in 5.6s — <span class="text-green-400">OK</span></div>
+      <div class="mt-4 text-gray-600"># Run all 22 systems end to end</div>
       <div><span class="text-green-400">$</span> python3 examples/demo.py</div>
-      <div class="text-gray-500">All 18 systems ran successfully.</div>
+      <div class="text-gray-500">All 22 systems ran successfully.</div>
     </div>
   </div>
 </section>
@@ -131,7 +132,7 @@
 <section id="modules" class="max-w-6xl mx-auto px-6 py-20">
   <div class="text-center mb-14">
     <div class="badge mb-4">The Bundle</div>
-    <h2 class="text-4xl font-black mb-4">18 modules. AI &amp; infrastructure today. Quantum tomorrow.</h2>
+    <h2 class="text-4xl font-black mb-4">22 modules. AI &amp; infrastructure today. Quantum tomorrow.</h2>
     <p class="text-gray-400 max-w-2xl mx-auto">Each one is the core algorithm of a system you'll either use at work this year or encounter in the next five. Stripped to readable, commented Python.</p>
   </div>
 
@@ -339,7 +340,7 @@
       <span class="text-xs font-bold uppercase tracking-widest" style="color:#f0abfc">AI &amp; Real-Time Collaboration — The Algorithms Running Right Now</span>
       <div class="h-px flex-1 bg-white/5"></div>
     </div>
-    <div class="grid sm:grid-cols-2 gap-4">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
       <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(236,72,153,0.25)">
         <h3 class="font-bold text-lg" style="color:#f9a8d4">Q-ATTENTION</h3>
@@ -351,11 +352,59 @@
       </div>
 
       <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(236,72,153,0.25)">
+        <h3 class="font-bold text-lg" style="color:#f9a8d4">Q-BPE</h3>
+        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_bpe.py</p>
+        <p class="text-gray-400 text-sm mb-3">The other half of the LLM input pipeline: a byte-level Byte-Pair Encoding tokenizer. Learns merges from a corpus, encodes text to token ids and back losslessly, and — being byte-level — never hits an out-of-vocabulary token, on any language, emoji or binary. This is the stage that feeds tokens into Q-ATTENTION.</p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="tag-concept">GPT / Claude / Llama tokenizers</span><span class="tag-tech">Sennrich 2016 · GPT-2</span>
+        </div>
+      </div>
+
+      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(236,72,153,0.25)">
         <h3 class="font-bold text-lg" style="color:#f9a8d4">Q-CRDT</h3>
         <p class="text-gray-500 text-xs mb-2 font-mono">src/q_crdt.py</p>
         <p class="text-gray-400 text-sm mb-3">Conflict-free replicated data types: vector clocks, grow-only &amp; PN counters, last-writer-wins registers, observed-remove sets, and an RGA collaborative-text sequence. Replicas edit offline and merge with zero coordination — convergence proven by shuffling merge order (commutative + associative + idempotent).</p>
         <div class="flex gap-2 flex-wrap">
           <span class="tag-concept">Figma / Linear / Notion / Yjs</span><span class="tag-tech">Shapiro et al. 2011</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Cryptography, sharding & durability -->
+  <div class="mt-6">
+    <div class="flex items-center gap-3 mb-4">
+      <div class="h-px flex-1 bg-white/5"></div>
+      <span class="text-xs font-bold uppercase tracking-widest" style="color:#fcd34d">Privacy, Sharding &amp; Durability — The Distributed Backbone</span>
+      <div class="h-px flex-1 bg-white/5"></div>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(251,191,36,0.22)">
+        <h3 class="font-bold text-lg" style="color:#fcd34d">Q-ZKP</h3>
+        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_zkp.py</p>
+        <p class="text-gray-400 text-sm mb-3">Zero-knowledge proofs over a 2048-bit safe-prime group: Schnorr proof-of-knowledge, the Fiat-Shamir transform to a non-interactive signature, Pedersen commitments (hiding, binding, additively homomorphic) and Chaum-Pedersen equality-of-discrete-logs. Prove a statement true while revealing nothing else.</p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="tag-concept">Zcash / zk-rollups / e-voting</span><span class="tag-tech">Schnorr 1989 · Pedersen 1991</span>
+        </div>
+      </div>
+
+      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(251,191,36,0.22)">
+        <h3 class="font-bold text-lg" style="color:#fcd34d">Q-RING</h3>
+        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_ring.py</p>
+        <p class="text-gray-400 text-sm mb-3">Consistent hashing with virtual nodes, plus rendezvous (highest-random-weight) hashing. Decides which server owns each key and — when servers join or leave — remaps only ~1/N of keys instead of the ~(N−1)/N that naive modulo hashing reshuffles. Proven empirically: ~10× fewer keys moved.</p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="tag-concept">DynamoDB / Cassandra / memcached</span><span class="tag-tech">Karger 1997 · Thaler 1998</span>
+        </div>
+      </div>
+
+      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(251,191,36,0.22)">
+        <h3 class="font-bold text-lg" style="color:#fcd34d">Q-RS</h3>
+        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_reed_solomon.py</p>
+        <p class="text-gray-400 text-sm mb-3">Reed-Solomon erasure coding over the Galois field GF(2⁸): split data into k shards plus m parity, reconstruct from ANY k of the n shards. Lose 40% of your disks, lose zero data — at 1.67× overhead versus replication's 2–3×. Systematic Vandermonde encode, Gaussian-elimination decode.</p>
+        <div class="flex gap-2 flex-wrap">
+          <span class="tag-concept">RAID-6 / Ceph / Backblaze / QR</span><span class="tag-tech">Reed &amp; Solomon 1960</span>
         </div>
       </div>
 
@@ -395,7 +444,7 @@
 <section id="pricing" class="max-w-4xl mx-auto px-6 py-24 text-center">
   <div class="badge mb-4">Fair Pricing</div>
   <h2 class="text-4xl font-black mb-4">Free to study. €9.99 to use commercially.</h2>
-  <p class="text-gray-400 mb-12 max-w-2xl mx-auto">The entire source is public — evaluate 100% of what you're buying before paying a cent. One license covers all 18 modules and everything added in future.</p>
+  <p class="text-gray-400 mb-12 max-w-2xl mx-auto">The entire source is public — evaluate 100% of what you're buying before paying a cent. One license covers all 22 modules and everything added in future.</p>
 
   <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
     <div class="glass rounded-2xl p-8">
@@ -488,7 +537,7 @@
         <svg class="w-5 h-5 text-gray-400 transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
       </button>
       <div class="faq-answer px-6 text-gray-400 text-sm">
-        <div class="pb-5">Clone the repository and run <code class="text-cyan-300">python3 -m unittest discover -s src/tests -v</code> (176 tests) and <code class="text-cyan-300">python3 examples/demo.py</code>. Everything runs with zero dependencies on any machine with Python 3.</div>
+        <div class="pb-5">Clone the repository and run <code class="text-cyan-300">python3 -m unittest discover -s src/tests -v</code> (213 tests) and <code class="text-cyan-300">python3 examples/demo.py</code>. Everything runs with zero dependencies on any machine with Python 3.</div>
       </div>
     </div>
 

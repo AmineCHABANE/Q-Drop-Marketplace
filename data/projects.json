@@ -178,5 +178,45 @@
     "concept_behind": "Figma / Linear / Notion / Automerge / Yjs / Riak — local-first & real-time collaboration",
     "language": "Python 3, no dependencies",
     "tested": true
+  },
+  {
+    "id": "q-bpe",
+    "name": "Q-BPE",
+    "file": "src/q_bpe.py",
+    "category": "ai",
+    "desc": "Byte-level Byte-Pair Encoding tokenizer: train merges from a corpus, encode/decode losslessly, JSON persistence — the input pipeline of every LLM",
+    "concept_behind": "GPT / Claude / Llama tokenizers (Sennrich 2016 + GPT-2 byte-level)",
+    "language": "Python 3, no dependencies",
+    "tested": true
+  },
+  {
+    "id": "q-zkp",
+    "name": "Q-ZKP",
+    "file": "src/q_zkp.py",
+    "category": "crypto",
+    "desc": "Zero-knowledge proofs: Schnorr identification, Fiat-Shamir NIZK, Pedersen commitments (homomorphic), Chaum-Pedersen equality of discrete logs",
+    "concept_behind": "Zcash / zk-rollups / anonymous credentials / e-voting (Schnorr 1989, Pedersen 1991)",
+    "language": "Python 3, no dependencies",
+    "tested": true
+  },
+  {
+    "id": "q-ring",
+    "name": "Q-RING",
+    "file": "src/q_ring.py",
+    "category": "infrastructure",
+    "desc": "Consistent hashing with virtual nodes + rendezvous (HRW) hashing: minimal key remapping on membership change, replica sets, load balance",
+    "concept_behind": "DynamoDB / Cassandra / Riak / memcached sharding (Karger 1997, Thaler 1998)",
+    "language": "Python 3, no dependencies",
+    "tested": true
+  },
+  {
+    "id": "q-rs",
+    "name": "Q-RS",
+    "file": "src/q_reed_solomon.py",
+    "category": "infrastructure",
+    "desc": "Reed-Solomon erasure coding over GF(2^8): systematic Vandermonde encoding, reconstruct from any k of n shards via Gaussian elimination",
+    "concept_behind": "RAID-6 / Ceph / HDFS-EC / Backblaze / QR codes (Reed & Solomon 1960)",
+    "language": "Python 3, no dependencies",
+    "tested": true
   }
 ]

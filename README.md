@@ -1,10 +1,10 @@
 # Q-Drop — Infrastructure + Quantum + AI Algorithms, Implemented For Real
 
-**Eighteen working, tested reference implementations** — the core algorithms
-behind modern data infrastructure, the AI mechanism inside every large language
-model, the quantum algorithms that will reshape computing, the quantum-safe
-formats for everyday data in that future, and the distributed-systems primitives
-that underpin it all.
+**Twenty-two working, tested reference implementations** — the core algorithms
+behind modern data infrastructure, the AI mechanism and tokenizer inside every
+large language model, the cryptography behind privacy tech, the quantum
+algorithms that will reshape computing, the quantum-safe formats for everyday
+data in that future, and the distributed-systems primitives that underpin it all.
 
 Every line of code is in this repository. Read it all before you pay anything.
 
@@ -22,12 +22,21 @@ Every line of code is in this repository. Read it all before you pay anything.
 | [`src/q_raft.py`](src/q_raft.py) | **Raft consensus**: leader election, log replication, snapshots, partition tolerance | etcd, CockroachDB, TiKV, Consul |
 | [`src/q_bloom.py`](src/q_bloom.py) | **Bloom + Xor + Cuckoo filters**, HyperLogLog, MinHash / LSH | RocksDB, Redis, Elasticsearch, Cassandra |
 | [`src/q_crdt.py`](src/q_crdt.py) | **CRDTs**: vector clocks, G/PN counters, LWW register, OR-set, RGA sequence | Figma, Linear, Notion, Automerge, Yjs |
+| [`src/q_ring.py`](src/q_ring.py) | **Consistent hashing** + rendezvous (HRW): virtual nodes, minimal remapping, replica sets | DynamoDB, Cassandra, Riak, memcached |
+| [`src/q_reed_solomon.py`](src/q_reed_solomon.py) | **Reed-Solomon erasure coding** over GF(2⁸): systematic encode, recover any k of n shards | RAID-6, Ceph, HDFS-EC, Backblaze, QR codes |
 
 ### AI (the mechanism inside every LLM)
 
 | Module | What it implements | Why it matters |
 |--------|--------------------|----------------|
 | [`src/q_attention.py`](src/q_attention.py) | **The Transformer from scratch**: scaled dot-product + multi-head attention, causal masking, positional encoding, LayerNorm, GELU FFN, full encoder block | The attention mechanism (Vaswani et al. 2017) inside GPT, Claude, Gemini, Llama, BERT, Stable Diffusion |
+| [`src/q_bpe.py`](src/q_bpe.py) | **Byte-Pair Encoding tokenizer**: learn merges, encode/decode losslessly, byte-level (never OOV) | The tokenizer feeding tokens into every LLM — GPT, Claude, Llama |
+
+### Cryptography & privacy
+
+| Module | What it implements | Why it matters |
+|--------|--------------------|----------------|
+| [`src/q_zkp.py`](src/q_zkp.py) | **Zero-knowledge proofs**: Schnorr, Fiat-Shamir NIZK, Pedersen commitments, Chaum-Pedersen | Zcash, zk-rollups, anonymous credentials, e-voting — prove without revealing |
 
 ### Quantum (simulation)
 
@@ -80,10 +89,10 @@ Full flow documented in [LICENSING.md](LICENSING.md).
 git clone https://github.com/AmineCHABANE/Q-Drop-Marketplace
 cd Q-Drop-Marketplace
 
-# Run the full test suite (176 tests)
+# Run the full test suite (213 tests)
 python3 -m unittest discover -s src/tests -v
 
-# Run the end-to-end demo of all 18 systems
+# Run the end-to-end demo of all 22 systems
 python3 examples/demo.py
 ```
 

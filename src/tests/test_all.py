@@ -1466,5 +1466,287 @@ class TestCRDT(unittest.TestCase):
         self.assertEqual(alice.merge(bob).to_list(), bob.merge(alice).to_list())
 
 
+# ---------------------------------------------------------------------------
+# Q-BPE
+# ---------------------------------------------------------------------------
+
+import q_bpe
+
+class TestBPE(unittest.TestCase):
+    def test_roundtrip_basic(self):
+        tok = q_bpe.BPETokenizer().train("abab abab cdcd cdcd " * 10, vocab_size=300)
+        for s in ["abab", "cdcd cdcd", "ab cd ab"]:
+            self.assertEqual(tok.decode(tok.encode(s)), s)
+
+    def test_roundtrip_empty(self):
+        tok = q_bpe.BPETokenizer().train("hello world " * 5, vocab_size=270)
+        self.assertEqual(tok.decode(tok.encode("")), "")
+
+    def test_roundtrip_unseen_and_unicode(self):
+        tok = q_bpe.BPETokenizer().train("the cat sat " * 10, vocab_size=290)
+        for s in ["totally unseen text", "emoji \U0001f600 and accents éèê", "x"]:
+            self.assertEqual(tok.decode(tok.encode(s)), s)
+
+    def test_byte_level_never_oov(self):
+        """Any byte sequence must round-trip even with an empty merge table."""
+        tok = q_bpe.BPETokenizer()  # untrained: only the 256 byte tokens
+        for s in ["arbitrary \x00\x01 bytes", "日本語テスト"]:
+            self.assertEqual(tok.decode_bytes(tok.encode(s)), s.encode("utf-8"))
+
+    def test_merges_reduce_token_count(self):
+        corpus = "quantum " * 50
+        tok = q_bpe.BPETokenizer().train(corpus, vocab_size=320)
+        # "quantum" should compress to far fewer than its 7 bytes
+        self.assertLess(len(tok.encode("quantum")), 7)
+
+    def test_vocab_size_respected(self):
+        tok = q_bpe.BPETokenizer().train("ababab " * 100, vocab_size=300)
+        self.assertLessEqual(tok.vocab_size, 300)
+        self.assertGreaterEqual(tok.vocab_size, 256)
+
+    def test_vocab_size_too_small_raises(self):
+        with self.assertRaises(ValueError):
+            q_bpe.BPETokenizer().train("text", vocab_size=100)
+
+    def test_json_roundtrip(self):
+        tok = q_bpe.BPETokenizer().train("merge me merge me " * 10, vocab_size=300)
+        clone = q_bpe.BPETokenizer.from_json(tok.to_json())
+        s = "merge me"
+        self.assertEqual(clone.encode(s), tok.encode(s))
+        self.assertEqual(clone.decode(clone.encode(s)), s)
+
+    def test_demonstrate(self):
+        r = q_bpe.demonstrate_bpe()
+        self.assertTrue(r["roundtrip_ok"])
+        self.assertGreater(r["bytes_per_token"], 1.0)
+
+
+# ---------------------------------------------------------------------------
+# Q-ZKP
+# ---------------------------------------------------------------------------
+
+import q_zkp
+
+class TestZKP(unittest.TestCase):
+    def test_schnorr_interactive_completeness(self):
+        s = q_zkp.SchnorrIdentification(secret=42)
+        proof = s.run_interactive()
+        self.assertTrue(q_zkp.SchnorrIdentification.verify(
+            s.y, proof.commitment, proof.challenge, proof.response))
+
+    def test_schnorr_soundness(self):
+        """A different public key must not verify the same transcript."""
+        s = q_zkp.SchnorrIdentification(secret=42)
+        proof = s.run_interactive()
+        wrong_y = pow(q_zkp.G, 99, q_zkp.P)
+        self.assertFalse(q_zkp.SchnorrIdentification.verify(
+            wrong_y, proof.commitment, proof.challenge, proof.response))
+
+    def test_fiat_shamir_completeness(self):
+        secret = 1234567
+        y = pow(q_zkp.G, secret, q_zkp.P)
+        proof = q_zkp.schnorr_prove_nizk(secret, b"msg")
+        self.assertTrue(q_zkp.schnorr_verify_nizk(y, proof, b"msg"))
+
+    def test_fiat_shamir_message_binding(self):
+        secret = 1234567
+        y = pow(q_zkp.G, secret, q_zkp.P)
+        proof = q_zkp.schnorr_prove_nizk(secret, b"original")
+        self.assertFalse(q_zkp.schnorr_verify_nizk(y, proof, b"tampered"))
+
+    def test_fiat_shamir_zero_knowledge_no_secret_leak(self):
+        """Two proofs of the same secret use different commitments (fresh nonce)."""
+        proof1 = q_zkp.schnorr_prove_nizk(555, b"m")
+        proof2 = q_zkp.schnorr_prove_nizk(555, b"m")
+        self.assertNotEqual(proof1.commitment, proof2.commitment)
+
+    def test_pedersen_commitment_verifies(self):
+        c = q_zkp.pedersen_commit(100)
+        m, r = c.open()
+        self.assertTrue(q_zkp.pedersen_verify(c.commitment, m, r))
+
+    def test_pedersen_binding(self):
+        c = q_zkp.pedersen_commit(100)
+        _, r = c.open()
+        self.assertFalse(q_zkp.pedersen_verify(c.commitment, 101, r))
+
+    def test_pedersen_homomorphic(self):
+        c1 = q_zkp.pedersen_commit(30)
+        c2 = q_zkp.pedersen_commit(12)
+        c_sum = q_zkp.pedersen_add(c1, c2)
+        m, r = c_sum.open()
+        self.assertEqual(m, 42)
+        self.assertTrue(q_zkp.pedersen_verify(c_sum.commitment, 42, r))
+
+    def test_chaum_pedersen_equality(self):
+        x = 7777
+        g1 = q_zkp.G
+        g2 = pow(q_zkp.G, 3, q_zkp.P)
+        y1, y2 = pow(g1, x, q_zkp.P), pow(g2, x, q_zkp.P)
+        proof = q_zkp.prove_equal_discrete_log(x, g1, g2)
+        self.assertTrue(q_zkp.verify_equal_discrete_log(g1, g2, y1, y2, proof))
+
+    def test_chaum_pedersen_rejects_unequal(self):
+        g1 = q_zkp.G
+        g2 = pow(q_zkp.G, 3, q_zkp.P)
+        y1 = pow(g1, 100, q_zkp.P)
+        y2 = pow(g2, 200, q_zkp.P)   # different exponent
+        proof = q_zkp.prove_equal_discrete_log(100, g1, g2)
+        self.assertFalse(q_zkp.verify_equal_discrete_log(g1, g2, y1, y2, proof))
+
+    def test_demonstrate(self):
+        r = q_zkp.demonstrate_zkp()
+        self.assertTrue(all([
+            r["schnorr_interactive_verifies"],
+            r["forged_proof_rejected"],
+            r["fiat_shamir_verifies"],
+            r["fiat_shamir_tamper_rejected"],
+            r["pedersen_homomorphic_30_plus_12_eq_42"],
+        ]))
+
+
+# ---------------------------------------------------------------------------
+# Q-RING
+# ---------------------------------------------------------------------------
+
+import q_ring
+
+class TestRing(unittest.TestCase):
+    def test_get_node_stable(self):
+        ring = q_ring.ConsistentHashRing(vnodes=100)
+        for i in range(5):
+            ring.add_node(f"node{i}")
+        # Same key always maps to the same node
+        owner = ring.get_node("mykey")
+        self.assertEqual(ring.get_node("mykey"), owner)
+        self.assertIn(owner, ring.nodes)
+
+    def test_empty_ring_returns_none(self):
+        self.assertIsNone(q_ring.ConsistentHashRing().get_node("k"))
+
+    def test_minimal_remapping(self):
+        """Consistent hashing moves far fewer keys than modulo on node removal."""
+        c = q_ring.compare_remapping(n_keys=5000, n_nodes=8)
+        self.assertGreater(c["modulo_fraction"], 0.70)
+        self.assertLess(c["consistent_fraction"], 0.25)
+
+    def test_load_balance(self):
+        b = q_ring.balance_stats(n_keys=20000, n_nodes=8, vnodes=200)
+        self.assertLess(b["max_over_ideal"], 1.6)
+        self.assertGreater(b["min_over_ideal"], 0.5)
+
+    def test_replicas_are_distinct(self):
+        ring = q_ring.ConsistentHashRing(vnodes=100)
+        for i in range(5):
+            ring.add_node(f"node{i}")
+        replicas = ring.get_replicas("key123", 3)
+        self.assertEqual(len(replicas), 3)
+        self.assertEqual(len(set(replicas)), 3)
+
+    def test_remove_node_reassigns(self):
+        ring = q_ring.ConsistentHashRing(vnodes=100)
+        for i in range(4):
+            ring.add_node(f"node{i}")
+        owner = ring.get_node("somekey")
+        ring.remove_node(owner)
+        self.assertNotIn(owner, ring.nodes)
+        self.assertIn(ring.get_node("somekey"), ring.nodes)
+
+    def test_rendezvous_deterministic(self):
+        rv = q_ring.RendezvousHash()
+        for i in range(5):
+            rv.add_node(f"n{i}")
+        self.assertEqual(rv.get_node("k"), rv.get_node("k"))
+        self.assertEqual(len(rv.get_replicas("k", 3)), 3)
+
+    def test_rendezvous_minimal_disruption(self):
+        """Removing a node only affects keys that node owned."""
+        rv = q_ring.RendezvousHash()
+        for i in range(6):
+            rv.add_node(f"n{i}")
+        keys = [f"key{i}" for i in range(2000)]
+        before = {k: rv.get_node(k) for k in keys}
+        victim = "n3"
+        rv.remove_node(victim)
+        after = {k: rv.get_node(k) for k in keys}
+        moved = sum(1 for k in keys if before[k] != after[k])
+        # Only keys previously owned by the victim should move
+        owned_by_victim = sum(1 for k in keys if before[k] == victim)
+        self.assertEqual(moved, owned_by_victim)
+
+
+# ---------------------------------------------------------------------------
+# Q-RS (Reed-Solomon)
+# ---------------------------------------------------------------------------
+
+import q_reed_solomon
+import itertools as _it
+
+class TestReedSolomon(unittest.TestCase):
+    def test_gf_arithmetic(self):
+        self.assertEqual(q_reed_solomon.gf_mul(0, 5), 0)
+        self.assertEqual(q_reed_solomon.gf_div(q_reed_solomon.gf_mul(7, 11), 11), 7)
+        self.assertEqual(q_reed_solomon.gf_mul(q_reed_solomon.gf_inv(42), 42), 1)
+
+    def test_gf_distributive(self):
+        a, b, c = 17, 200, 99
+        left = q_reed_solomon.gf_mul(a, q_reed_solomon.gf_add(b, c))
+        right = q_reed_solomon.gf_add(q_reed_solomon.gf_mul(a, b),
+                                      q_reed_solomon.gf_mul(a, c))
+        self.assertEqual(left, right)
+
+    def test_encode_is_systematic(self):
+        rs = q_reed_solomon.ReedSolomon(k=4, m=2)
+        data = b"systematic check ABCDEFGH"
+        shards = rs.encode(data)
+        padded = bytearray(data)
+        while len(padded) % 4:
+            padded.append(0)
+        sl = len(padded) // 4
+        for i in range(4):
+            self.assertEqual(bytes(shards[i]), bytes(padded[i * sl:(i + 1) * sl]))
+
+    def test_no_loss_decode(self):
+        rs = q_reed_solomon.ReedSolomon(k=3, m=2)
+        data = b"hello reed solomon world"
+        shards = rs.encode(data)
+        self.assertEqual(rs.decode(list(shards))[:len(data)], data)
+
+    def test_recover_from_parity(self):
+        rs = q_reed_solomon.ReedSolomon(k=6, m=4)
+        data = b"Quantum-safe distributed storage durability."
+        shards = rs.encode(data)
+        damaged = list(shards)
+        for lost in (1, 4, 7, 9):
+            damaged[lost] = None
+        self.assertEqual(rs.decode(damaged)[:len(data)], data)
+
+    def test_all_loss_patterns(self):
+        """Every way of losing exactly m shards must still decode."""
+        rs = q_reed_solomon.ReedSolomon(k=4, m=3)
+        data = b"exhaustive erasure test 0123456789"
+        shards = rs.encode(data)
+        for lost in _it.combinations(range(7), 3):
+            damaged = [None if i in lost else shards[i] for i in range(7)]
+            self.assertEqual(rs.decode(damaged)[:len(data)], data)
+
+    def test_too_few_shards_raises(self):
+        rs = q_reed_solomon.ReedSolomon(k=4, m=2)
+        shards = rs.encode(b"data here")
+        damaged = list(shards)
+        for i in range(3):   # lose 3 > m=2
+            damaged[i] = None
+        with self.assertRaises(ValueError):
+            rs.decode(damaged)
+
+    def test_invalid_params(self):
+        with self.assertRaises(ValueError):
+            q_reed_solomon.ReedSolomon(k=200, m=100)   # k+m > 256
+
+    def test_demonstrate(self):
+        r = q_reed_solomon.demonstrate_reed_solomon()
+        self.assertTrue(r["recovered_ok"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
