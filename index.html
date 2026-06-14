@@ -3,697 +3,364 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Q-Drop — 28 Real Algorithms: AI, Crypto, Infrastructure, Quantum</title>
-  <meta name="description" content="28 working, tested implementations: the Transformer attention mechanism, BPE tokenizer, zero-knowledge proofs, CRDTs, Raft, B+ tree, Roaring bitmaps, graph algorithms, rate limiting, tries + Grover, Kyber, Dilithium, Shor, QEC, VQE + QSF. All code public. €9.99 commercial license.">
-  <meta property="og:title" content="Q-Drop — 28 AI + Crypto + Infrastructure + Quantum Algorithms, Tested">
-  <meta property="og:description" content="The Transformer + BPE tokenizer + zero-knowledge proofs + CRDTs + graph algorithms + the structures behind PostgreSQL, RocksDB, Redis, Pinecone, DynamoDB, Ceph and etcd — plus CRYSTALS-Kyber & Dilithium (NIST post-quantum standards), Shor, VQE. All code public. €9.99 lifetime license.">
+  <title>Q-Drop — Real Algorithms: AI, Crypto, Infrastructure & Quantum, Implemented</title>
+  <meta name="description" content="Working, tested reference implementations of the algorithms behind PostgreSQL, RocksDB, Redis, Pinecone, etcd and Google — the Transformer & BPE tokenizer inside every LLM, zero-knowledge proofs, CRDTs, and the NIST post-quantum standards Kyber & Dilithium. All code public. €9.99 commercial license.">
+  <meta property="og:title" content="Q-Drop — AI + Crypto + Infrastructure + Quantum Algorithms, Implemented & Tested">
+  <meta property="og:description" content="The Transformer, BPE tokenizer, zero-knowledge proofs, CRDTs, Raft, B+ trees, Reed-Solomon, Kyber & Dilithium — pure Python, zero dependencies, every line public. €9.99 lifetime license.">
   <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { background: #05050a; scroll-behavior: smooth; }
-    .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.07); }
-    .glass-strong { background: rgba(99,102,241,0.08); backdrop-filter: blur(20px); border: 1px solid rgba(99,102,241,0.2); }
-    .glow-indigo { box-shadow: 0 0 60px rgba(99,102,241,0.25); }
-    .glow-green { box-shadow: 0 0 40px rgba(34,197,94,0.3); }
-    .gradient-text { background: linear-gradient(135deg, #6366f1, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .hero-glow { background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(99,102,241,0.2) 0%, transparent 70%); }
-    .product-card { transition: transform 0.2s, box-shadow 0.2s; }
-    .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(99,102,241,0.2); }
-    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.25s; }
-    .faq-answer.open { max-height: 400px; }
-    .btn-primary { background: linear-gradient(135deg, #22c55e, #16a34a); transition: all 0.2s; }
-    .btn-primary:hover { transform: scale(1.03); box-shadow: 0 0 30px rgba(34,197,94,0.4); }
-    .badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); border-radius: 100px; padding: 4px 14px; font-size: 0.75rem; color: #a5b4fc; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
-    nav { background: rgba(5,5,10,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .tag-tech { background: rgba(6,182,212,0.12); border: 1px solid rgba(6,182,212,0.25); color: #67e8f9; border-radius: 6px; padding: 2px 8px; font-size: 0.7rem; font-weight: 600; }
-    .tag-concept { background: rgba(168,85,247,0.12); border: 1px solid rgba(168,85,247,0.25); color: #d8b4fe; border-radius: 6px; padding: 2px 8px; font-size: 0.7rem; font-weight: 600; }
-    .code-block { background: #0a0a14; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; font-family: ui-monospace, monospace; font-size: 0.82rem; line-height: 1.6; }
+    :root {
+      --accent: #4f46e5;
+      --accent-hover: #4338ca;
+      --ink: #0b0d17;
+      --muted: #5b6472;
+      --border: #e7e9ef;
+      --bg-soft: #f7f8fa;
+    }
+    * { -webkit-font-smoothing: antialiased; }
+    body { background: #ffffff; color: var(--ink); font-family: 'Inter', system-ui, -apple-system, sans-serif; scroll-behavior: smooth; }
+    .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+    .accent { color: var(--accent); }
+    .container { max-width: 1120px; margin: 0 auto; padding-left: 1.5rem; padding-right: 1.5rem; }
+    nav.site { background: rgba(255,255,255,0.85); backdrop-filter: saturate(180%) blur(12px); border-bottom: 1px solid var(--border); }
+    .btn-primary { background: var(--accent); color: #fff; transition: background .15s, transform .15s, box-shadow .15s; box-shadow: 0 1px 2px rgba(16,24,40,.06); }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(79,70,229,.25); }
+    .btn-ghost { border: 1px solid var(--border); color: var(--ink); background: #fff; transition: border-color .15s, background .15s; }
+    .btn-ghost:hover { border-color: #cdd1db; background: var(--bg-soft); }
+    .pill { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--border); background: #fff; border-radius: 999px; padding: 5px 14px; font-size: .8rem; font-weight: 600; color: var(--muted); }
+    .card { background: #fff; border: 1px solid var(--border); border-radius: 14px; transition: border-color .15s, box-shadow .15s, transform .15s; }
+    .card:hover { border-color: #cdd1db; box-shadow: 0 10px 30px rgba(16,24,40,.08); transform: translateY(-2px); }
+    .tag { display: inline-block; font-size: .68rem; font-weight: 600; letter-spacing: .02em; border-radius: 6px; padding: 3px 8px; }
+    .tag-powers { background: #eef2ff; color: #4338ca; border: 1px solid #e0e4ff; }
+    .tag-ref { background: var(--bg-soft); color: var(--muted); border: 1px solid var(--border); }
+    .tag-tested { background: #ecfdf3; color: #067647; border: 1px solid #d1fadf; }
+    .terminal { background: #0d1117; border: 1px solid #1f2430; border-radius: 14px; box-shadow: 0 20px 50px rgba(13,17,23,.25); }
+    .terminal .mono { color: #cdd6e3; }
+    .section-label { font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+    .faq-q { cursor: pointer; }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
+    .faq-a.open { max-height: 420px; }
+    .grid-bg { background-image: radial-gradient(circle at 1px 1px, #eceef3 1px, transparent 0); background-size: 28px 28px; }
+    .hl { background: linear-gradient(180deg, transparent 62%, #e0e7ff 62%); padding: 0 2px; }
+    ::selection { background: #ddd6fe; }
   </style>
 </head>
-<body class="text-white font-sans antialiased">
+<body>
 
-<!-- NAVIGATION -->
-<nav class="fixed top-0 left-0 right-0 z-50">
-  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-    <a href="/" class="flex items-center gap-2">
-      <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-black text-sm">Q</div>
-      <span class="font-bold text-lg">Q-Drop</span>
+<!-- NAV -->
+<nav class="site fixed top-0 inset-x-0 z-50">
+  <div class="container flex items-center justify-between h-16">
+    <a href="/" class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-lg flex items-center justify-center font-black text-white text-sm" style="background:var(--accent)">Q</div>
+      <span class="font-bold text-[17px] tracking-tight">Q-Drop</span>
     </a>
-    <div class="hidden md:flex items-center gap-8 text-sm text-gray-400">
-      <a href="#modules" class="hover:text-white transition-colors">28 Modules</a>
-      <a href="#proof" class="hover:text-white transition-colors">Proof It Works</a>
-      <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
-      <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
-      <a href="https://github.com/AmineCHABANE/Q-Drop-Marketplace" class="hover:text-white transition-colors">Source ↗</a>
+    <div class="hidden md:flex items-center gap-7 text-sm font-medium" style="color:var(--muted)">
+      <a href="#modules" class="hover:text-[var(--ink)] transition-colors"><span data-count="modules">28</span> modules</a>
+      <a href="#proof" class="hover:text-[var(--ink)] transition-colors">Proof</a>
+      <a href="#pricing" class="hover:text-[var(--ink)] transition-colors">Pricing</a>
+      <a href="#faq" class="hover:text-[var(--ink)] transition-colors">FAQ</a>
+      <a href="https://github.com/AmineCHABANE/Q-Drop-Marketplace" class="hover:text-[var(--ink)] transition-colors">GitHub ↗</a>
     </div>
-    <a href="#pricing" class="btn-primary text-white text-sm font-bold px-5 py-2.5 rounded-lg">
-      License — €9.99
-    </a>
+    <a href="#pricing" class="btn-primary text-sm font-semibold px-4 py-2 rounded-lg">Get a license — €9.99</a>
   </div>
 </nav>
 
 <!-- HERO -->
-<div class="hero-glow pt-24">
-<section class="max-w-6xl mx-auto px-6 pt-20 pb-16 text-center">
+<header class="grid-bg pt-16 border-b" style="border-color:var(--border)">
+  <div class="container pt-20 pb-16 text-center">
+    <div class="flex justify-center mb-6">
+      <span class="pill"><span class="w-1.5 h-1.5 rounded-full" style="background:#16a34a"></span> 100% of the code is public — read it before you pay</span>
+    </div>
+    <h1 class="text-[2.6rem] md:text-6xl font-black tracking-tight leading-[1.05] mb-6">
+      The algorithms behind modern<br class="hidden md:block"> software, <span class="accent">implemented for real.</span>
+    </h1>
+    <p class="text-lg md:text-xl max-w-2xl mx-auto mb-3" style="color:var(--muted)">
+      <span class="font-semibold" style="color:var(--ink)"><span data-count="modules">28</span> working, tested reference implementations</span> — the
+      Transformer &amp; BPE tokenizer inside every LLM, zero-knowledge proofs, the CRDTs behind Figma,
+      the engines powering PostgreSQL, RocksDB, Redis, Pinecone and etcd, and the quantum algorithms that matter next.
+    </p>
+    <p class="text-sm mb-9" style="color:var(--muted)">Pure Python 3 · zero dependencies · free to read &amp; study · €9.99 one-time license for commercial use.</p>
 
-  <div class="flex items-center justify-center gap-2 mb-6">
-    <span class="badge">100% of the code is public — read it before you pay</span>
-  </div>
-
-  <h1 class="text-5xl md:text-7xl font-black leading-tight tracking-tight mb-6">
-    AI &amp; infrastructure today.<br>
-    <span class="gradient-text">Quantum-ready tomorrow.</span><br>
-    Implemented. Tested. Readable.
-  </h1>
-
-  <p class="text-gray-300 text-xl max-w-3xl mx-auto mb-4">
-    <strong class="text-white">28 working reference implementations</strong> — the
-    <strong class="text-white">Transformer &amp; BPE tokenizer</strong> inside every LLM,
-    <strong class="text-white">zero-knowledge proofs</strong>, the
-    <strong class="text-white">CRDTs</strong> behind Figma, the core algorithms powering
-    PostgreSQL, RocksDB, Redis, Pinecone, DynamoDB and etcd, and the quantum algorithms
-    (Grover, Kyber, <strong class="text-white">Dilithium</strong>, Shor, QEC, VQE) that matter over the next decade.
-  </p>
-  <p class="text-gray-500 text-base mb-10">Free to read and study. €9.99 one-time license for commercial use. No subscription.</p>
-
-  <div class="flex flex-col items-center gap-4">
-    <div class="flex flex-col sm:flex-row gap-3">
-      <a href="https://github.com/AmineCHABANE/Q-Drop-Marketplace"
-         class="glass text-white px-8 py-4 rounded-xl font-bold text-lg flex items-center gap-2 justify-center hover:bg-white/10 transition-colors">
-        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-        Read the Code First
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="https://github.com/AmineCHABANE/Q-Drop-Marketplace" class="btn-ghost font-semibold px-6 py-3 rounded-lg flex items-center gap-2 justify-center">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        Read the source
       </a>
-      <a href="https://buy.stripe.com/9B6eV60Gg90Z0TbcZk9fW01"
-         class="btn-primary text-white px-8 py-4 rounded-xl font-bold text-lg glow-green flex items-center gap-2 justify-center">
-        Get a License — €9.99
-      </a>
+      <a href="https://buy.stripe.com/9B6eV60Gg90Z0TbcZk9fW01" class="btn-primary font-semibold px-6 py-3 rounded-lg flex items-center gap-2 justify-center">Get a license — €9.99</a>
     </div>
 
-    <div class="flex flex-wrap items-center justify-center gap-4 mt-4 text-sm text-gray-500">
-      <span class="flex items-center gap-1.5">
-        <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-        270 automated tests, all passing
-      </span>
-      <span class="flex items-center gap-1.5">
-        <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-        Zero dependencies — pure Python 3
-      </span>
-      <span class="flex items-center gap-1.5">
-        <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-        30-day money-back guarantee
-      </span>
+    <div class="flex flex-wrap items-center justify-center gap-x-7 gap-y-2 mt-8 text-sm" style="color:var(--muted)">
+      <span class="flex items-center gap-1.5"><svg class="w-4 h-4" style="color:#16a34a" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4a1 1 0 011.4-1.4L8 12.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg><span data-count="tests">270</span> automated tests, all passing</span>
+      <span class="flex items-center gap-1.5"><svg class="w-4 h-4" style="color:#16a34a" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4a1 1 0 011.4-1.4L8 12.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>Zero dependencies</span>
+      <span class="flex items-center gap-1.5"><svg class="w-4 h-4" style="color:#16a34a" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4a1 1 0 011.4-1.4L8 12.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>Every file cites its paper</span>
+    </div>
+  </div>
+</header>
+
+<!-- LOGOS / CONCEPTS BAR -->
+<section class="border-b" style="border-color:var(--border)">
+  <div class="container py-7">
+    <p class="text-center text-xs font-semibold uppercase tracking-widest mb-4" style="color:var(--muted)">The same algorithms that run inside</p>
+    <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-sm font-semibold" style="color:#8b93a3">
+      <span>PostgreSQL</span><span>RocksDB</span><span>Redis</span><span>Pinecone</span><span>etcd</span><span>Figma</span><span>Lucene</span><span>Kafka</span><span>Ceph</span><span>Google</span>
     </div>
   </div>
 </section>
-</div>
 
 <!-- PROOF -->
-<section id="proof" class="border-y border-white/5 bg-white/[0.02] py-16">
-  <div class="max-w-4xl mx-auto px-6">
-    <div class="text-center mb-10">
-      <div class="badge mb-4">Proof, Not Promises</div>
-      <h2 class="text-4xl font-black mb-3">Two commands. See for yourself.</h2>
-      <p class="text-gray-400">No screenshots, no claims to trust. Clone the repo and run it on your machine — before paying anything.</p>
-    </div>
-    <div class="code-block p-6 text-gray-300 overflow-x-auto">
-      <div class="text-gray-600"># Clone and enter the repo</div>
-      <div><span class="text-green-400">$</span> git clone https://github.com/AmineCHABANE/Q-Drop-Marketplace && cd Q-Drop-Marketplace</div>
-      <div class="mt-4 text-gray-600"># Run the full test suite — 270 tests</div>
-      <div><span class="text-green-400">$</span> python3 -m unittest discover -s src/tests -v</div>
-      <div class="text-gray-500">Ran 270 tests in 5.9s — <span class="text-green-400">OK</span></div>
-      <div class="mt-4 text-gray-600"># Run all 28 systems end to end</div>
-      <div><span class="text-green-400">$</span> python3 examples/demo.py</div>
-      <div class="text-gray-500">All 28 systems ran successfully.</div>
+<section id="proof" class="py-20" style="background:var(--bg-soft)">
+  <div class="container">
+    <div class="grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <div class="section-label mb-3">Proof it works</div>
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">Two commands. No setup. No trust required.</h2>
+        <p class="text-base mb-5" style="color:var(--muted)">The entire repository is public and dependency-free. Clone it, run the test suite and the demo, and watch every one of the <span data-count="modules">28</span> systems execute on your machine. If those two commands pass, the product works — that's the whole proof.</p>
+        <ul class="space-y-2.5 text-sm" style="color:var(--ink)">
+          <li class="flex gap-2.5"><svg class="w-5 h-5 flex-shrink-0" style="color:#16a34a" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4a1 1 0 011.4-1.4L8 12.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg><span data-count="tests">270</span> unit tests covering every module</li>
+          <li class="flex gap-2.5"><svg class="w-5 h-5 flex-shrink-0" style="color:#16a34a" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4a1 1 0 011.4-1.4L8 12.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>Runs on any machine with Python 3.10+</li>
+          <li class="flex gap-2.5"><svg class="w-5 h-5 flex-shrink-0" style="color:#16a34a" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4a1 1 0 011.4-1.4L8 12.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>CI runs the suite on Python 3.10 &amp; 3.12</li>
+        </ul>
+      </div>
+      <div class="terminal p-5 mono text-[13px] leading-relaxed overflow-x-auto">
+        <div class="flex gap-1.5 mb-3">
+          <span class="w-3 h-3 rounded-full" style="background:#ff5f56"></span>
+          <span class="w-3 h-3 rounded-full" style="background:#ffbd2e"></span>
+          <span class="w-3 h-3 rounded-full" style="background:#27c93f"></span>
+        </div>
+        <div style="color:#7d8896">$ <span style="color:#cdd6e3">git clone github.com/AmineCHABANE/Q-Drop-Marketplace</span></div>
+        <div style="color:#7d8896">$ <span style="color:#cdd6e3">cd Q-Drop-Marketplace</span></div>
+        <div class="mt-2" style="color:#7d8896"># run the full test suite</div>
+        <div style="color:#7d8896">$ <span style="color:#cdd6e3">python3 -m unittest discover -s src/tests</span></div>
+        <div style="color:#8b93a3">Ran <span data-count="tests">270</span> tests in 5.9s</div>
+        <div style="color:#27c93f">OK</div>
+        <div class="mt-2" style="color:#7d8896"># run every system end to end</div>
+        <div style="color:#7d8896">$ <span style="color:#cdd6e3">python3 examples/demo.py</span></div>
+        <div style="color:#27c93f">All <span data-count="modules">28</span> systems ran successfully.<span class="inline-block w-2 h-4 align-middle ml-0.5" style="background:#27c93f;animation:blink 1s steps(1) infinite"></span></div>
+      </div>
     </div>
   </div>
+  <style>@keyframes blink{50%{opacity:0}}</style>
 </section>
 
-<!-- THE 10 MODULES -->
-<section id="modules" class="max-w-6xl mx-auto px-6 py-20">
-  <div class="text-center mb-14">
-    <div class="badge mb-4">The Bundle</div>
-    <h2 class="text-4xl font-black mb-4">28 modules. AI &amp; infrastructure today. Quantum tomorrow.</h2>
-    <p class="text-gray-400 max-w-2xl mx-auto">Each one is the core algorithm of a system you'll either use at work this year or encounter in the next five. Stripped to readable, commented Python.</p>
-  </div>
-
-  <!-- Infrastructure subsection -->
-  <div class="mb-6">
-    <div class="flex items-center gap-3 mb-4">
-      <div class="h-px flex-1 bg-white/5"></div>
-      <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Infrastructure — Classical</span>
-      <div class="h-px flex-1 bg-white/5"></div>
+<!-- MODULES -->
+<section id="modules" class="py-20 border-t" style="border-color:var(--border)">
+  <div class="container">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <div class="section-label mb-3">The bundle</div>
+      <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4"><span data-count="modules">28</span> modules across five tracks</h2>
+      <p class="text-base" style="color:var(--muted)">Each one is the core algorithm of a system you use at work today or will meet over the next five years — stripped to readable, commented Python and backed by tests.</p>
     </div>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-
-      <div class="product-card glass p-5 rounded-xl">
-        <h3 class="font-bold text-lg text-indigo-300">Q-HNSW</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_hnsw.py</p>
-        <p class="text-gray-400 text-sm mb-3">HNSW graph for approximate nearest-neighbor vector search — the published algorithm (Malkov & Yashunin 2018) used by every major vector database.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">Pinecone</span><span class="tag-concept">Qdrant</span><span class="tag-tech">Python</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl">
-        <h3 class="font-bold text-lg text-indigo-300">Q-LSM</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_lsm.py</p>
-        <p class="text-gray-400 text-sm mb-3">Log-Structured Merge-tree: write-ahead log, MemTable, SSTables, k-way merge compaction, tombstone deletes — the architecture of RocksDB and Cassandra.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">RocksDB</span><span class="tag-concept">Cassandra</span><span class="tag-tech">Python</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl">
-        <h3 class="font-bold text-lg text-indigo-300">Q-COL</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_col.py</p>
-        <p class="text-gray-400 text-sm mb-3">Columnar analytics engine: bitmap filter masks, hash GROUP BY, dictionary encoding, run-length encoding — how DuckDB and Arrow process analytical queries.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">DuckDB</span><span class="tag-concept">Arrow</span><span class="tag-tech">Python</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl">
-        <h3 class="font-bold text-lg text-indigo-300">Q-STREAM</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_stream.py</p>
-        <p class="text-gray-400 text-sm mb-3">Windowed stream processor: tumbling, sliding and session windows, watermarks, late-event handling — the Dataflow model behind Kafka Streams and Flink.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">Kafka Streams</span><span class="tag-concept">Flink</span><span class="tag-tech">Python</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl">
-        <h3 class="font-bold text-lg text-indigo-300">Q-MEM</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_mem.py</p>
-        <p class="text-gray-400 text-sm mb-3">Arena allocator with jemalloc-style size classes, slab carving, O(1) LIFO free lists, and live fragmentation statistics.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">jemalloc</span><span class="tag-concept">APR pools</span><span class="tag-tech">Python</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl">
-        <h3 class="font-bold text-lg text-indigo-300">Q-BPTREE</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_bptree.py</p>
-        <p class="text-gray-400 text-sm mb-3">A B+ tree: the balanced, high-fan-out index inside every SQL database. Node splitting keeps it shallow; a leaf linked list gives O(log n + k) ordered range scans. The read-optimized counterpart to the LSM-tree.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">PostgreSQL / MySQL / SQLite</span><span class="tag-tech">Bayer 1972</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl">
-        <h3 class="font-bold text-lg text-indigo-300">Q-ROARING</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_roaring.py</p>
-        <p class="text-gray-400 text-sm mb-3">Roaring compressed bitmaps: each 16-bit chunk picks an array container (sparse) or bitmap container (dense), so AND/OR/XOR over millions of row-ids run at memory-bandwidth speed. The OLAP index format.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">Lucene / Druid / ClickHouse / Spark</span><span class="tag-tech">Chambi 2016</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl">
-        <h3 class="font-bold text-lg text-indigo-300">Q-SKIP</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_skip.py</p>
-        <p class="text-gray-400 text-sm mb-3">A skip list — a tower of express-lane linked lists giving O(log n) order with no tree rotations. Span counts add O(log n) rank/select, so it does ZRANK and ZRANGE-by-index out of the box. Redis ZSET, exactly.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">Redis ZSET / LevelDB MemTable</span><span class="tag-tech">Pugh 1990</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl">
-        <h3 class="font-bold text-lg text-indigo-300">Q-GRAPH</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_graph.py</p>
-        <p class="text-gray-400 text-sm mb-3">The graph toolkit: BFS/DFS, Dijkstra and A* shortest paths, topological sort with cycle detection, union-find connected components, Kruskal's MST, and PageRank by power iteration. The algorithms behind GPS routing, build systems and Google's original ranking.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">Google Maps / build systems / PageRank</span><span class="tag-tech">Dijkstra 1959 · Page 1998</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl">
-        <h3 class="font-bold text-lg text-indigo-300">Q-RATELIMIT</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_rate_limit.py</p>
-        <p class="text-gray-400 text-sm mb-3">The four rate-limiting algorithms every API gateway ships: token bucket (controlled bursts), leaky bucket (smooth output), and fixed / sliding-window counters. The clock is injectable, so the behaviour is fully deterministic and testable — no sleeping in tests.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">AWS / Stripe / Cloudflare</span><span class="tag-tech">Token &amp; leaky bucket</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl">
-        <h3 class="font-bold text-lg text-indigo-300">Q-TRIE</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_trie.py</p>
-        <p class="text-gray-400 text-sm mb-3">Prefix trees three ways: a classic trie with autocomplete, a path-compressed radix (Patricia) trie, and a binary trie that does IP longest-prefix match — the exact lookup a router performs on every packet to choose the next hop. Autocomplete and BGP forwarding from the same idea.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">Autocomplete / IP &amp; BGP routers</span><span class="tag-tech">Patricia trie · LPM</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Quantum subsection -->
-  <div>
-    <div class="flex items-center gap-3 mb-4">
-      <div class="h-px flex-1 bg-white/5"></div>
-      <span class="text-xs font-bold text-cyan-500 uppercase tracking-widest">Quantum — Simulation</span>
-      <div class="h-px flex-1 bg-white/5"></div>
-    </div>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-
-      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(6,182,212,0.15)">
-        <h3 class="font-bold text-lg text-cyan-300">Q-GROVER</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_grover.py</p>
-        <p class="text-gray-400 text-sm mb-3">Grover's quantum search: full statevector simulation, amplitude amplification, QFT. O(√N) queries versus classical O(N). 99.7% success probability shown in demo.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">Quantum speedup</span><span class="tag-tech">Grover 1996</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(6,182,212,0.15)">
-        <h3 class="font-bold text-lg text-cyan-300">Q-KYBER</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_kyber.py</p>
-        <p class="text-gray-400 text-sm mb-3">CRYSTALS-Kyber KEM (NIST FIPS 203): Module-LWE key generation, encapsulation, decapsulation — the post-quantum standard replacing RSA/ECC in TLS, SSH, Signal.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">Post-quantum TLS</span><span class="tag-tech">NIST FIPS 203</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(6,182,212,0.15)">
-        <h3 class="font-bold text-lg text-cyan-300">Q-SHOR</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_shor.py</p>
-        <p class="text-gray-400 text-sm mb-3">Shor's algorithm: quantum QFT period-finding, GCD post-processing. Shows exactly why RSA breaks with a quantum computer — O(n³) vs classical exp complexity.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">Breaks RSA</span><span class="tag-tech">Shor 1997</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(6,182,212,0.15)">
-        <h3 class="font-bold text-lg text-cyan-300">Q-QEC</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_qec.py</p>
-        <p class="text-gray-400 text-sm mb-3">Quantum error correction: 3-qubit bit/phase-flip codes, Shor's [[9,1,3]] code, Steane [[7,1,3]] stabilizer code. The engineering layer enabling fault-tolerant quantum computing.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">Fault-tolerant QC</span><span class="tag-tech">Stabilizer codes</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(6,182,212,0.15)">
-        <h3 class="font-bold text-lg text-cyan-300">Q-VQE</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_vqe.py</p>
-        <p class="text-gray-400 text-sm mb-3">VQE + QAOA: parametric ansatz circuits, parameter-shift rule gradients, H₂ molecule ground state. The hybrid quantum-classical approach running on NISQ hardware today.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">Quantum chemistry</span><span class="tag-tech">Peruzzo 2014</span>
-        </div>
-      </div>
-
-      <div class="product-card glass-strong p-5 rounded-xl flex flex-col justify-center text-center">
-        <h3 class="font-bold text-lg text-white mb-2">More coming</h3>
-        <p class="text-gray-400 text-sm">License covers every future module — bloom filters, Raft consensus, CRYSTALS-Dilithium signatures, surface codes, and more. One payment, everything forever.</p>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Quantum-safe formats subsection -->
-  <div class="mt-6">
-    <div class="flex items-center gap-3 mb-4">
-      <div class="h-px flex-1 bg-white/5"></div>
-      <span class="text-xs font-bold text-green-500 uppercase tracking-widest">Quantum-Safe Formats — The Encodings of Tomorrow</span>
-      <div class="h-px flex-1 bg-white/5"></div>
-    </div>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-
-      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(34,197,94,0.15)">
-        <h3 class="font-bold text-lg text-green-300">Q-PACK</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_pack.py</p>
-        <p class="text-gray-400 text-sm mb-3">LZSS + canonical Huffman compression — the exact two-stage DEFLATE recipe behind gzip and PNG, with stored-block fallback. Post-quantum crypto is big; compression matters more, not less.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">gzip / zlib</span><span class="tag-tech">RFC 1951</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(34,197,94,0.15)">
-        <h3 class="font-bold text-lg text-green-300">Q-SIGN</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_sign.py</p>
-        <p class="text-gray-400 text-sm mb-3">Hash-based post-quantum signatures: WOTS chains + Merkle tree with strict one-time-leaf tracking. Security reduces to SHA-256 alone — Shor's algorithm is irrelevant. Powers our license keys.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">XMSS / SPHINCS+</span><span class="tag-tech">NIST FIPS 205</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(34,197,94,0.15)">
-        <h3 class="font-bold text-lg text-green-300">Q-QSF</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_qsf.py</p>
-        <p class="text-gray-400 text-sm mb-3">QSF — a new container format where EVERY layer survives a quantum computer: Q-PACK compression, Kyber key encapsulation, hash-based signing, SHA-256 integrity. What PGP becomes after Q-day.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">Post-quantum PGP/age</span><span class="tag-tech">New format</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- New modules: Dilithium, Raft, Bloom -->
-  <div class="mt-6">
-    <div class="flex items-center gap-3 mb-4">
-      <div class="h-px flex-1 bg-white/5"></div>
-      <span class="text-xs font-bold text-violet-400 uppercase tracking-widest">New — Q-Day Signatures + Distributed Consensus + Probabilistic Filters</span>
-      <div class="h-px flex-1 bg-white/5"></div>
-    </div>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-
-      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(167,139,250,0.2)">
-        <h3 class="font-bold text-lg text-violet-300">Q-DILITHIUM</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_dilithium.py</p>
-        <p class="text-gray-400 text-sm mb-3">CRYSTALS-Dilithium post-quantum digital signatures (NIST FIPS 204): full NTT over Z_q[X]/(X²⁵⁶+1), Module-LWE keygen, rejection-sampling signer, hint-based verifier. Pair with Kyber = complete post-quantum TLS 1.3.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">Replaces ECDSA / RSA-PSS</span><span class="tag-tech">NIST FIPS 204</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(167,139,250,0.2)">
-        <h3 class="font-bold text-lg text-violet-300">Q-RAFT</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_raft.py</p>
-        <p class="text-gray-400 text-sm mb-3">Full Raft consensus simulation: randomised leader election, log replication with conflict resolution, snapshots and log compaction, network partitions and crash/restart — all testable in-process without any network.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">etcd / CockroachDB / TiKV</span><span class="tag-tech">Ongaro & Ousterhout 2014</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(167,139,250,0.2)">
-        <h3 class="font-bold text-lg text-violet-300">Q-BLOOM</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_bloom.py</p>
-        <p class="text-gray-400 text-sm mb-3">Six structures in one file: Bloom filter, Counting Bloom (with deletion), Xor/Binary-Fuse filter (9 bits/elem), Cuckoo filter, HyperLogLog (Redis PFCOUNT), MinHash + LSH band index for similarity search.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">RocksDB / Redis / Elasticsearch</span><span class="tag-tech">Bloom 1970 — Flajolet 1985 — Broder 1997</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- AI subsection: the Transformer + collaboration -->
-  <div class="mt-6">
-    <div class="flex items-center gap-3 mb-4">
-      <div class="h-px flex-1 bg-white/5"></div>
-      <span class="text-xs font-bold uppercase tracking-widest" style="color:#f0abfc">AI &amp; Real-Time Collaboration — The Algorithms Running Right Now</span>
-      <div class="h-px flex-1 bg-white/5"></div>
-    </div>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-
-      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(236,72,153,0.25)">
-        <h3 class="font-bold text-lg" style="color:#f9a8d4">Q-ATTENTION</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_attention.py</p>
-        <p class="text-gray-400 text-sm mb-3">The Transformer, from scratch, in pure Python: scaled dot-product + multi-head attention, causal masking, sinusoidal positional encoding, LayerNorm, GELU feed-forward, full pre-norm encoder block. The exact mechanism inside GPT, Claude, Gemini, Llama, BERT and Stable Diffusion — with hand-built proofs that attention is a programmable content-addressable lookup, not a black box.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">GPT / Claude / Gemini / Llama</span><span class="tag-tech">Vaswani et al. 2017</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(236,72,153,0.25)">
-        <h3 class="font-bold text-lg" style="color:#f9a8d4">Q-BPE</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_bpe.py</p>
-        <p class="text-gray-400 text-sm mb-3">The other half of the LLM input pipeline: a byte-level Byte-Pair Encoding tokenizer. Learns merges from a corpus, encodes text to token ids and back losslessly, and — being byte-level — never hits an out-of-vocabulary token, on any language, emoji or binary. This is the stage that feeds tokens into Q-ATTENTION.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">GPT / Claude / Llama tokenizers</span><span class="tag-tech">Sennrich 2016 · GPT-2</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(236,72,153,0.25)">
-        <h3 class="font-bold text-lg" style="color:#f9a8d4">Q-CRDT</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_crdt.py</p>
-        <p class="text-gray-400 text-sm mb-3">Conflict-free replicated data types: vector clocks, grow-only &amp; PN counters, last-writer-wins registers, observed-remove sets, and an RGA collaborative-text sequence. Replicas edit offline and merge with zero coordination — convergence proven by shuffling merge order (commutative + associative + idempotent).</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">Figma / Linear / Notion / Yjs</span><span class="tag-tech">Shapiro et al. 2011</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Cryptography, sharding & durability -->
-  <div class="mt-6">
-    <div class="flex items-center gap-3 mb-4">
-      <div class="h-px flex-1 bg-white/5"></div>
-      <span class="text-xs font-bold uppercase tracking-widest" style="color:#fcd34d">Privacy, Sharding &amp; Durability — The Distributed Backbone</span>
-      <div class="h-px flex-1 bg-white/5"></div>
-    </div>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-
-      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(251,191,36,0.22)">
-        <h3 class="font-bold text-lg" style="color:#fcd34d">Q-ZKP</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_zkp.py</p>
-        <p class="text-gray-400 text-sm mb-3">Zero-knowledge proofs over a 2048-bit safe-prime group: Schnorr proof-of-knowledge, the Fiat-Shamir transform to a non-interactive signature, Pedersen commitments (hiding, binding, additively homomorphic) and Chaum-Pedersen equality-of-discrete-logs. Prove a statement true while revealing nothing else.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">Zcash / zk-rollups / e-voting</span><span class="tag-tech">Schnorr 1989 · Pedersen 1991</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(251,191,36,0.22)">
-        <h3 class="font-bold text-lg" style="color:#fcd34d">Q-RING</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_ring.py</p>
-        <p class="text-gray-400 text-sm mb-3">Consistent hashing with virtual nodes, plus rendezvous (highest-random-weight) hashing. Decides which server owns each key and — when servers join or leave — remaps only ~1/N of keys instead of the ~(N−1)/N that naive modulo hashing reshuffles. Proven empirically: ~10× fewer keys moved.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">DynamoDB / Cassandra / memcached</span><span class="tag-tech">Karger 1997 · Thaler 1998</span>
-        </div>
-      </div>
-
-      <div class="product-card glass p-5 rounded-xl" style="border-color: rgba(251,191,36,0.22)">
-        <h3 class="font-bold text-lg" style="color:#fcd34d">Q-RS</h3>
-        <p class="text-gray-500 text-xs mb-2 font-mono">src/q_reed_solomon.py</p>
-        <p class="text-gray-400 text-sm mb-3">Reed-Solomon erasure coding over the Galois field GF(2⁸): split data into k shards plus m parity, reconstruct from ANY k of the n shards. Lose 40% of your disks, lose zero data — at 1.67× overhead versus replication's 2–3×. Systematic Vandermonde encode, Gaussian-elimination decode.</p>
-        <div class="flex gap-2 flex-wrap">
-          <span class="tag-concept">RAID-6 / Ceph / Backblaze / QR</span><span class="tag-tech">Reed &amp; Solomon 1960</span>
-        </div>
-      </div>
-
+    <div id="modules-root" class="space-y-12">
+      <div class="text-center text-sm py-10" style="color:var(--muted)">Loading modules…</div>
     </div>
   </div>
 </section>
 
 <!-- WHO IT'S FOR -->
-<section class="bg-white/[0.02] border-y border-white/5 py-20">
-  <div class="max-w-5xl mx-auto px-6">
+<section class="py-20" style="background:var(--bg-soft)">
+  <div class="container">
     <div class="text-center mb-12">
-      <div class="badge mb-4">Who It's For</div>
-      <h2 class="text-4xl font-black mb-4">Built for engineers who want to understand</h2>
+      <div class="section-label mb-3">Who it's for</div>
+      <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Built for engineers who want to understand</h2>
     </div>
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="glass p-6 rounded-xl">
-        <h3 class="font-bold text-lg mb-2 text-indigo-300">Interview prep</h3>
-        <p class="text-gray-400 text-sm">LSM-trees, vector search, Raft, CRDTs — and "explain the Transformer" — are the most common system-design and ML-systems questions at FAANG, with post-quantum crypto now joining them. Clean, commented implementations beat skimming million-line codebases.</p>
+    <div class="grid md:grid-cols-3 gap-5">
+      <div class="card p-6">
+        <h3 class="font-bold text-lg mb-2">Interview prep</h3>
+        <p class="text-sm" style="color:var(--muted)">LSM-trees, vector search, Raft, CRDTs and "explain the Transformer" are the most common system-design and ML-systems questions at top companies. Clean, commented implementations beat skimming million-line codebases.</p>
       </div>
-      <div class="glass p-6 rounded-xl">
-        <h3 class="font-bold text-lg mb-2 text-indigo-300">Understanding AI &amp; collaboration</h3>
-        <p class="text-gray-400 text-sm">The attention mechanism powers every LLM; CRDTs power every real-time collaborative app (Figma, Linear, Notion). Both are here in pure, readable Python — the actual algorithms, not a framework wrapper you can't see into.</p>
+      <div class="card p-6">
+        <h3 class="font-bold text-lg mb-2">Understanding AI &amp; collaboration</h3>
+        <p class="text-sm" style="color:var(--muted)">The attention mechanism powers every LLM; CRDTs power every real-time collaborative app. Both are here in pure, readable Python — the actual algorithms, not a framework wrapper you can't see into.</p>
       </div>
-      <div class="glass p-6 rounded-xl">
-        <h3 class="font-bold text-lg mb-2 text-indigo-300">Getting quantum-ready</h3>
-        <p class="text-gray-400 text-sm">Kyber &amp; Dilithium (NIST FIPS 203/204) are already shipping in TLS 1.3, OpenSSH and Signal. VQE runs on real hardware at IBM and IonQ today. Not future tech — the algorithms your security teams adopt this year.</p>
+      <div class="card p-6">
+        <h3 class="font-bold text-lg mb-2">Getting quantum-ready</h3>
+        <p class="text-sm" style="color:var(--muted)">Kyber &amp; Dilithium (NIST FIPS 203/204) already ship in TLS 1.3, OpenSSH and Signal. VQE runs on real hardware today. Not future tech — the algorithms your security team adopts this year.</p>
       </div>
     </div>
-
-    <div class="glass p-6 rounded-xl mt-6 text-center">
-      <p class="text-gray-300 text-sm"><strong class="text-white">Honest limits:</strong> reference implementations optimized for clarity, not speed. The Transformer does a forward pass with random/fixed weights — it is not a trained model and does no backprop. Nothing here outperforms RocksDB, FAISS, PyTorch, Qiskit, or PennyLane — they exist so you can understand what those systems do under the hood.</p>
+    <div class="card p-5 mt-5 text-center">
+      <p class="text-sm" style="color:var(--ink)"><span class="font-semibold">Honest limits:</span> these are reference implementations optimized for clarity, not speed. The Transformer does a forward pass with fixed/random weights — not a trained model, no backprop. Nothing here outperforms RocksDB, FAISS, PyTorch or Qiskit; it exists so you can understand what they do under the hood.</p>
     </div>
   </div>
 </section>
 
 <!-- PRICING -->
-<section id="pricing" class="max-w-4xl mx-auto px-6 py-24 text-center">
-  <div class="badge mb-4">Fair Pricing</div>
-  <h2 class="text-4xl font-black mb-4">Free to study. €9.99 to use commercially.</h2>
-  <p class="text-gray-400 mb-12 max-w-2xl mx-auto">The entire source is public — evaluate 100% of what you're buying before paying a cent. One license covers all 28 modules and everything added in future.</p>
-
-  <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-    <div class="glass rounded-2xl p-8">
-      <h3 class="text-2xl font-black mb-2">Study</h3>
-      <div class="text-4xl font-black text-gray-300 mb-6">Free</div>
-      <ul class="text-left space-y-3 mb-8 text-sm text-gray-400">
-        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Read all source code</li>
-        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Run tests & demos locally</li>
-        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Personal study & research</li>
-      </ul>
-      <a href="https://github.com/AmineCHABANE/Q-Drop-Marketplace" class="block glass text-white px-8 py-3.5 rounded-xl font-bold hover:bg-white/10 transition-colors">
-        Browse the Repo
-      </a>
+<section id="pricing" class="py-20 border-t" style="border-color:var(--border)">
+  <div class="container max-w-3xl">
+    <div class="text-center mb-10">
+      <div class="section-label mb-3">Fair pricing</div>
+      <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-3">Free to study. €9.99 to use commercially.</h2>
+      <p class="text-base" style="color:var(--muted)">The entire source is public — evaluate 100% of what you're buying before paying a cent. One license covers all current and future modules.</p>
     </div>
-
-    <div class="glass-strong rounded-2xl p-8 glow-indigo">
-      <h3 class="text-2xl font-black mb-2">Commercial License</h3>
-      <div class="text-4xl font-black text-green-400 mb-1">€9.99</div>
-      <div class="text-gray-500 text-sm mb-5">one-time · lifetime · per developer</div>
-      <ul class="text-left space-y-3 mb-8 text-sm text-gray-300">
-        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Use at work & in client projects</li>
-        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Covers all future modules too</li>
-        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Email support from the author</li>
-        <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>30-day money-back guarantee</li>
-      </ul>
-      <div class="flex flex-col gap-3">
-        <a href="https://buy.stripe.com/9B6eV60Gg90Z0TbcZk9fW01"
-           class="btn-primary text-white px-8 py-4 rounded-xl font-bold text-lg glow-green">
-          Buy License — €9.99
-        </a>
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-          <input type="hidden" name="cmd" value="_xclick">
-          <input type="hidden" name="business" value="Aminechabane7@gmail.com">
-          <input type="hidden" name="item_name" value="Q-Drop Commercial License">
-          <input type="hidden" name="amount" value="9.99">
-          <input type="hidden" name="currency_code" value="EUR">
-          <input type="hidden" name="return" value="https://aminechabane.github.io/Q-Drop-Marketplace/success.html">
-          <button type="submit" class="w-full bg-[#ffc439] text-[#003087] px-8 py-3.5 rounded-xl font-bold hover:opacity-90 transition-opacity">
-            Pay with PayPal
-          </button>
-        </form>
+    <div class="grid md:grid-cols-2 gap-5">
+      <div class="card p-7">
+        <h3 class="font-bold text-lg mb-1">Source-visible</h3>
+        <p class="text-3xl font-black mb-4">Free</p>
+        <ul class="space-y-2.5 text-sm" style="color:var(--ink)">
+          <li class="flex gap-2"><svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color:#16a34a" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4a1 1 0 011.4-1.4L8 12.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>Read all source code</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color:#16a34a" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4a1 1 0 011.4-1.4L8 12.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>Run tests &amp; demos locally</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color:#16a34a" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4a1 1 0 011.4-1.4L8 12.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>Personal study &amp; research</li>
+        </ul>
+        <a href="https://github.com/AmineCHABANE/Q-Drop-Marketplace" class="btn-ghost w-full mt-6 py-2.5 rounded-lg font-semibold text-sm flex justify-center">Browse the repo</a>
+      </div>
+      <div class="card p-7" style="border-color:var(--accent); box-shadow:0 12px 40px rgba(79,70,229,.12)">
+        <div class="flex items-center justify-between mb-1">
+          <h3 class="font-bold text-lg">Commercial license</h3>
+          <span class="tag tag-powers">Lifetime</span>
+        </div>
+        <p class="text-3xl font-black mb-4">€9.99 <span class="text-base font-medium" style="color:var(--muted)">one-time</span></p>
+        <ul class="space-y-2.5 text-sm" style="color:var(--ink)">
+          <li class="flex gap-2"><svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color:#16a34a" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4a1 1 0 011.4-1.4L8 12.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>Use at work &amp; in client projects</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color:#16a34a" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4a1 1 0 011.4-1.4L8 12.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>Covers all current &amp; future modules</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color:#16a34a" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4a1 1 0 011.4-1.4L8 12.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>Signed post-quantum license key</li>
+          <li class="flex gap-2"><svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color:#16a34a" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4a1 1 0 011.4-1.4L8 12.6l7.3-7.3a1 1 0 011.4 0z" clip-rule="evenodd"/></svg>30-day money-back guarantee</li>
+        </ul>
+        <a href="https://buy.stripe.com/9B6eV60Gg90Z0TbcZk9fW01" class="btn-primary w-full mt-6 py-2.5 rounded-lg font-semibold text-sm flex justify-center">Pay by card (Stripe)</a>
+        <p class="text-xs text-center mt-2.5" style="color:var(--muted)">or PayPal <span class="mono">Aminechabane7@gmail.com</span> · €9.99 “Q-Drop License”</p>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- GUARANTEE -->
-<section class="max-w-3xl mx-auto px-6 pb-20 text-center">
-  <div class="glass p-10 rounded-2xl">
-    <div class="w-16 h-16 rounded-full bg-green-500/10 border-2 border-green-500/30 flex items-center justify-center mx-auto mb-6">
-      <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-    </div>
-    <h2 class="text-3xl font-black mb-4">30-Day Money-Back Guarantee</h2>
-    <p class="text-gray-400 text-lg">Not satisfied for any reason? Email <a href="mailto:Aminechabane7@gmail.com" class="text-indigo-400 hover:underline">Aminechabane7@gmail.com</a> within 30 days and get a full refund. No questions asked.</p>
   </div>
 </section>
 
 <!-- FAQ -->
-<section id="faq" class="max-w-3xl mx-auto px-6 pb-24">
-  <div class="text-center mb-12">
-    <div class="badge mb-4">FAQ</div>
-    <h2 class="text-4xl font-black">Questions answered</h2>
-  </div>
-
-  <div class="space-y-3" id="faq-list">
-
-    <div class="glass rounded-xl overflow-hidden faq-item">
-      <button class="w-full px-6 py-5 text-left flex items-center justify-between font-medium hover:bg-white/[0.02] transition-colors" onclick="toggleFaq(this)">
-        <span>If all the code is public, what am I paying for?</span>
-        <svg class="w-5 h-5 text-gray-400 transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-      </button>
-      <div class="faq-answer px-6 text-gray-400 text-sm">
-        <div class="pb-5">The legal right to use it commercially, plus email support and all future modules. This is the "fair-code" model (used by Sidekiq, n8n and others): the code is open to read so you can evaluate exactly what you're buying, and the license funds continued development. Reading, running and studying it is free forever.</div>
-      </div>
+<section id="faq" class="py-20" style="background:var(--bg-soft)">
+  <div class="container max-w-3xl">
+    <div class="text-center mb-10">
+      <div class="section-label mb-3">FAQ</div>
+      <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Questions, answered</h2>
     </div>
-
-    <div class="glass rounded-xl overflow-hidden faq-item">
-      <button class="w-full px-6 py-5 text-left flex items-center justify-between font-medium hover:bg-white/[0.02] transition-colors" onclick="toggleFaq(this)">
-        <span>Is this production-ready code?</span>
-        <svg class="w-5 h-5 text-gray-400 transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-      </button>
-      <div class="faq-answer px-6 text-gray-400 text-sm">
-        <div class="pb-5">No, and we won't pretend otherwise. These are reference implementations optimized for readability — for learning, prototyping, and interview prep. For production workloads use RocksDB, FAISS, Flink etc. This code teaches you what those systems actually do internally.</div>
-      </div>
-    </div>
-
-    <div class="glass rounded-xl overflow-hidden faq-item">
-      <button class="w-full px-6 py-5 text-left flex items-center justify-between font-medium hover:bg-white/[0.02] transition-colors" onclick="toggleFaq(this)">
-        <span>How do I verify it works before paying?</span>
-        <svg class="w-5 h-5 text-gray-400 transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-      </button>
-      <div class="faq-answer px-6 text-gray-400 text-sm">
-        <div class="pb-5">Clone the repository and run <code class="text-cyan-300">python3 -m unittest discover -s src/tests -v</code> (270 tests) and <code class="text-cyan-300">python3 examples/demo.py</code>. Everything runs with zero dependencies on any machine with Python 3.</div>
-      </div>
-    </div>
-
-    <div class="glass rounded-xl overflow-hidden faq-item">
-      <button class="w-full px-6 py-5 text-left flex items-center justify-between font-medium hover:bg-white/[0.02] transition-colors" onclick="toggleFaq(this)">
-        <span>What does "commercial use" mean exactly?</span>
-        <svg class="w-5 h-5 text-gray-400 transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-      </button>
-      <div class="faq-answer px-6 text-gray-400 text-sm">
-        <div class="pb-5">Using the code (or code derived from it) at your job, in client work, or in a product. Personal study, education, research and evaluation are free. Full details in the <a href="https://github.com/AmineCHABANE/Q-Drop-Marketplace/blob/master/LICENSE" class="text-indigo-400 hover:underline">LICENSE</a>.</div>
-      </div>
-    </div>
-
-    <div class="glass rounded-xl overflow-hidden faq-item">
-      <button class="w-full px-6 py-5 text-left flex items-center justify-between font-medium hover:bg-white/[0.02] transition-colors" onclick="toggleFaq(this)">
-        <span>How is my license delivered and verified?</span>
-        <svg class="w-5 h-5 text-gray-400 transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-      </button>
-      <div class="faq-answer px-6 text-gray-400 text-sm">
-        <div class="pb-5">After payment you receive a cryptographic license key by email — a post-quantum hash-based signature issued with this repo's own <code class="text-cyan-300">q_sign</code> module. Verify it offline, anytime, with <code class="text-cyan-300">python3 tools/license_manager.py verify --key "..."</code> — no server, no account, no phone-home. Your Stripe/PayPal receipt is also valid proof on its own. Details in <a href="https://github.com/AmineCHABANE/Q-Drop-Marketplace/blob/master/LICENSING.md" class="text-indigo-400 hover:underline">LICENSING.md</a>.</div>
-      </div>
-    </div>
-
-    <div class="glass rounded-xl overflow-hidden faq-item">
-      <button class="w-full px-6 py-5 text-left flex items-center justify-between font-medium hover:bg-white/[0.02] transition-colors" onclick="toggleFaq(this)">
-        <span>What's the refund policy?</span>
-        <svg class="w-5 h-5 text-gray-400 transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-      </button>
-      <div class="faq-answer px-6 text-gray-400 text-sm">
-        <div class="pb-5">30-day full refund, no questions asked. Email <a href="mailto:Aminechabane7@gmail.com" class="text-indigo-400 hover:underline">Aminechabane7@gmail.com</a> with your transaction reference.</div>
-      </div>
-    </div>
-
+    <div id="faq-list" class="space-y-3"></div>
+    <p class="text-center text-sm mt-8" style="color:var(--muted)">Another question? Email <a href="mailto:Aminechabane7@gmail.com" class="accent font-medium hover:underline">Aminechabane7@gmail.com</a>.</p>
   </div>
 </section>
 
 <!-- FINAL CTA -->
-<section class="py-20 hero-glow">
-  <div class="max-w-3xl mx-auto px-6 text-center">
-    <h2 class="text-5xl font-black mb-6">Infrastructure today.<br>Quantum-ready tomorrow.</h2>
-    <p class="text-gray-400 text-lg mb-10 max-w-2xl mx-auto">Read the code for free. If it's useful at work — classical or quantum — the license is €9.99 once, forever, including everything added later.</p>
+<section class="py-20 border-t" style="border-color:var(--border)">
+  <div class="container max-w-2xl text-center">
+    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">Read every line. Then decide.</h2>
+    <p class="text-base mb-8" style="color:var(--muted)">No paywall on the code, no trial that expires, no telemetry. Clone it, run the tests, and license it for €9.99 only if it earns its place in your work.</p>
     <div class="flex flex-col sm:flex-row gap-3 justify-center">
-      <a href="https://github.com/AmineCHABANE/Q-Drop-Marketplace"
-         class="glass text-white px-10 py-5 rounded-xl font-bold text-xl hover:bg-white/10 transition-colors">
-        Browse the Source
-      </a>
-      <a href="https://buy.stripe.com/9B6eV60Gg90Z0TbcZk9fW01"
-         class="btn-primary text-white px-10 py-5 rounded-xl font-bold text-xl glow-green">
-        Buy License — €9.99
-      </a>
+      <a href="https://github.com/AmineCHABANE/Q-Drop-Marketplace" class="btn-ghost font-semibold px-6 py-3 rounded-lg">Read the source</a>
+      <a href="https://buy.stripe.com/9B6eV60Gg90Z0TbcZk9fW01" class="btn-primary font-semibold px-6 py-3 rounded-lg">Get a license — €9.99</a>
     </div>
-    <p class="text-gray-600 text-sm mt-4">Stripe & PayPal · 30-day guarantee</p>
   </div>
 </section>
 
 <!-- FOOTER -->
-<footer class="border-t border-white/5 py-12">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="grid md:grid-cols-3 gap-8 mb-8">
-      <div>
-        <div class="flex items-center gap-2 mb-3">
-          <div class="w-7 h-7 rounded-lg bg-indigo-600 flex items-center justify-center font-black text-xs">Q</div>
-          <span class="font-bold">Q-Drop</span>
-        </div>
-        <p class="text-gray-500 text-sm">Real, tested reference implementations of the algorithms behind modern infrastructure and quantum computing.</p>
+<footer class="border-t py-10" style="border-color:var(--border)">
+  <div class="container">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5">
+        <div class="w-7 h-7 rounded-lg flex items-center justify-center font-black text-white text-xs" style="background:var(--accent)">Q</div>
+        <span class="font-bold">Q-Drop</span>
       </div>
-      <div>
-        <h4 class="font-semibold mb-3 text-sm text-gray-400 uppercase tracking-wider">Explore</h4>
-        <div class="space-y-2 text-sm text-gray-500">
-          <div><a href="https://github.com/AmineCHABANE/Q-Drop-Marketplace" class="hover:text-white transition-colors">Source Code</a></div>
-          <div><a href="#pricing" class="hover:text-white transition-colors">Pricing</a></div>
-          <div><a href="#faq" class="hover:text-white transition-colors">FAQ</a></div>
-        </div>
-      </div>
-      <div>
-        <h4 class="font-semibold mb-3 text-sm text-gray-400 uppercase tracking-wider">Legal</h4>
-        <div class="space-y-2 text-sm text-gray-500">
-          <div><a href="terms.html" class="hover:text-white transition-colors">Terms of Service</a></div>
-          <div><a href="privacy.html" class="hover:text-white transition-colors">Privacy Policy</a></div>
-          <div><a href="mailto:Aminechabane7@gmail.com" class="hover:text-white transition-colors">Contact</a></div>
-        </div>
+      <div class="flex items-center gap-6 text-sm font-medium" style="color:var(--muted)">
+        <a href="https://github.com/AmineCHABANE/Q-Drop-Marketplace" class="hover:text-[var(--ink)]">GitHub</a>
+        <a href="terms.html" class="hover:text-[var(--ink)]">Terms</a>
+        <a href="privacy.html" class="hover:text-[var(--ink)]">Privacy</a>
+        <a href="mailto:Aminechabane7@gmail.com" class="hover:text-[var(--ink)]">Contact</a>
       </div>
     </div>
-    <div class="border-t border-white/5 pt-8 text-center text-gray-600 text-sm">
-      © 2026 Q-Drop. All rights reserved.
-    </div>
+    <p class="text-xs mt-6" style="color:var(--muted)">© 2026 Q-Drop Marketplace · Reference implementations for education &amp; commercial use · Pure Python 3, zero dependencies.</p>
   </div>
 </footer>
 
 <script>
-function toggleFaq(btn) {
-  const answer = btn.nextElementSibling;
-  const icon = btn.querySelector('.faq-icon');
-  const isOpen = answer.classList.contains('open');
-  document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
-  document.querySelectorAll('.faq-icon').forEach(i => i.style.transform = '');
-  if (!isOpen) {
-    answer.classList.add('open');
-    icon.style.transform = 'rotate(180deg)';
-  }
+// ---- Track config: category -> {label, blurb, order} -------------------
+const TRACKS = {
+  ai:             { label: "AI — the mechanism inside every LLM", order: 1 },
+  infrastructure: { label: "Infrastructure & distributed systems", order: 2 },
+  crypto:         { label: "Cryptography & privacy",              order: 3 },
+  quantum:        { label: "Quantum algorithms (simulation)",     order: 4 },
+  format:         { label: "Quantum-safe formats",                order: 5 },
+};
+
+function card(m) {
+  const ref = (m.concept_behind || "").trim();
+  return `
+    <div class="card p-5">
+      <div class="flex items-center justify-between mb-1.5">
+        <h3 class="font-bold text-[15px]">${m.name}</h3>
+        ${m.tested ? '<span class="tag tag-tested">tested</span>' : ''}
+      </div>
+      <p class="mono text-xs mb-2.5" style="color:var(--muted)">${m.file}</p>
+      <p class="text-sm mb-3" style="color:#3b4252">${m.desc}</p>
+      ${ref ? `<span class="tag tag-powers">${ref}</span>` : ''}
+    </div>`;
+}
+
+function render(modules) {
+  const root = document.getElementById("modules-root");
+  // group by category
+  const groups = {};
+  modules.forEach(m => { (groups[m.category] = groups[m.category] || []).push(m); });
+  const cats = Object.keys(groups).sort(
+    (a, b) => (TRACKS[a]?.order || 99) - (TRACKS[b]?.order || 99));
+
+  root.innerHTML = cats.map(cat => {
+    const label = TRACKS[cat]?.label || cat;
+    const cards = groups[cat].map(card).join("");
+    return `
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <span class="section-label">${label}</span>
+          <span class="text-xs font-semibold" style="color:var(--muted)">${groups[cat].length}</span>
+          <div class="h-px flex-1" style="background:var(--border)"></div>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">${cards}</div>
+      </div>`;
+  }).join("");
+
+  // live counts
+  document.querySelectorAll('[data-count="modules"]').forEach(el => el.textContent = modules.length);
+}
+
+// Fetch the single source of truth; new modules in data/projects.json appear here automatically.
+fetch("data/projects.json")
+  .then(r => r.json())
+  .then(render)
+  .catch(() => {
+    document.getElementById("modules-root").innerHTML =
+      '<div class="text-center text-sm py-8" style="color:var(--muted)">' +
+      'Browse the full, always-current module list on ' +
+      '<a class="accent font-medium" href="https://github.com/AmineCHABANE/Q-Drop-Marketplace/tree/master/src">GitHub →</a></div>';
+  });
+
+// ---- FAQ ----------------------------------------------------------------
+const FAQS = [
+  ["Is the code really all public before I pay?",
+   "Yes — 100%. Every module, test and the demo live in the public GitHub repository. You can read, clone, run and evaluate everything for free. The €9.99 license only grants the right to use the code commercially (at work or in a product); it unlocks nothing hidden, because nothing is hidden."],
+  ["What exactly do I get for €9.99?",
+   "A perpetual, non-transferable commercial-use license covering every current and future module in the repository, a cryptographically signed post-quantum license key (verifiable offline), and email support. Your Stripe/PayPal receipt is proof of license and takes effect immediately."],
+  ["How is the license key delivered and verified?",
+   "Within 24h of purchase you receive a signed license key by email. It is signed with this project's own hash-based post-quantum signature module (q_sign) and verifies offline against the public Merkle root in the repo — no license server, no account, nothing to phone home. Run: python3 tools/license_manager.py verify --key \"…\"."],
+  ["How do I know it actually works?",
+   "Clone the repo and run two commands: python3 -m unittest discover -s src/tests (the full test suite) and python3 examples/demo.py (every system end to end). If they pass on your machine, the product works. That is the entire proof, and it costs nothing to check."],
+  ["Are these production-ready, optimized implementations?",
+   "No — and the site says so plainly. They are reference implementations optimized for clarity, not raw speed, meant to teach you what the production systems do under the hood. Deploy the battle-hardened version (RocksDB, FAISS, PyTorch, Qiskit…) in production; use these to truly understand it."],
+  ["What's your refund policy?",
+   "A 30-day money-back guarantee, no questions asked. If you're unsatisfied for any reason within 30 days, email Aminechabane7@gmail.com with your order reference for a full refund."],
+];
+
+const faqList = document.getElementById("faq-list");
+faqList.innerHTML = FAQS.map(([q, a], i) => `
+  <div class="card overflow-hidden">
+    <div class="faq-q flex items-center justify-between p-5" onclick="toggleFaq(${i})">
+      <span class="font-semibold text-[15px] pr-4">${q}</span>
+      <svg id="chev-${i}" class="w-5 h-5 flex-shrink-0 transition-transform" style="color:var(--muted)" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.3 7.3a1 1 0 011.4 0L10 10.6l3.3-3.3a1 1 0 111.4 1.4l-4 4a1 1 0 01-1.4 0l-4-4a1 1 0 010-1.4z" clip-rule="evenodd"/></svg>
+    </div>
+    <div id="faq-${i}" class="faq-a px-5"><p class="pb-5 text-sm" style="color:var(--muted)">${a}</p></div>
+  </div>`).join("");
+
+function toggleFaq(i) {
+  const a = document.getElementById("faq-" + i);
+  const c = document.getElementById("chev-" + i);
+  const open = a.classList.toggle("open");
+  c.style.transform = open ? "rotate(180deg)" : "";
 }
 </script>
-
 </body>
 </html>

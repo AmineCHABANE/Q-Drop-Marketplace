@@ -4,84 +4,84 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>License Confirmed — Q-Drop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { background: #05050a; }
-    .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.07); }
-    .gradient-text { background: linear-gradient(135deg, #22c55e, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    body { background: #ffffff; color: #0b0d17; font-family: 'Inter', system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+    .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+    .card { background: #fff; border: 1px solid #e7e9ef; }
+    nav.site { background: rgba(255,255,255,0.85); backdrop-filter: saturate(180%) blur(12px); border-bottom: 1px solid #e7e9ef; }
     .check-circle { animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
     @keyframes scaleIn { from { transform: scale(0); opacity:0; } to { transform: scale(1); opacity:1; } }
-    .step-num { width: 28px; height: 28px; background: rgba(99,102,241,0.2); border: 1px solid rgba(99,102,241,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: #a5b4fc; flex-shrink: 0; }
-    .code-block { background: #0a0a14; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; font-family: ui-monospace, monospace; font-size: 0.8rem; }
+    .step-num { width: 28px; height: 28px; background: #eef2ff; border: 1px solid #e0e4ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: #4f46e5; flex-shrink: 0; }
+    .code-block { background: #0d1117; border: 1px solid #1f2430; border-radius: 10px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.8rem; color: #cdd6e3; }
   </style>
 </head>
-<body class="text-white font-sans antialiased min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col">
 
-<nav class="border-b border-white/5 py-4 px-6">
-  <a href="/" class="flex items-center gap-2 w-fit">
-    <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-black text-sm">Q</div>
-    <span class="font-bold">Q-Drop</span>
+<nav class="site border-b py-4 px-6" style="border-color:#e7e9ef">
+  <a href="/" class="flex items-center gap-2.5 w-fit">
+    <div class="w-8 h-8 rounded-lg flex items-center justify-center font-black text-white text-sm" style="background:#4f46e5">Q</div>
+    <span class="font-bold text-[17px]">Q-Drop</span>
   </a>
 </nav>
 
-<main class="flex-1 flex items-center justify-center px-6 py-20">
+<main class="flex-1 flex items-center justify-center px-6 py-16">
   <div class="max-w-lg w-full text-center">
 
-    <div class="check-circle w-20 h-20 rounded-full bg-green-500/10 border-2 border-green-500/40 flex items-center justify-center mx-auto mb-8">
-      <svg class="w-10 h-10 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div class="check-circle w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-8" style="background:#ecfdf3; border:2px solid #a6f4c5">
+      <svg class="w-10 h-10" style="color:#16a34a" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
       </svg>
     </div>
 
-    <h1 class="text-4xl font-black mb-3">
-      <span class="gradient-text">You're licensed!</span>
-    </h1>
-    <p class="text-gray-400 text-lg mb-10">Thank you for supporting the project. Your commercial license is active immediately — here's everything you need:</p>
+    <h1 class="text-4xl font-black tracking-tight mb-3">You're licensed!</h1>
+    <p class="text-lg mb-10" style="color:#5b6472">Thank you for supporting the project. Your commercial license is active immediately — here's everything you need:</p>
 
-    <div class="glass rounded-2xl p-6 text-left mb-8">
+    <div class="card rounded-2xl p-6 text-left mb-8">
       <div class="space-y-5">
         <div class="flex items-start gap-4">
           <div class="step-num">1</div>
           <div>
-            <p class="font-semibold text-white mb-1">Keep your receipt — your license key follows by email</p>
-            <p class="text-gray-400 text-sm">The Stripe or PayPal receipt <em>is</em> your proof of license, effective immediately. Within 24h you'll also receive a <strong class="text-gray-300">post-quantum cryptographic license key</strong>, verifiable offline anytime: <code class="text-indigo-300">python3 tools/license_manager.py verify --key "..."</code>. No server, no account.</p>
+            <p class="font-semibold mb-1">Keep your receipt — your license key follows by email</p>
+            <p class="text-sm" style="color:#5b6472">The Stripe or PayPal receipt <em>is</em> your proof of license, effective immediately. Within 24h you'll also receive a <strong style="color:#0b0d17">post-quantum cryptographic license key</strong>, verifiable offline anytime: <code class="mono" style="color:#4f46e5">python3 tools/license_manager.py verify --key "..."</code>. No server, no account.</p>
           </div>
         </div>
 
-        <div class="border-l border-white/5 ml-3.5 h-4"></div>
+        <div class="border-l ml-3.5 h-4" style="border-color:#e7e9ef"></div>
 
         <div class="flex items-start gap-4">
           <div class="step-num">2</div>
           <div>
-            <p class="font-semibold text-white mb-1">Get the code</p>
-            <p class="text-gray-400 text-sm mb-2">Clone the repository — you already have access to everything, including all future modules:</p>
-            <div class="code-block px-4 py-3 text-gray-300 overflow-x-auto">git clone https://github.com/AmineCHABANE/Q-Drop-Marketplace</div>
+            <p class="font-semibold mb-1">Get the code</p>
+            <p class="text-sm mb-2" style="color:#5b6472">Clone the repository — you already have access to everything, including all future modules:</p>
+            <div class="code-block px-4 py-3 overflow-x-auto">git clone https://github.com/AmineCHABANE/Q-Drop-Marketplace</div>
           </div>
         </div>
 
-        <div class="border-l border-white/5 ml-3.5 h-4"></div>
+        <div class="border-l ml-3.5 h-4" style="border-color:#e7e9ef"></div>
 
         <div class="flex items-start gap-4">
           <div class="step-num">3</div>
           <div>
-            <p class="font-semibold text-white mb-1">Verify it runs</p>
-            <div class="code-block px-4 py-3 text-gray-300 overflow-x-auto mt-2">python3 -m unittest discover -s src/tests -v<br>python3 examples/demo.py</div>
+            <p class="font-semibold mb-1">Verify it runs</p>
+            <div class="code-block px-4 py-3 overflow-x-auto mt-2">python3 -m unittest discover -s src/tests -v<br>python3 examples/demo.py</div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="glass rounded-xl p-4 text-sm text-gray-400 mb-8">
-      <p>Questions, support, or want an invoice? Email <a href="mailto:Aminechabane7@gmail.com" class="text-indigo-400 hover:underline">Aminechabane7@gmail.com</a>. Not satisfied? Full refund within 30 days, no questions asked.</p>
+    <div class="card rounded-xl p-4 text-sm mb-8" style="color:#5b6472">
+      <p>Questions, support, or want an invoice? Email <a href="mailto:Aminechabane7@gmail.com" class="font-medium hover:underline" style="color:#4f46e5">Aminechabane7@gmail.com</a>. Not satisfied? Full refund within 30 days, no questions asked.</p>
     </div>
 
-    <a href="/" class="text-indigo-400 hover:text-indigo-300 text-sm transition-colors">
-      ← Back to Q-Drop
-    </a>
+    <a href="/" class="text-sm font-medium hover:underline" style="color:#4f46e5">← Back to Q-Drop</a>
   </div>
 </main>
 
-<footer class="border-t border-white/5 py-6 text-center text-gray-600 text-sm">
+<footer class="border-t py-6 text-center text-sm" style="border-color:#e7e9ef; color:#8b93a3">
   © 2026 Q-Drop
 </footer>
 
