@@ -218,5 +218,35 @@
     "concept_behind": "RAID-6 / Ceph / HDFS-EC / Backblaze / QR codes (Reed & Solomon 1960)",
     "language": "Python 3, no dependencies",
     "tested": true
+  },
+  {
+    "id": "q-bptree",
+    "name": "Q-BPTREE",
+    "file": "src/q_bptree.py",
+    "category": "infrastructure",
+    "desc": "B+ tree index: balanced under insertion via node splitting, leaf-linked list for O(log n + k) range scans, point lookups, invariant checks",
+    "concept_behind": "PostgreSQL / MySQL InnoDB / SQLite / Oracle — the SQL index (Bayer & McCreight 1972)",
+    "language": "Python 3, no dependencies",
+    "tested": true
+  },
+  {
+    "id": "q-roaring",
+    "name": "Q-ROARING",
+    "file": "src/q_roaring.py",
+    "category": "infrastructure",
+    "desc": "Roaring compressed bitmaps: array + bitmap containers with auto-promotion, AND/OR/XOR/ANDNOT set algebra, cardinality",
+    "concept_behind": "Lucene / Elasticsearch / Druid / ClickHouse / Spark (Chambi & Lemire 2016)",
+    "language": "Python 3, no dependencies",
+    "tested": true
+  },
+  {
+    "id": "q-skip",
+    "name": "Q-SKIP",
+    "file": "src/q_skip.py",
+    "category": "infrastructure",
+    "desc": "Skip list: probabilistic O(log n) ordered set with span counts for ZRANK/ZRANGE-by-index, range-by-score, no rotations",
+    "concept_behind": "Redis sorted sets (ZSET) / LevelDB MemTable (Pugh 1990)",
+    "language": "Python 3, no dependencies",
+    "tested": true
   }
 ]

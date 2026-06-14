@@ -1748,5 +1748,232 @@ class TestReedSolomon(unittest.TestCase):
         self.assertTrue(r["recovered_ok"])
 
 
+# ---------------------------------------------------------------------------
+# Q-BPTREE
+# ---------------------------------------------------------------------------
+
+import q_bptree
+
+class TestBPlusTree(unittest.TestCase):
+    def test_insert_and_get(self):
+        t = q_bptree.BPlusTree(order=4)
+        for i in range(100):
+            t.insert(i, i * 10)
+        for i in range(100):
+            self.assertEqual(t.get(i), i * 10)
+
+    def test_missing_key(self):
+        t = q_bptree.BPlusTree(order=4)
+        t.insert(1, "a")
+        self.assertIsNone(t.get(999))
+        self.assertNotIn(999, t)
+        self.assertIn(1, t)
+
+    def test_update_existing(self):
+        t = q_bptree.BPlusTree(order=4)
+        t.insert(5, "old")
+        t.insert(5, "new")
+        self.assertEqual(t.get(5), "new")
+        self.assertEqual(len(t), 1)
+
+    def test_sorted_iteration(self):
+        import random
+        rng = random.Random(1)
+        t = q_bptree.BPlusTree(order=6)
+        keys = list(range(500))
+        rng.shuffle(keys)
+        for k in keys:
+            t.insert(k, k)
+        self.assertEqual(list(t.keys()), list(range(500)))
+
+    def test_range_scan(self):
+        t = q_bptree.BPlusTree(order=5)
+        for i in range(100):
+            t.insert(i, i)
+        scanned = [k for k, _ in t.range_scan(20, 30)]
+        self.assertEqual(scanned, list(range(20, 31)))
+
+    def test_invariants_under_random_load(self):
+        import random
+        rng = random.Random(7)
+        t = q_bptree.BPlusTree(order=4)   # small order → lots of splits
+        for k in rng.sample(range(2000), 2000):
+            t.insert(k, k)
+        self.assertTrue(t.check_invariants())
+        self.assertEqual(len(t), 2000)
+
+    def test_stays_shallow(self):
+        t = q_bptree.BPlusTree(order=32)
+        for i in range(10000):
+            t.insert(i, i)
+        # 10k keys with order 32 → height should be small (logarithmic)
+        self.assertLessEqual(t.height, 4)
+
+    def test_min_max(self):
+        import random
+        t = q_bptree.BPlusTree(order=8)
+        for k in random.Random(2).sample(range(1000), 1000):
+            t.insert(k, k)
+        self.assertEqual(t.min_key(), 0)
+        self.assertEqual(t.max_key(), 999)
+
+    def test_order_too_small(self):
+        with self.assertRaises(ValueError):
+            q_bptree.BPlusTree(order=2)
+
+
+# ---------------------------------------------------------------------------
+# Q-ROARING
+# ---------------------------------------------------------------------------
+
+import q_roaring
+
+class TestRoaring(unittest.TestCase):
+    def test_add_contains(self):
+        rb = q_roaring.RoaringBitmap()
+        for x in (1, 100, 70000, 5_000_000):
+            rb.add(x)
+        for x in (1, 100, 70000, 5_000_000):
+            self.assertIn(x, rb)
+        self.assertNotIn(2, rb)
+
+    def test_cardinality_dedup(self):
+        rb = q_roaring.RoaringBitmap()
+        rb.add(5); rb.add(5); rb.add(5)
+        self.assertEqual(rb.cardinality, 1)
+
+    def test_array_to_bitmap_promotion(self):
+        rb = q_roaring.RoaringBitmap()
+        # Fill one chunk densely → must promote to a bitmap container
+        for x in range(5000):
+            rb.add(x)
+        self.assertGreater(rb.container_stats()["bitmap_containers"], 0)
+
+    def test_sparse_stays_array(self):
+        rb = q_roaring.RoaringBitmap()
+        for x in range(0, 1_000_000, 1000):
+            rb.add(x)
+        self.assertGreater(rb.container_stats()["array_containers"], 0)
+        self.assertEqual(rb.container_stats()["bitmap_containers"], 0)
+
+    def test_union(self):
+        a = q_roaring.RoaringBitmap().add_many(range(0, 1000, 3))
+        b = q_roaring.RoaringBitmap().add_many(range(0, 1000, 5))
+        self.assertEqual((a | b).to_list(),
+                         sorted(set(range(0, 1000, 3)) | set(range(0, 1000, 5))))
+
+    def test_intersect(self):
+        a = q_roaring.RoaringBitmap().add_many(range(0, 1000, 3))
+        b = q_roaring.RoaringBitmap().add_many(range(0, 1000, 5))
+        self.assertEqual((a & b).to_list(),
+                         sorted(set(range(0, 1000, 3)) & set(range(0, 1000, 5))))
+
+    def test_difference_and_xor(self):
+        a = q_roaring.RoaringBitmap().add_many(range(0, 1000, 3))
+        b = q_roaring.RoaringBitmap().add_many(range(0, 1000, 5))
+        pa, pb = set(range(0, 1000, 3)), set(range(0, 1000, 5))
+        self.assertEqual((a - b).to_list(), sorted(pa - pb))
+        self.assertEqual((a ^ b).to_list(), sorted(pa ^ pb))
+
+    def test_iteration_sorted(self):
+        import random
+        rb = q_roaring.RoaringBitmap()
+        xs = random.Random(3).sample(range(2_000_000), 5000)
+        rb.add_many(xs)
+        self.assertEqual(rb.to_list(), sorted(set(xs)))
+
+    def test_cross_container_ops(self):
+        """Sparse (array) combined with dense (bitmap) must be exact."""
+        sparse = q_roaring.RoaringBitmap().add_many(range(0, 10_000_000, 1000))
+        dense = q_roaring.RoaringBitmap().add_many(range(5_000_000, 5_100_000))
+        ps, pd = set(range(0, 10_000_000, 1000)), set(range(5_000_000, 5_100_000))
+        self.assertEqual((sparse & dense).cardinality, len(ps & pd))
+        self.assertEqual((sparse | dense).cardinality, len(ps | pd))
+
+    def test_demonstrate(self):
+        r = q_roaring.demonstrate_roaring()
+        self.assertTrue(all([r["union_matches"], r["intersect_matches"],
+                             r["difference_matches"], r["dense_uses_bitmaps"],
+                             r["sparse_uses_arrays"]]))
+
+
+# ---------------------------------------------------------------------------
+# Q-SKIP
+# ---------------------------------------------------------------------------
+
+import q_skip
+
+class TestSkipList(unittest.TestCase):
+    def test_add_and_score(self):
+        sl = q_skip.SkipList(seed=1)
+        sl.add(3.5, "a")
+        self.assertEqual(sl.score("a"), 3.5)
+        self.assertIn("a", sl)
+
+    def test_update_score_moves_member(self):
+        sl = q_skip.SkipList(seed=1)
+        sl.add(10, "x")
+        sl.add(20, "y")
+        sl.add(5, "x")    # re-score x below y
+        self.assertEqual(sl.score("x"), 5)
+        self.assertEqual(list(sl), [(5, "x"), (20, "y")])
+        self.assertEqual(len(sl), 2)
+
+    def test_remove(self):
+        sl = q_skip.SkipList(seed=1)
+        sl.add(1, "a"); sl.add(2, "b")
+        self.assertTrue(sl.remove("a"))
+        self.assertFalse(sl.remove("a"))
+        self.assertNotIn("a", sl)
+        self.assertEqual(len(sl), 1)
+
+    def test_sorted_iteration(self):
+        sl = q_skip.SkipList(seed=2)
+        data = [(50, "e"), (10, "a"), (30, "c"), (20, "b"), (40, "d")]
+        for s, m in data:
+            sl.add(s, m)
+        self.assertEqual(list(sl), sorted(data))
+
+    def test_rank(self):
+        sl = q_skip.SkipList(seed=3)
+        for i, m in enumerate("abcde"):
+            sl.add(i * 10, m)
+        self.assertEqual(sl.rank("a"), 0)
+        self.assertEqual(sl.rank("c"), 2)
+        self.assertEqual(sl.rank("e"), 4)
+        self.assertIsNone(sl.rank("z"))
+
+    def test_select_by_index(self):
+        sl = q_skip.SkipList(seed=4)
+        for i, m in enumerate("abcde"):
+            sl.add(i * 10, m)
+        self.assertEqual(sl.select(0), (0, "a"))
+        self.assertEqual(sl.select(4), (40, "e"))
+        self.assertIsNone(sl.select(5))
+
+    def test_rank_select_roundtrip(self):
+        import random
+        sl = q_skip.SkipList(seed=5)
+        rng = random.Random(9)
+        members = [f"m{i}" for i in range(1000)]
+        for m in members:
+            sl.add(rng.randint(0, 5000), m)
+        for idx in (0, 250, 500, 999):
+            score, member = sl.select(idx)
+            self.assertEqual(sl.rank(member), idx)
+
+    def test_range_by_score(self):
+        sl = q_skip.SkipList(seed=6)
+        for i in range(100):
+            sl.add(i, f"k{i}")
+        result = [m for _, m in sl.range_by_score(10, 20)]
+        self.assertEqual(result, [f"k{i}" for i in range(10, 21)])
+
+    def test_demonstrate(self):
+        r = q_skip.demonstrate_skiplist()
+        self.assertTrue(all([r["zrank_ok"], r["zrange_by_index_ok"],
+                             r["iteration_sorted"]]))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

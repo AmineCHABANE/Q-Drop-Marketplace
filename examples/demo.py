@@ -1,5 +1,5 @@
 """
-Q-Drop demo — runs all 22 reference implementations end to end.
+Q-Drop demo — runs all 25 reference implementations end to end.
 
 Usage (from the repository root):
     python3 examples/demo.py
@@ -36,6 +36,9 @@ import q_bpe
 import q_zkp
 import q_ring
 import q_reed_solomon
+import q_bptree
+import q_roaring
+import q_skip
 
 
 def divider(title: str) -> None:
@@ -475,4 +478,40 @@ print(f"  Reconstructed from the surviving {rs['total_shards'] - rs['shards_lost
 print("Lose 40% of your disks, lose zero data — at 1.67× cost vs replication's 2–3×.")
 print("The math behind RAID-6, Ceph, HDFS-EC, Backblaze, QR codes, and Voyager telemetry.")
 
-print(f"\n{'=' * 60}\n  All 22 systems ran successfully.\n{'=' * 60}")
+# ---------------------------------------------------------------------------
+divider("23. Q-BPTREE — B+ tree (the index inside PostgreSQL/MySQL/SQLite)")
+
+bpt = q_bptree.demonstrate_bptree()
+print(f"Inserted {bpt['size']:,} keys (shuffled) into a B+ tree of order {bpt['branching_order']}:")
+print(f"  Tree height: {bpt['height']} levels (stays shallow — logarithmic)")
+print(f"  Point lookups correct:   {bpt['point_lookup_ok']}")
+print(f"  Range scan [100..110]:   {bpt['range_scan_keys']}")
+print(f"  Sorted via leaf chain:   {bpt['range_scan_sorted']}")
+print(f"  All B+ tree invariants hold: {bpt['invariants_hold']}")
+print("The read-optimized counterpart to the LSM-tree (#2) — every SQL index.")
+
+# ---------------------------------------------------------------------------
+divider("24. Q-ROARING — Roaring bitmaps (the analytics index: Lucene/Druid/Spark)")
+
+roar = q_roaring.demonstrate_roaring()
+print("Two row-id sets combined with container-aware set algebra:")
+print(f"  {roar['sparse']}")
+print(f"  {roar['dense']}")
+print(f"  Sparse data → array containers: {roar['sparse_uses_arrays']}; "
+      f"dense → bitmap containers: {roar['dense_uses_bitmaps']}")
+print(f"  union={roar['union_cardinality']:,} (exact: {roar['union_matches']}), "
+      f"intersect={roar['intersect_cardinality']:,} (exact: {roar['intersect_matches']})")
+print("Each chunk picks the smallest representation — compressed AND fast.")
+
+# ---------------------------------------------------------------------------
+divider("25. Q-SKIP — skip list (Redis sorted sets: ZADD/ZRANK/ZRANGE)")
+
+skip = q_skip.demonstrate_skiplist()
+print(f"A {skip['players']:,}-player leaderboard in a {skip['levels']}-level skip list:")
+print(f"  ZRANK (position of a player) correct:        {skip['zrank_ok']}")
+print(f"  ZRANGE by index (top-3 by score) correct:    {skip['zrange_by_index_ok']}")
+print(f"  Top-3 scores: {skip['top3_scores']}")
+print(f"  Full iteration in sorted order:              {skip['iteration_sorted']}")
+print("O(log n) search/insert/rank with no rotations — Redis ZSET & LevelDB MemTable.")
+
+print(f"\n{'=' * 60}\n  All 25 systems ran successfully.\n{'=' * 60}")
