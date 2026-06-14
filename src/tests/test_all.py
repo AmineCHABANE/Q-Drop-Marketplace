@@ -1257,5 +1257,214 @@ class TestBloom(unittest.TestCase):
         self.assertIn("base", cands)
 
 
+# ---------------------------------------------------------------------------
+# Q-ATTENTION
+# ---------------------------------------------------------------------------
+
+import q_attention
+
+class TestAttention(unittest.TestCase):
+    def test_softmax_sums_to_one(self):
+        s = q_attention.softmax([1.0, 2.0, 3.0])
+        self.assertAlmostEqual(sum(s), 1.0, places=12)
+
+    def test_softmax_numerically_stable(self):
+        """Large inputs must not overflow."""
+        s = q_attention.softmax([1000.0, 1001.0, 1002.0])
+        self.assertAlmostEqual(sum(s), 1.0, places=12)
+        self.assertGreater(s[2], s[0])
+
+    def test_softmax_masked_entries_zero(self):
+        s = q_attention.softmax([1.0, q_attention.NEG_INF, 2.0])
+        self.assertEqual(s[1], 0.0)
+        self.assertAlmostEqual(sum(s), 1.0, places=12)
+
+    def test_attention_weights_sum_to_one(self):
+        Q = [[1.0, 0.0], [0.0, 1.0]]
+        K = [[1.0, 0.0], [0.0, 1.0], [1.0, 1.0]]
+        V = [[1.0], [2.0], [3.0]]
+        _, weights = q_attention.scaled_dot_product_attention(Q, K, V)
+        for row in weights:
+            self.assertAlmostEqual(sum(row), 1.0, places=12)
+
+    def test_attention_output_is_convex_combination(self):
+        """Output values must lie within the range of the value vectors."""
+        Q = [[0.5, 0.5]]
+        K = [[1.0, 0.0], [0.0, 1.0]]
+        V = [[10.0], [20.0]]
+        out, _ = q_attention.scaled_dot_product_attention(Q, K, V)
+        self.assertGreaterEqual(out[0][0], 10.0)
+        self.assertLessEqual(out[0][0], 20.0)
+
+    def test_causal_mask_blocks_future(self):
+        Q = [[1.0], [1.0], [1.0]]
+        K = [[1.0], [1.0], [1.0]]
+        V = [[1.0], [2.0], [3.0]]
+        _, weights = q_attention.scaled_dot_product_attention(Q, K, V, causal=True)
+        # position 0 sees only itself
+        self.assertAlmostEqual(weights[0][0], 1.0, places=12)
+        self.assertEqual(weights[0][1], 0.0)
+        self.assertEqual(weights[0][2], 0.0)
+
+    def test_attention_as_lookup(self):
+        r = q_attention.demonstrate_attention_as_lookup()
+        self.assertTrue(r["match"])
+
+    def test_causal_averaging_exact(self):
+        r = q_attention.demonstrate_causal_averaging()
+        self.assertTrue(r["exact_match"])
+
+    def test_multihead_shapes(self):
+        rng = random.Random(1)
+        x = [[rng.gauss(0, 1) for _ in range(8)] for _ in range(5)]
+        mha = q_attention.MultiHeadAttention(8, 2, random.Random(2))
+        out, weights = mha.forward(x, causal=True)
+        self.assertEqual(q_attention.shape(out), (5, 8))
+        self.assertEqual(len(weights), 2)
+
+    def test_multihead_requires_divisible(self):
+        with self.assertRaises(ValueError):
+            q_attention.MultiHeadAttention(d_model=10, n_heads=3)
+
+    def test_layernorm_zero_mean(self):
+        ln = q_attention.LayerNorm(4)
+        y = ln.forward([[1.0, 2.0, 3.0, 4.0]])
+        self.assertAlmostEqual(sum(y[0]) / 4, 0.0, places=10)
+
+    def test_positional_encoding_bounded(self):
+        pe = q_attention.positional_encoding(10, 8)
+        for row in pe:
+            for v in row:
+                self.assertGreaterEqual(v, -1.0)
+                self.assertLessEqual(v, 1.0)
+
+    def test_positional_encoding_deterministic(self):
+        pe1 = q_attention.positional_encoding(5, 8)
+        pe2 = q_attention.positional_encoding(5, 8)
+        self.assertEqual(pe1, pe2)
+
+    def test_transformer_encoder_forward(self):
+        rng = random.Random(3)
+        enc = q_attention.TransformerEncoder(8, 2, 3, seed=42)
+        emb = [[rng.gauss(0, 1) for _ in range(8)] for _ in range(6)]
+        hidden, attn = enc.forward(emb)
+        self.assertEqual(q_attention.shape(hidden), (6, 8))
+        self.assertEqual(len(attn), 3)
+
+    def test_matmul_shape_check(self):
+        with self.assertRaises(ValueError):
+            q_attention.matmul([[1.0, 2.0]], [[1.0, 2.0]])  # (1x2)·(1x2) invalid
+
+
+# ---------------------------------------------------------------------------
+# Q-CRDT
+# ---------------------------------------------------------------------------
+
+import q_crdt
+
+class TestCRDT(unittest.TestCase):
+    def test_vector_clock_happens_before(self):
+        a = q_crdt.VectorClock().tick("n1")
+        b = q_crdt.VectorClock(a.clock).tick("n2")
+        self.assertTrue(a.happens_before(b))
+        self.assertFalse(b.happens_before(a))
+
+    def test_vector_clock_concurrent(self):
+        c1 = q_crdt.VectorClock({"n1": 1})
+        c2 = q_crdt.VectorClock({"n2": 1})
+        self.assertTrue(c1.concurrent_with(c2))
+
+    def test_gcounter_merge(self):
+        g1 = q_crdt.GCounter("n1"); g1.increment(5)
+        g2 = q_crdt.GCounter("n2"); g2.increment(3)
+        self.assertEqual(g1.merge(g2).value, 8)
+
+    def test_gcounter_rejects_decrement(self):
+        g = q_crdt.GCounter("n1")
+        with self.assertRaises(ValueError):
+            g.increment(-1)
+
+    def test_gcounter_convergence(self):
+        g1 = q_crdt.GCounter("n1").increment(5)
+        g2 = q_crdt.GCounter("n2").increment(3)
+        g3 = q_crdt.GCounter("n3").increment(7)
+        self.assertTrue(q_crdt.verify_convergence([g1, g2, g3]))
+
+    def test_pncounter_value(self):
+        p1 = q_crdt.PNCounter("n1"); p1.increment(10); p1.decrement(3)
+        p2 = q_crdt.PNCounter("n2"); p2.increment(5); p2.decrement(8)
+        self.assertEqual(p1.merge(p2).value, 4)
+
+    def test_pncounter_convergence(self):
+        p1 = q_crdt.PNCounter("n1"); p1.increment(10); p1.decrement(3)
+        p2 = q_crdt.PNCounter("n2"); p2.increment(5)
+        self.assertTrue(q_crdt.verify_convergence([p1, p2]))
+
+    def test_lww_register_latest_wins(self):
+        r1 = q_crdt.LWWRegister("n1"); r1.set("alice", 100.0)
+        r2 = q_crdt.LWWRegister("n2"); r2.set("bob", 200.0)
+        self.assertEqual(r1.merge(r2).value, "bob")
+        self.assertEqual(r2.merge(r1).value, "bob")  # commutative
+
+    def test_lww_convergence(self):
+        r1 = q_crdt.LWWRegister("n1"); r1.set("a", 100.0)
+        r2 = q_crdt.LWWRegister("n2"); r2.set("b", 150.0)
+        self.assertTrue(q_crdt.verify_convergence([r1, r2]))
+
+    def test_orset_add_remove(self):
+        s = q_crdt.ORSet("n1")
+        s.add("x")
+        self.assertTrue(s.contains("x"))
+        s.remove("x")
+        self.assertFalse(s.contains("x"))
+
+    def test_orset_add_wins_concurrent(self):
+        """Concurrent add and remove → add wins."""
+        s1 = q_crdt.ORSet("n1"); s1.add("x")
+        s2 = s1.merge(q_crdt.ORSet("n2"))   # s2 observes the original add
+        s2.remove("x")                       # s2 removes the tag it saw
+        s1.add("x")                          # s1 concurrently re-adds (fresh tag)
+        final = s1.merge(s2)
+        self.assertTrue(final.contains("x"))
+
+    def test_orset_convergence(self):
+        s1 = q_crdt.ORSet("n1"); s1.add("a"); s1.add("b")
+        s2 = q_crdt.ORSet("n2"); s2.add("c")
+        self.assertTrue(q_crdt.verify_convergence([s1, s2]))
+
+    def test_rga_insert_order(self):
+        r = q_crdt.RGA("n1")
+        a = r.insert_after(None, "H")
+        b = r.insert_after(a, "I")
+        self.assertEqual(r.to_string(), "HI")
+
+    def test_rga_delete(self):
+        r = q_crdt.RGA("n1")
+        a = r.insert_after(None, "X")
+        b = r.insert_after(a, "Y")
+        r.delete(a)
+        self.assertEqual(r.to_string(), "Y")
+
+    def test_rga_collaborative_convergence(self):
+        result = q_crdt.demonstrate_collaborative_edit()
+        self.assertTrue(result["converged"])
+        self.assertEqual(result["alice_sees"], result["bob_sees"])
+
+    def test_rga_concurrent_inserts_deterministic(self):
+        """Two replicas inserting at the same anchor converge identically.
+
+        Each replica must keep its own node identity for its whole lifetime
+        (that is what makes insert ids globally unique), so we build them
+        directly rather than via merge-into-a-throwaway.
+        """
+        alice = q_crdt.RGA("alice")
+        bob = q_crdt.RGA("bob")
+        anchor = alice.insert_after(None, "_")
+        bob = bob.merge(alice)              # replicate the anchor to bob
+        alice.insert_after(anchor, "A")     # concurrent edit on alice
+        bob.insert_after(anchor, "B")       # concurrent edit on bob
+        self.assertEqual(alice.merge(bob).to_list(), bob.merge(alice).to_list())
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

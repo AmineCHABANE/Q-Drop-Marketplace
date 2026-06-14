@@ -158,5 +158,25 @@
     "concept_behind": "RocksDB / Redis / Elasticsearch / Cassandra — space-efficient probabilistic data structures",
     "language": "Python 3, no dependencies",
     "tested": true
+  },
+  {
+    "id": "q-attention",
+    "name": "Q-ATTENTION",
+    "file": "src/q_attention.py",
+    "category": "ai",
+    "desc": "The Transformer from scratch: scaled dot-product + multi-head attention, causal masking, positional encoding, LayerNorm, GELU feed-forward, full encoder block",
+    "concept_behind": "GPT / Claude / Gemini / Llama / BERT / Stable Diffusion — the attention mechanism (Vaswani et al. 2017)",
+    "language": "Python 3, no dependencies",
+    "tested": true
+  },
+  {
+    "id": "q-crdt",
+    "name": "Q-CRDT",
+    "file": "src/q_crdt.py",
+    "category": "infrastructure",
+    "desc": "Conflict-free replicated data types: vector clocks, G/PN counters, LWW register, OR-set, RGA collaborative sequence, convergence proofs",
+    "concept_behind": "Figma / Linear / Notion / Automerge / Yjs / Riak — local-first & real-time collaboration",
+    "language": "Python 3, no dependencies",
+    "tested": true
   }
 ]

@@ -1,5 +1,5 @@
 """
-Q-Drop demo — runs all 16 reference implementations end to end.
+Q-Drop demo — runs all 18 reference implementations end to end.
 
 Usage (from the repository root):
     python3 examples/demo.py
@@ -30,6 +30,8 @@ import q_qsf
 import q_dilithium
 import q_raft
 import q_bloom
+import q_attention
+import q_crdt
 
 
 def divider(title: str) -> None:
@@ -361,4 +363,58 @@ est_j = m_a.similarity(m_b)
 print(f"  Real Jaccard: {real_j:.3f}   MinHash estimate: {est_j:.3f}")
 print("Deployed in: RocksDB, Cassandra, Redis, Chrome Safe Browsing, Elasticsearch.")
 
-print(f"\n{'=' * 60}\n  All 16 systems ran successfully.\n{'=' * 60}")
+# ---------------------------------------------------------------------------
+divider("17. Q-ATTENTION — the Transformer mechanism (the algorithm inside every LLM)")
+
+print("Scaled dot-product attention as a content-addressable lookup:")
+lookup = q_attention.demonstrate_attention_as_lookup()
+print(f"  Query points at memory slot #{lookup['query_points_at']}")
+print(f"  Attention weights: {lookup['attention_weights']}")
+print(f"  Retrieved value:   {lookup['retrieved_value']}  (stored: {lookup['expected_value']})")
+print(f"  Content-addressed read works: {lookup['match']}")
+
+print("\nCausal attention computes a running prefix mean (exact):")
+avg = q_attention.demonstrate_causal_averaging()
+print(f"  values:        {avg['values']}")
+print(f"  prefix means:  {avg['causal_prefix_means']}")
+print(f"  exact to 1e-9: {avg['exact_match']}")
+
+print("\nFull multi-layer Transformer forward pass (pure Python, no numpy):")
+import random as _rng_mod
+_r = _rng_mod.Random(42)
+encoder = q_attention.TransformerEncoder(d_model=32, n_heads=4, n_layers=2, seed=1)
+embeddings = [[_r.gauss(0, 1) for _ in range(32)] for _ in range(8)]
+hidden, attn_maps = encoder.forward(embeddings)
+print(f"  Input:  8 tokens × 32 dims")
+print(f"  Output: {q_attention.shape(hidden)[0]} tokens × {q_attention.shape(hidden)[1]} dims, "
+      f"{len(attn_maps)} layers × {len(attn_maps[0])} heads of attention")
+params = q_attention.count_parameters(d_model=512, n_heads=8, n_layers=12)
+print(f"  A GPT-scale config (d=512, h=8, L=12) would hold {params:,} parameters")
+print("Same mechanism powers GPT, Claude, Gemini, Llama, BERT, Stable Diffusion.")
+
+# ---------------------------------------------------------------------------
+divider("18. Q-CRDT — conflict-free replication (how Figma/Linear sync offline)")
+
+print("Two users edit the same document offline, then sync — no server, no locks:")
+edit = q_crdt.demonstrate_collaborative_edit()
+print(f"  Alice's replica converges to: {edit['alice_sees']!r}")
+print(f"  Bob's replica converges to:   {edit['bob_sees']!r}")
+print(f"  Both replicas identical:      {edit['converged']}")
+
+print("\nCRDT merge laws verified by shuffling merge order (commutative+associative+idempotent):")
+g1 = q_crdt.GCounter("n1").increment(5)
+g2 = q_crdt.GCounter("n2").increment(3)
+g3 = q_crdt.GCounter("n3").increment(7)
+print(f"  GCounter [5,3,7] → merged value {g1.merge(g2).merge(g3).value}, "
+      f"convergent: {q_crdt.verify_convergence([g1, g2, g3])}")
+
+s1 = q_crdt.ORSet("n1"); s1.add('apple'); s1.add('pear')
+s2 = q_crdt.ORSet("n2"); s2.add('apple'); s2.add('plum')
+print(f"  ORSet merge {{apple,pear}} ∪ {{apple,plum}} = {s1.merge(s2).values()}")
+
+p1 = q_crdt.PNCounter("n1"); p1.increment(10); p1.decrement(3)
+p2 = q_crdt.PNCounter("n2"); p2.increment(5); p2.decrement(2)
+print(f"  PNCounter (+10−3) merge (+5−2) = {p1.merge(p2).value}")
+print("Same math behind Figma, Linear, Notion, Apple Notes, Automerge, Yjs, Riak.")
+
+print(f"\n{'=' * 60}\n  All 18 systems ran successfully.\n{'=' * 60}")

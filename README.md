@@ -1,9 +1,10 @@
-# Q-Drop — Infrastructure + Quantum Algorithms, Implemented For Real
+# Q-Drop — Infrastructure + Quantum + AI Algorithms, Implemented For Real
 
-**Sixteen working, tested reference implementations** — the core algorithms
-behind modern data infrastructure, the quantum algorithms that will reshape
-computing, the quantum-safe formats for everyday data in that future, and the
-distributed systems primitives that underpin it all.
+**Eighteen working, tested reference implementations** — the core algorithms
+behind modern data infrastructure, the AI mechanism inside every large language
+model, the quantum algorithms that will reshape computing, the quantum-safe
+formats for everyday data in that future, and the distributed-systems primitives
+that underpin it all.
 
 Every line of code is in this repository. Read it all before you pay anything.
 
@@ -20,6 +21,13 @@ Every line of code is in this repository. Read it all before you pay anything.
 | [`src/q_mem.py`](src/q_mem.py) | Arena allocator: size classes, slabs, free lists, fragmentation stats | jemalloc, APR pools, game engines |
 | [`src/q_raft.py`](src/q_raft.py) | **Raft consensus**: leader election, log replication, snapshots, partition tolerance | etcd, CockroachDB, TiKV, Consul |
 | [`src/q_bloom.py`](src/q_bloom.py) | **Bloom + Xor + Cuckoo filters**, HyperLogLog, MinHash / LSH | RocksDB, Redis, Elasticsearch, Cassandra |
+| [`src/q_crdt.py`](src/q_crdt.py) | **CRDTs**: vector clocks, G/PN counters, LWW register, OR-set, RGA sequence | Figma, Linear, Notion, Automerge, Yjs |
+
+### AI (the mechanism inside every LLM)
+
+| Module | What it implements | Why it matters |
+|--------|--------------------|----------------|
+| [`src/q_attention.py`](src/q_attention.py) | **The Transformer from scratch**: scaled dot-product + multi-head attention, causal masking, positional encoding, LayerNorm, GELU FFN, full encoder block | The attention mechanism (Vaswani et al. 2017) inside GPT, Claude, Gemini, Llama, BERT, Stable Diffusion |
 
 ### Quantum (simulation)
 
@@ -72,10 +80,10 @@ Full flow documented in [LICENSING.md](LICENSING.md).
 git clone https://github.com/AmineCHABANE/Q-Drop-Marketplace
 cd Q-Drop-Marketplace
 
-# Run the full test suite (145 tests)
+# Run the full test suite (176 tests)
 python3 -m unittest discover -s src/tests -v
 
-# Run the end-to-end demo of all 16 systems
+# Run the end-to-end demo of all 18 systems
 python3 examples/demo.py
 ```
 
@@ -84,22 +92,29 @@ works on your machine. That's the proof.
 
 ## Who this is for
 
-- **Engineers preparing interviews** — HNSW, LSM-trees, columnar storage, and
-  stream processing are standard system-design topics; Grover's, Shor's, and
-  QEC are appearing in "quantum readiness" conversations at FAANG.
+- **Engineers preparing interviews** — HNSW, LSM-trees, columnar storage, Raft
+  consensus, and CRDTs are standard system-design topics; the Transformer is the
+  #1 ML-systems question; Grover's, Shor's, and QEC appear in "quantum readiness"
+  conversations at FAANG.
 - **Developers building on classical infra** — use these as the starting skeleton
-  for your own storage engine, vector index, or stream processor.
-- **Anyone getting quantum-ready** — Kyber (the post-quantum TLS standard) and
-  VQE (running on real NISQ hardware today) are not future tech — they're shipping now.
+  for your own storage engine, vector index, stream processor, or collaborative editor.
+- **ML engineers** — `q_attention.py` is the entire Transformer mechanism in pure
+  Python: read 400 commented lines instead of tracing a 100k-line framework.
+- **Anyone getting quantum-ready** — Kyber & Dilithium (the post-quantum TLS
+  standards) and VQE (running on real NISQ hardware today) are not future tech —
+  they're shipping now.
 - **Students & researchers** — each file explains the *why* with references to
-  the original papers (Grover 1996, Shor 1997, Peruzzo 2014, NIST FIPS 203).
+  the original papers (Vaswani 2017, Shapiro 2011, Grover 1996, Shor 1997,
+  NIST FIPS 203/204).
 
 ## What is NOT claimed
 
 These are **reference implementations optimized for clarity, not speed**.
 They are not benchmarked against, and will not outperform, FAISS, RocksDB,
-Qiskit, or PennyLane. Use this code to understand what those tools do under
-the hood — then deploy the battle-hardened version in production.
+PyTorch, Qiskit, or PennyLane. The Transformer here does a forward pass with
+fixed/random weights — it is not a trained model and does no backprop. Use this
+code to understand what those tools do under the hood — then deploy the
+battle-hardened version in production.
 
 ## License & pricing
 
