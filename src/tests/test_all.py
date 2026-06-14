@@ -2219,5 +2219,247 @@ class TestTrie(unittest.TestCase):
         self.assertTrue(r["lpm_correct"])
 
 
+# ---------------------------------------------------------------------------
+# Q-DIFF
+# ---------------------------------------------------------------------------
+
+import q_diff
+
+class TestDiff(unittest.TestCase):
+    def test_identical(self):
+        a = ["x", "y", "z"]
+        self.assertEqual(q_diff.edit_distance(a, a), 0)
+        self.assertEqual(q_diff.lcs(a, a), a)
+
+    def test_apply_reconstructs(self):
+        a = list("ABCABBA")
+        b = list("CBABAC")
+        ops = q_diff.diff(a, b)
+        self.assertEqual(q_diff.apply_patch(a, ops), b)
+
+    def test_edit_distance_minimal(self):
+        # classic Myers example: ABCABBA -> CBABAC has SES length 5
+        a = list("ABCABBA")
+        b = list("CBABAC")
+        self.assertEqual(q_diff.edit_distance(a, b), 5)
+
+    def test_lcs_is_common_subsequence(self):
+        a = list("ABCBDAB")
+        b = list("BDCAB")
+        L = q_diff.lcs(a, b)
+        # L must be a subsequence of both
+        self.assertTrue(self._is_subseq(L, a))
+        self.assertTrue(self._is_subseq(L, b))
+
+    @staticmethod
+    def _is_subseq(sub, seq):
+        it = iter(seq)
+        return all(x in it for x in sub)
+
+    def test_random_roundtrip_property(self):
+        for trial in range(200):
+            rng = random.Random(trial)
+            a = [rng.randint(0, 4) for _ in range(rng.randint(0, 15))]
+            b = [rng.randint(0, 4) for _ in range(rng.randint(0, 15))]
+            ops = q_diff.diff(a, b)
+            self.assertEqual(q_diff.apply_patch(a, ops), b)
+            self.assertEqual(q_diff.edit_distance(a, b),
+                             len(a) + len(b) - 2 * len(q_diff.lcs(a, b)))
+
+    def test_empty(self):
+        self.assertEqual(q_diff.apply_patch([], q_diff.diff([], list("abc"))), list("abc"))
+        self.assertEqual(q_diff.apply_patch(list("abc"), q_diff.diff(list("abc"), [])), [])
+
+    def test_unified_diff_has_hunks(self):
+        a = ["line%d" % i for i in range(20)]
+        b = list(a); b[5] = "CHANGED"; b.insert(15, "NEW")
+        out = q_diff.unified_diff(a, b, context=2)
+        self.assertIn("@@", out)
+        self.assertIn("-line5", out)
+        self.assertIn("+CHANGED", out)
+
+    def test_demonstrate(self):
+        self.assertTrue(q_diff.demonstrate_diff()["roundtrip_ok"])
+
+
+# ---------------------------------------------------------------------------
+# Q-REGEX
+# ---------------------------------------------------------------------------
+
+import q_regex
+import re as _pyre
+
+class TestRegex(unittest.TestCase):
+    CASES = [
+        (r"a*", ["", "a", "aaaa", "b", "aaab"]),
+        (r"ab+c", ["ac", "abc", "abbbc", "abbcc"]),
+        (r"(cat|dog)s?", ["cat", "cats", "dog", "dogs", "fish", "catdog"]),
+        (r"[a-z]+", ["abc", "aZc", "", "xyz"]),
+        (r"[^0-9]+", ["abc", "a1c", "123"]),
+        (r"\d+\.\d+", ["3.14", "3.", ".5", "42.0"]),
+        (r"(ab)*", ["", "ab", "abab", "aba"]),
+        (r"a?b", ["b", "ab", "aab"]),
+        (r"\w+@\w+\.\w+", ["a@b.co", "user@example.com", "no-at"]),
+        (r"(a|b|c)+", ["abc", "aabbcc", "abcd", ""]),
+        (r"[A-Za-z][A-Za-z0-9]*", ["Var1", "1var", "x", "_y"]),
+    ]
+
+    def test_matches_python_re(self):
+        for pat, texts in self.CASES:
+            rx = q_regex.Regex(pat)
+            for t in texts:
+                self.assertEqual(rx.fullmatch(t), bool(_pyre.fullmatch(pat, t)),
+                                 msg=f"pattern={pat!r} text={t!r}")
+
+    def test_anchors(self):
+        self.assertTrue(q_regex.Regex(r"^abc$").fullmatch("abc"))
+        self.assertTrue(q_regex.fullmatch(r"^[A-Z][a-z]+$", "Quantum"))
+        self.assertFalse(q_regex.fullmatch(r"^[A-Z][a-z]+$", "quantum"))
+
+    def test_search_substring(self):
+        self.assertTrue(q_regex.search(r"\d+", "abc123def"))
+        self.assertFalse(q_regex.search(r"\d+", "abcdef"))
+        self.assertTrue(q_regex.search(r"cat", "the cat sat"))
+
+    def test_no_catastrophic_backtracking(self):
+        # (a+)+$ on non-matching input: linear here, exponential for backtrackers
+        rx = q_regex.Regex(r"(a+)+$")
+        self.assertFalse(rx.fullmatch("a" * 50 + "!"))
+
+    def test_char_class_ranges(self):
+        rx = q_regex.Regex(r"[a-fA-F0-9]+")
+        self.assertTrue(rx.fullmatch("deadBEEF42"))
+        self.assertFalse(rx.fullmatch("xyz"))
+
+    def test_demonstrate(self):
+        self.assertTrue(all(q_regex.demonstrate_regex().values()))
+
+
+# ---------------------------------------------------------------------------
+# Q-FENWICK
+# ---------------------------------------------------------------------------
+
+import q_fenwick
+
+class TestFenwick(unittest.TestCase):
+    def test_fenwick_prefix_sum(self):
+        ft = q_fenwick.FenwickTree.from_list([1, 2, 3, 4, 5])
+        self.assertEqual(ft.prefix_sum(2), 6)
+        self.assertEqual(ft.range_sum(1, 3), 9)
+        ft.update(0, 10)
+        self.assertEqual(ft.range_sum(0, 4), 25)
+
+    def test_fenwick_vs_brute(self):
+        for trial in range(30):
+            rng = random.Random(trial)
+            n = rng.randint(1, 30)
+            arr = [rng.randint(-9, 9) for _ in range(n)]
+            ft = q_fenwick.FenwickTree.from_list(arr)
+            for _ in range(15):
+                if rng.random() < 0.4:
+                    i = rng.randrange(n); d = rng.randint(-5, 5)
+                    ft.update(i, d); arr[i] += d
+                else:
+                    lo = rng.randrange(n); hi = rng.randrange(lo, n)
+                    self.assertEqual(ft.range_sum(lo, hi), sum(arr[lo:hi + 1]))
+
+    def test_segment_tree_min(self):
+        seg = q_fenwick.SegmentTree([5, 2, 8, 1, 9], min, float("inf"))
+        self.assertEqual(seg.query(0, 4), 1)
+        self.assertEqual(seg.query(0, 2), 2)
+        seg.update(3, 100)
+        self.assertEqual(seg.query(0, 4), 2)
+
+    def test_segment_tree_sum_and_max(self):
+        s = q_fenwick.SegmentTree([1, 2, 3, 4], lambda a, b: a + b, 0)
+        self.assertEqual(s.query(0, 3), 10)
+        mx = q_fenwick.SegmentTree([1, 9, 3, 4], max, float("-inf"))
+        self.assertEqual(mx.query(0, 3), 9)
+
+    def test_lazy_range_update(self):
+        lz = q_fenwick.LazySegmentTree([0] * 10)
+        lz.range_add(2, 5, 3)
+        lz.range_add(0, 9, 1)
+        self.assertEqual(lz.range_sum(0, 9), 4 * 3 + 10 * 1)
+        self.assertEqual(lz.range_sum(2, 5), 4 * 4)
+
+    def test_lazy_vs_brute(self):
+        rng = random.Random(3)
+        ref = [0] * 50
+        lz = q_fenwick.LazySegmentTree(list(ref))
+        for _ in range(100):
+            lo = rng.randrange(50); hi = rng.randrange(lo, 50); d = rng.randint(1, 5)
+            lz.range_add(lo, hi, d)
+            for i in range(lo, hi + 1):
+                ref[i] += d
+        for _ in range(30):
+            lo = rng.randrange(50); hi = rng.randrange(lo, 50)
+            self.assertAlmostEqual(lz.range_sum(lo, hi), sum(ref[lo:hi + 1]))
+
+    def test_demonstrate(self):
+        r = q_fenwick.demonstrate_fenwick()
+        self.assertTrue(all([r["fenwick_correct"], r["segment_min_correct"],
+                             r["lazy_range_update_correct"]]))
+
+
+# ---------------------------------------------------------------------------
+# Q-TOPK
+# ---------------------------------------------------------------------------
+
+import q_topk
+
+class TestTopK(unittest.TestCase):
+    def test_cms_never_underestimates(self):
+        from collections import Counter
+        rng = random.Random(1)
+        stream = [f"k{rng.randint(0, 60)}" for _ in range(4000)]
+        true = Counter(stream)
+        cms = q_topk.CountMinSketch(epsilon=0.001, delta=0.01)
+        for x in stream:
+            cms.add(x)
+        for k, v in true.items():
+            self.assertGreaterEqual(cms.estimate(k), v)
+
+    def test_cms_within_error_bound(self):
+        from collections import Counter
+        rng = random.Random(2)
+        stream = [f"k{rng.randint(0, 100)}" for _ in range(5000)]
+        true = Counter(stream)
+        cms = q_topk.CountMinSketch(epsilon=0.001, delta=0.01)
+        for x in stream:
+            cms.add(x)
+        for k, v in true.items():
+            self.assertLessEqual(cms.estimate(k) - v, cms.error_bound)
+
+    def test_cms_unseen_item(self):
+        cms = q_topk.CountMinSketch()
+        cms.add("a", 5)
+        self.assertEqual(cms.estimate("a"), 5)
+        # an unseen item estimates low (0 unless collisions)
+        self.assertLessEqual(cms.estimate("never-added-xyz"), 5)
+
+    def test_heavy_hitters_recall(self):
+        from collections import Counter
+        rng = random.Random(7)
+        stream = []
+        for i in range(8):
+            stream += [f"hot{i}"] * (2000 // (i + 1))
+        for _ in range(10000):
+            stream.append(f"t{rng.randint(0, 3000)}")
+        rng.shuffle(stream)
+        hh = q_topk.HeavyHitters(k=8, epsilon=0.0005, delta=0.01)
+        for x in stream:
+            hh.add(x)
+        true_top = {it for it, _ in Counter(stream).most_common(8)}
+        got_top = {it for it, _ in hh.top()}
+        # recall of the true heavy hitters should be high
+        self.assertGreaterEqual(len(true_top & got_top) / 8, 0.75)
+
+    def test_demonstrate(self):
+        r = q_topk.demonstrate_topk()
+        self.assertTrue(r["estimates_never_underestimate"])
+        self.assertTrue(r["within_error_bound"])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

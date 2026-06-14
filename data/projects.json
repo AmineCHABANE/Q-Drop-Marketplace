@@ -278,5 +278,45 @@
     "concept_behind": "Autocomplete / spell-check / IP routers & BGP forwarding tables",
     "language": "Python 3, no dependencies",
     "tested": true
+  },
+  {
+    "id": "q-diff",
+    "name": "Q-DIFF",
+    "file": "src/q_diff.py",
+    "category": "infrastructure",
+    "desc": "Myers O(ND) diff: shortest edit script, LCS, edit distance, unified-diff formatting, patch application with round-trip guarantee",
+    "concept_behind": "git diff / blame / merge, GitHub diffs, patch (Myers 1986)",
+    "language": "Python 3, no dependencies",
+    "tested": true
+  },
+  {
+    "id": "q-regex",
+    "name": "Q-REGEX",
+    "file": "src/q_regex.py",
+    "category": "infrastructure",
+    "desc": "Regex engine via Thompson NFA: parser, NFA construction, set-based simulation — linear time, no catastrophic backtracking",
+    "concept_behind": "grep / RE2 / lexers (Thompson 1968, popularized by Russ Cox)",
+    "language": "Python 3, no dependencies",
+    "tested": true
+  },
+  {
+    "id": "q-fenwick",
+    "name": "Q-FENWICK",
+    "file": "src/q_fenwick.py",
+    "category": "infrastructure",
+    "desc": "Fenwick tree + generic segment tree + lazy-propagation segment tree: O(log n) range sum/min/max with point & range updates",
+    "concept_behind": "Database aggregate indexes / OLAP / time-series rollups (Fenwick 1994)",
+    "language": "Python 3, no dependencies",
+    "tested": true
+  },
+  {
+    "id": "q-topk",
+    "name": "Q-TOPK",
+    "file": "src/q_topk.py",
+    "category": "infrastructure",
+    "desc": "Count-Min Sketch + heavy-hitter tracker: one-sided frequency estimates with bounded error, streaming top-k in fixed memory",
+    "concept_behind": "Trending detection / network telemetry / Redis-Bloom CMS (Cormode & Muthukrishnan 2005)",
+    "language": "Python 3, no dependencies",
+    "tested": true
   }
 ]

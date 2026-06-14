@@ -1,5 +1,5 @@
 """
-Q-Drop demo — runs all 28 reference implementations end to end.
+Q-Drop demo — runs all 32 reference implementations end to end.
 
 Usage (from the repository root):
     python3 examples/demo.py
@@ -42,6 +42,10 @@ import q_skip
 import q_graph
 import q_rate_limit
 import q_trie
+import q_diff
+import q_regex
+import q_fenwick
+import q_topk
 
 
 def divider(title: str) -> None:
@@ -552,4 +556,51 @@ for ip, hop in tr["ip_routes"].items():
 print(f"  Longest-prefix match correct: {tr['lpm_correct']}")
 print("Tries power autocomplete & spell-check; binary tries power IP/BGP routing.")
 
-print(f"\n{'=' * 60}\n  All 28 systems ran successfully.\n{'=' * 60}")
+# ---------------------------------------------------------------------------
+divider("29. Q-DIFF — Myers diff (the engine behind `git diff`)")
+
+df = q_diff.demonstrate_diff()
+print(f"Diffing two versions of a file (LCS length {df['lcs_length']}, "
+      f"edit distance {df['edit_distance']}):")
+print(f"  kept={df['kept']}  inserted={df['inserted']}  deleted={df['deleted']}")
+print(f"  Applying the diff reconstructs the new version exactly: {df['roundtrip_ok']}")
+print("  Unified diff (git-style):")
+for line in df["unified_diff"].splitlines():
+    print(f"    {line}")
+print("The shortest-edit-script algorithm behind git diff/blame/merge.")
+
+# ---------------------------------------------------------------------------
+divider("30. Q-REGEX — regex engine via Thompson NFA (linear, no backtracking)")
+
+rg = q_regex.demonstrate_regex()
+print(f"  email pattern matches a valid address:    {rg['email_match']}")
+print(f"  IP pattern found inside a sentence:       {rg['ip_search']}")
+print(f"  (cat|dog)s? alternation works:            {rg['alt_match']}")
+print(f"  ^[A-Z][a-z]+$ anchored class:             {rg['anchored_class']}")
+print(f"  (a+)+$ on 'aaaa…!' — NO catastrophic backtracking: "
+      f"{rg['no_catastrophic_backtracking']}")
+print("The same NFA-simulation approach as grep & RE2 — provably linear time.")
+
+# ---------------------------------------------------------------------------
+divider("31. Q-FENWICK — Fenwick & segment trees (O(log n) range queries)")
+
+fw = q_fenwick.demonstrate_fenwick()
+print(f"On an array of {fw['size']} values, cross-checked against brute force:")
+print(f"  Fenwick prefix/range sums correct:        {fw['fenwick_correct']}")
+print(f"  Segment-tree range-min correct:           {fw['segment_min_correct']}")
+print(f"  Lazy segment-tree range-update correct:   {fw['lazy_range_update_correct']}")
+print("Range sum/min/max with live updates — database aggregates & analytics.")
+
+# ---------------------------------------------------------------------------
+divider("32. Q-TOPK — Count-Min Sketch & heavy hitters (streaming frequencies)")
+
+tk = q_topk.demonstrate_topk()
+print(f"Streamed {tk['stream_length']:,} events ({tk['distinct_items']:,} distinct) "
+      f"through {tk['sketch']}:")
+print(f"  Estimates never underestimate (one-sided): {tk['estimates_never_underestimate']}")
+print(f"  All estimates within ±{tk['error_bound']} (the error bound): {tk['within_error_bound']}")
+print(f"  Recovered top-k recall vs exact counts:     {tk['topk_recall']:.0%}")
+print(f"  Top-5 heavy hitters: {tk['recovered_top5']}")
+print("Fixed memory, one pass — trending detection, telemetry, query planning.")
+
+print(f"\n{'=' * 60}\n  All 32 systems ran successfully.\n{'=' * 60}")

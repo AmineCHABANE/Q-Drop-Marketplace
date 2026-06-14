@@ -1,6 +1,6 @@
 # Q-Drop — Infrastructure + Quantum + AI Algorithms, Implemented For Real
 
-**Twenty-eight working, tested reference implementations** — the core algorithms
+**Thirty-two working, tested reference implementations** — the core algorithms
 behind modern data infrastructure, the AI mechanism and tokenizer inside every
 large language model, the cryptography behind privacy tech, the quantum
 algorithms that will reshape computing, the quantum-safe formats for everyday
@@ -30,6 +30,10 @@ Every line of code is in this repository. Read it all before you pay anything.
 | [`src/q_graph.py`](src/q_graph.py) | **Graph algorithms**: BFS/DFS, Dijkstra, A*, topo sort, union-find, MST, PageRank | Google Maps, build systems, Google PageRank, Neo4j |
 | [`src/q_rate_limit.py`](src/q_rate_limit.py) | **Rate limiters**: token/leaky bucket, fixed & sliding windows (injectable clock) | AWS API Gateway, Stripe, Cloudflare |
 | [`src/q_trie.py`](src/q_trie.py) | **Tries**: autocomplete trie, radix/Patricia trie, IP longest-prefix-match table | Autocomplete, spell-check, IP/BGP routers |
+| [`src/q_diff.py`](src/q_diff.py) | **Myers diff**: shortest edit script, LCS, unified diff, patch apply | git diff/blame/merge, GitHub diffs, patch |
+| [`src/q_regex.py`](src/q_regex.py) | **Regex engine**: Thompson NFA construction + simulation, linear time | grep, RE2, lexers (no catastrophic backtracking) |
+| [`src/q_fenwick.py`](src/q_fenwick.py) | **Fenwick & segment trees**: O(log n) range sum/min/max, lazy range updates | DB aggregate indexes, OLAP, time-series rollups |
+| [`src/q_topk.py`](src/q_topk.py) | **Count-Min Sketch** + heavy hitters: streaming frequency estimation, top-k | Trending detection, telemetry, Redis-Bloom CMS |
 
 ### AI (the mechanism inside every LLM)
 
@@ -95,10 +99,10 @@ Full flow documented in [LICENSING.md](LICENSING.md).
 git clone https://github.com/AmineCHABANE/Q-Drop-Marketplace
 cd Q-Drop-Marketplace
 
-# Run the full test suite (270 tests)
+# Run the full test suite (296 tests)
 python3 -m unittest discover -s src/tests -v
 
-# Run the end-to-end demo of all 28 systems
+# Run the end-to-end demo of all 32 systems
 python3 examples/demo.py
 ```
 
